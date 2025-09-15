@@ -49,7 +49,39 @@ exports.getAccessToken = async (code) => {
       },
     }
   );
-  return tokenResponse.data.access_token;
+  return tokenResponse.data;
+};
+
+exports.getRefreshToken = async (refresh_token) => {
+  try {
+    const tokenResponse = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      querystring.stringify({
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization:
+            'Basic ' +
+            Buffer.from(client_id + ':' + client_secret).toString('base64'),
+        },
+      }
+    );
+
+    return {
+      access_token: tokenResponse.data.access_token,
+      refresh_token: tokenResponse.data.refresh_token || refresh_token,
+      expires_in: tokenResponse.data.expires_in,
+    };
+  } catch (err) {
+    console.error(
+      'Error refreshing Spotify token:',
+      err.response?.data || err.message
+    );
+    throw err;
+  }
 };
 
 exports.getProfile = async (access_token) => {
