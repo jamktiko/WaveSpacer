@@ -69,17 +69,9 @@ exports.getRefreshToken = async (refresh_token) => {
         },
       }
     );
-
-    return {
-      access_token: tokenResponse.data.access_token,
-      refresh_token: tokenResponse.data.refresh_token || refresh_token,
-      expires_in: tokenResponse.data.expires_in,
-    };
+    return tokenResponse.data;
   } catch (err) {
-    console.error(
-      'Error refreshing Spotify token:',
-      err.response?.data || err.message
-    );
+    console.error(err);
     throw err;
   }
 };
