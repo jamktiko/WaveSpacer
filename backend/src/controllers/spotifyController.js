@@ -1,91 +1,84 @@
-const axios = require('axios');
-const querystring = require('querystring');
+const spotifyService = require('../services/spotifyService');
+const createToken = require('../../createtoken');
 
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = 'http://127.0.0.1:8888/callback';
-
-// LOGIN: ohjaa käyttäjän Spotify-kirjautumiseen
 exports.login = (req, res) => {
-  const state = generateRandomString();
-  const scope = 'user-read-private user-read-email user-read-recently-played';
-
-  res.redirect(
-    'https://accounts.spotify.com/authorize?' +
-      querystring.stringify({
-        response_type: 'code',
-        client_id,
-        scope,
-        redirect_uri,
-        state,
-      })
-  );
+  const url = spotifyService.getLoginUrl();
+  res.redirect(url);
 };
 
-exports.getAccessToken = async (code) => {
-  const tokenResponse = await axios.post(
-    'https://accounts.spotify.com/api/token',
-    querystring.stringify({
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri,
-    }),
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          Buffer.from(client_id + ':' + client_secret).toString('base64'),
-      },
-    }
-  );
-  return tokenResponse.data;
-};
+exports.callback = async (req, res) => {
+  const code = req.query.code;
+  if (!code) return res.status(400).send('No code returned');
 
-exports.getRefreshToken = async (refresh_token) => {
   try {
-    const tokenResponse = await axios.post(
-      'https://accounts.spotify.com/api/token',
-      querystring.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization:
-            'Basic ' +
-            Buffer.from(client_id + ':' + client_secret).toString('base64'),
-        },
-      }
-    );
-    return tokenResponse.data;
+    const tokens = await spotifyService.getAccessToken(code);
+
+    const jwtToken = createToken({ spotifyId: 'me' });
+
+    // lähetä cookie
+    // development mode
+    res.cookie('jwt', jwtToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 4 * 60 * 60 * 1000, // 4 tuntia
+    });
+
+    //deploy mode below:
+
+    // res.cookie('jwt', jwtToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'strict',
+    //   path: '/',
+    //   maxAge: 4 * 60 * 60 * 1000,
+    // });
+
+    res.redirect('http://localhost:4200/playlists');
   } catch (err) {
-    console.error(err);
-    throw err;
+    console.error(err.response?.data || err.message);
+    res.status(500).send('Spotify login failed');
   }
 };
 
-exports.getProfile = async (access_token) => {
-  const response = await axios.get('https://api.spotify.com/v1/me', {
-    headers: { Authorization: 'Bearer ' + access_token },
-  });
-  return response.data;
+exports.profile = async (req, res) => {
+  try {
+    const access_token = await spotifyService.getAccessTokenSafe();
+    const profile = await spotifyService.getProfile(access_token);
+    res.json(profile);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching profile');
+  }
 };
 
-exports.getPlaylists = async (access_token) => {
-  const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
-    headers: { Authorization: 'Bearer ' + access_token },
-  });
-  return response.data;
+exports.playlists = async (req, res) => {
+  try {
+    const access_token = await spotifyService.getAccessTokenSafe();
+    const playlists = await spotifyService.getPlaylists(access_token);
+    res.json(playlists);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching playlists');
+  }
 };
 
-exports.getRecentlyPlayed = async (access_token) => {
-  const response = await axios.get(
-    'https://api.spotify.com/v1/me/player/recently-played',
-    {
-      headers: { Authorization: 'Bearer ' + access_token },
-    }
-  );
-  return response.data;
+exports.recents = async (req, res) => {
+  try {
+    const access_token = await spotifyService.getAccessTokenSafe();
+    const recents = await spotifyService.getRecentlyPlayed(access_token);
+    res.json(recents);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching recently played tracks');
+  }
 };
+
+// res.json({
+//   jwt: jwtToken,
+//   access_token: spotifyTokens.access_token,
+//   refresh_token: spotifyTokens.refresh_token,
+//   expires_at: spotifyTokens.expires_at,
+//   spotifyId: me.id,
+// });
