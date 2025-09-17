@@ -5,16 +5,6 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = 'http://127.0.0.1:8888/callback';
 
-function generateRandomString(length = 16) {
-  let text = '';
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
-
 // LOGIN: ohjaa käyttäjän Spotify-kirjautumiseen
 exports.login = (req, res) => {
   const state = generateRandomString();
