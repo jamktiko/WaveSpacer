@@ -5,6 +5,7 @@ body {
 }
 
 @theme {
-  --breakpoint-xs: 450px;
+  --breakpoint-accline: 375px;
+  --breakpoint-regbutton: 450px;
   --breakpoint-register: 533px;
 }
