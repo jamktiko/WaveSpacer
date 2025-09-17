@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const spotifyController = require('../controllers/spotifyController');
 const cors = require('cors');
+const pool = require('../database');
 
 const corsOptions = {
   origin: 'http://localhost:4200',
@@ -63,6 +64,16 @@ router.get('/recents', cors(corsOptions), async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching recently played tracks');
+  }
+});
+
+router.get('/db-test', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT NOW() as now');
+    res.json({ success: true, server_time: rows[0].now });
+  } catch (err) {
+    console.error('DB connection error:', err);
+    res.status(500).json({ success: false, message: 'DB connection failed' });
   }
 });
 
