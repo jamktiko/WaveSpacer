@@ -8,4 +8,6 @@ body {
   --breakpoint-accline: 375px;
   --breakpoint-regbutton: 450px;
   --breakpoint-register: 533px;
+  --breakpoint-mobileM: 375px;
+  --breakpoint-mobileL: 425px;
 }
