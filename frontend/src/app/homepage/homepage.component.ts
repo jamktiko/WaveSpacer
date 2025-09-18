@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
+import axios from 'axios';
 
 @Component({
   selector: 'app-homepage',
@@ -18,5 +19,8 @@ export class HomepageComponent {
 
   login() {
     location.href = 'http://127.0.0.1:8888/login';
+    // axios
+    //   .get('http://127.0.0.1:8888/login')
+    //   .then((response) => console.log(response));
   }
 }
