@@ -36,6 +36,7 @@ exports.callback = async (req, res) => {
     // });
 
     res.redirect('http://localhost:4200/playlists');
+    // res.json({ login: 'success' });
   } catch (err) {
     console.error(err.response?.data || err.message);
     res.status(500).send('Spotify login failed');
