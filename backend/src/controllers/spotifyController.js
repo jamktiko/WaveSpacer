@@ -12,8 +12,9 @@ exports.callback = async (req, res) => {
 
   try {
     const tokens = await spotifyService.getAccessToken(code);
+    const me = await spotifyService.getProfile(tokens.access_token);
 
-    const jwtToken = createToken({ spotifyId: 'me' });
+    const jwtToken = createToken({ spotifyId: me.id });
 
     // lähetä cookie
     // development mode
@@ -35,8 +36,8 @@ exports.callback = async (req, res) => {
     //   maxAge: 4 * 60 * 60 * 1000,
     // });
 
-    res.redirect('http://localhost:4200/playlists');
-    // res.json({ login: 'success' });
+    // res.redirect('http://127.0.0.1:4200/playlists');
+    res.json({ login: 'success' });
   } catch (err) {
     console.error(err.response?.data || err.message);
     res.status(500).send('Spotify login failed');
