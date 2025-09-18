@@ -12,7 +12,11 @@ export class HomepageComponent {
 
   title = 'WaveSpacer';
 
-  navigateToPlaylists() {
-    this.router.navigate(['playlists']);
+  // navigateToPlaylists() {
+  //   this.router.navigate(['playlists']);
+  // }
+
+  login() {
+    location.href = 'http://127.0.0.1:8888/login';
   }
 }
