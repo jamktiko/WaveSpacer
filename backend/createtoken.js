@@ -3,8 +3,7 @@ require('dotenv').config(); // dotenv lataa .env:n
 
 function createToken(user) {
   const payload = {
-    username: user.username,
-    isadmin: user.isadmin,
+    spotifyId: user.spotifyId,
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
