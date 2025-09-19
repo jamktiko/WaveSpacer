@@ -19,44 +19,8 @@
       xl:w-lg xl:ml-32
       rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
 
-    <div class=" pb-10 ">
-      <div
-        class=" w-full h-40 md:h-auto md:aspect-square bg-gradient-to-t from-[#212121] to-[#b76efe] rounded-2xl flex items-center justify-center">
-        <h1 class=" text-gray-950 text-xl">Daily Playlist </h1>
-      </div>
-      <h3 class="mt-2 font-semibold text-white text-center">Everyday essentials</h3>
-    </div>
-
-    <div class=" pb-10 ">
-      <div
-        class=" w-full h-40 md:h-auto md:aspect-square bg-gradient-to-t from-[#212121] to-[#b76efe] rounded-2xl flex items-center justify-center">
-        <h1 class=" text-gray-950 text-xl">Chill Playlist </h1>
-      </div>
-      <h3 class="mt-2 font-semibold text-white text-center">Relax and unwind</h3>
-    </div>
-
-    <div class=" pb-10 ">
-      <div
-        class=" w-full h-40 md:h-auto md:aspect-square bg-gradient-to-t from-[#212121] to-[#b76efe] rounded-2xl flex items-center justify-center">
-        <h1 class=" text-gray-950 text-xl">Trend Playlist </h1>
-      </div>
-      <h3 class="mt-2 font-semibold text-white text-center">Turn up the energy</h3>
-    </div>
-
-    <div class=" pb-10 ">
-      <div
-        class=" w-full h-40 md:h-auto md:aspect-square bg-gradient-to-t from-[#212121] to-[#b76efe] rounded-2xl flex items-center justify-center">
-        <h1 class=" text-gray-950 text-xl">Energy Playlist </h1>
-      </div>
-      <h3 class="mt-2 font-semibold text-white text-center">Boost your mood</h3>
-    </div>
-
-    <div class=" pb-10 ">
-      <div
-        class=" w-full h-40 md:h-auto md:aspect-square bg-gradient-to-t from-[#212121] to-[#b76efe] rounded-2xl flex items-center justify-center">
-        <h1 class=" text-gray-950 text-xl">Focus Playlist </h1>
-      </div>
-      <h3 class="mt-2 font-semibold text-white text-center">Stay sharp</h3>
-    </div>
+    @for (playlist of playlists; track playlist.id) {
+    <app-list [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"></app-list>
+    }
   </div>
 </div>
