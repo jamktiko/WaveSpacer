@@ -1,5 +1,6 @@
 export interface Playlistdata {
   name: string;
-  img: [];
+  img: string;
   totalTracks: number;
+  id: string;
 }
