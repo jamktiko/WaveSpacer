@@ -16,7 +16,9 @@ export class SpotifyCbComponent implements OnInit {
     const code = this.route.snapshot.queryParamMap.get('code');
     console.log('code:' + code);
     axios
-      .get('http://127.0.0.1:8888/callback?code=' + code)
+      .get('http://127.0.0.1:8888/callback?code=' + code, {
+        withCredentials: true,
+      })
       .then((response) => this.router.navigate(['playlists']));
   }
 }
