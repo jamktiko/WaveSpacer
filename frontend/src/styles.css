@@ -10,4 +10,5 @@ body {
   --breakpoint-register: 533px;
   --breakpoint-mobileM: 375px;
   --breakpoint-mobileL: 425px;
+  --breakpoint-2xlminus: 2040px;
 }
