@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - feature/awsConnection   # myöhemmin vaihdat main
+      - feature/awsConnection   # main julkaisuun testiin tämä
 
 jobs:
   deploy-frontend:
