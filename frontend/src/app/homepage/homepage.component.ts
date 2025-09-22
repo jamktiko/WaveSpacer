@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import axios from 'axios';
 
+//aws testi push kommentti
+
 @Component({
   selector: 'app-homepage',
   imports: [RouterModule],
