@@ -5,7 +5,7 @@ on:
     branches:
       - feature/awsConnection
     paths:
-      - 'backend/**'  
+      - 'backend/**' 
 
 jobs:
   deploy-backend:
@@ -17,7 +17,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ secrets.ARN_ROLE }}   
           aws-region: eu-north-1
 
       - name: Deploy backend to EC2 via SSM
@@ -43,4 +43,5 @@ jobs:
               "npm install",
               "pm2 restart all || pm2 start server.js --name backend"
             ]'
+
 
