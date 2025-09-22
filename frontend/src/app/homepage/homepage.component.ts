@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import axios from 'axios';
 
-//aws testi push kommentti
+//aws testi push kommentti 2
 
 @Component({
   selector: 'app-homepage',
