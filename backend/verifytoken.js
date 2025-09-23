@@ -1,0 +1,29 @@
+const jwt = require('jsonwebtoken');
+
+// Middleware joka tarkistaa JWT:n cookiesta
+function verifyToken(req, res, next) {
+  // Token otetaan cookies.jwt:stä
+  const token = req.cookies?.jwt;
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: 'Token puuttuu.',
+    });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({
+        success: false,
+        message: 'Token virheellinen tai vanhentunut.',
+      });
+    }
+
+    // Tallennetaan dekoodattu data requestiin
+    req.user = decoded;
+    next();
+  });
+}
+
+module.exports = verifyToken;
