@@ -7,12 +7,16 @@ on:
     paths:
       - 'backend/**' 
 
+permissions:
+  id-token: write     
+  contents: read
+
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
@@ -35,7 +39,7 @@ jobs:
             --comment "Deploy backend update" \
             --parameters 'commands=[
               "set -e",
-              "cd /opt/backend || mkdir -p /opt/backend && cd /opt/backend",
+              "cd /opt/backend || { mkdir -p /opt/backend && cd /opt/backend; }",
               "if [ ! -d .git ]; then git clone https://github.com/${GITHUB_REPOSITORY}.git .; fi",
               "git fetch --all",
               "git checkout feature/awsConnection",
@@ -43,5 +47,6 @@ jobs:
               "npm install",
               "pm2 restart all || pm2 start server.js --name backend"
             ]'
+
 
 
