@@ -2,7 +2,7 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config(); // lataa .env-tiedoston
 
-// aws test push modify
+// aws test push modify 2
 
 // Luo pool, joka hallitsee useita yhteyksiä samaan aikaan
 const pool = mysql.createPool({
