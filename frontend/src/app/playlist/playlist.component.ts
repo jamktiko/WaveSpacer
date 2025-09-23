@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { Playlistdata } from '../playlistdata';
 import { ListComponent } from '../list/list.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
@@ -11,6 +12,9 @@ import { ListComponent } from '../list/list.component';
 })
 export class PlaylistComponent implements OnInit {
   playlists: Playlistdata[] = [];
+  title: string = 'WaveSpacer';
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     axios
@@ -27,5 +31,9 @@ export class PlaylistComponent implements OnInit {
         );
         console.log(this.playlists);
       });
+  }
+
+  toHomeScreen() {
+    this.router.navigate(['']);
   }
 }
