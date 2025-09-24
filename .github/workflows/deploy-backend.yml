@@ -44,11 +44,13 @@ jobs:
               "git fetch --all",
               "git checkout feature/awsConnection",
               "git pull origin feature/awsConnection",
-              "cd backend",  
+              "cd backend",
               "npm install",
-              "pm2 restart backend || pm2 start server.js --name backend",
-              "pm2 save"
+              "pm2 restart backend || pm2 start src/server.js --name backend",
+              "pm2 save",
+              "pm2 startup --yes"
             ]'
+
 
 
 
