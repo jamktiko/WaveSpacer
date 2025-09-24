@@ -2,6 +2,8 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config(); // lataa .env-tiedoston
 
+// aws test push modify 3
+
 // Luo pool, joka hallitsee useita yhteyksiä samaan aikaan
 const pool = mysql.createPool({
   host: process.env.DB_HOST, // esim. RDS endpoint tai localhost
