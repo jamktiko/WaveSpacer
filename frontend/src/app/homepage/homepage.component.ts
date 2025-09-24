@@ -1,23 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomeService } from '../home.service';
+import { RegisterComponent } from '../register/register.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
-  imports: [RouterModule],
+  imports: [RouterModule, RouterLink],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
 export class HomepageComponent {
-  constructor(private homeService: HomeService) {}
+  constructor() {}
 
   title = 'WaveSpacer';
 
   login() {
     location.href = 'http://127.0.0.1:8888/login';
-  }
-
-  toHomeScreen() {
-    this.homeService.toHomeScreen();
   }
 }
