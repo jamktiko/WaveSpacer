@@ -12,6 +12,7 @@ const corsOptions = {
 };
 
 const spotifyRoutes = require('./routes/spotify');
+const dbRoutes = require('./routes/db');
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use(cookieParser()); // <- ensin lisätään cookie-parser
 
 // reitit
 app.use('/', spotifyRoutes);
+app.use('/', dbRoutes);
 
 module.exports = app;
