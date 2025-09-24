@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
 import { RouterLink } from '@angular/router';
 
+//aws testi push kommentti 6
+
 @Component({
   selector: 'app-homepage',
   imports: [RouterModule, RouterLink],
