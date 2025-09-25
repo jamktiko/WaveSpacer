@@ -10,4 +10,12 @@ export class ListComponent {
   @Input() name!: string;
   @Input() img!: string;
   @Input() totalTrack!: number;
+  @Input() id!: string;
+
+  playlistName: string | undefined;
+  playlistImg!: string;
+
+  selectPlaylist(name: string): void {
+    this.playlistName = name;
+  }
 }
