@@ -17,7 +17,7 @@
     <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-start">
       <div class="mt-10 md:py-5 lg:py-30 lg:mx-16 xl:pl-28 xl:mt-52">
         <h1 class="text-white text-[clamp(1.5rem,2.5vw,4rem)] text-center lg:text-left font-semibold md:leading-12">
-          Select the <span class="text-[#b76efe]">playlist</span><br>
+          Select the <span class="text-[#B76EFE]">playlist</span><br>
           you want to<br>
           clean
         </h1>
@@ -29,7 +29,8 @@
       xl:w-lg xl:ml-32
       rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
         @for (playlist of playlists; track playlist.id) {
-        <app-list [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"></app-list>
+        <app-list [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"
+          [id]="playlist.id"></app-list>
         }
       </div>
     </div>
