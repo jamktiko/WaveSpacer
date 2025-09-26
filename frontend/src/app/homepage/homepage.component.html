@@ -1,101 +1,102 @@
 <div class="min-h-screen flex flex-col">
-  <main class="flex-1 flex flex-col">
-    <div class="bg-[url(/images/background.png)] bg-cover bg-no-repeat min-h-[50vh] min-w-[320px]">
-      <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
-        <div class="lg:relative min-h-[500px] lg:min-h-[600px]">
-          <header
-            class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-34 xl:ml-41 2xl:ml-33  items-center gap-1">
-            <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center">
-              <img src="/images/logo.png" alt="Logo"
-                class="rounded-full w-10 h-10 md:w-13 md:h-13 lg:w-16 lg:h-16 xl:w-19 xl:h-19 2xl:w-22 2xl:h-22 object-cover" />
-              <h1 class="text-white font-semibold text-[clamp(1rem,3vw,2rem)]">
-                {{title}}
-              </h1>
-            </a>
+
+  <div class="bg-[url(/images/background.png)] bg-cover bg-no-repeat min-h-[50vh] min-w-[320px]">
+    <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+      <div class="lg:relative min-h-[500px] lg:min-h-[600px]">
+        <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-34 xl:ml-41 2xl:ml-33  items-center gap-1">
+          <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center">
+            <img src="/images/logo.png" alt="Logo"
+              class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
+            <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+              {{title}}
+            </h1>
+          </a>
+          <a class="justify-self-end" routerLink="/register">
             <button
-              class="bg-[#B76EFE]/15 justify-self-end rounded-full px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 2xl:py-2.5 text-[clamp(1rem,1.5vw,2rem)] hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">Log
-              in</button>
-          </header>
+              class="bg-[#B76EFE]/15 rounded-full px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 2xl:py-2.5 text-[clamp(1rem,1.5vw,2rem)] hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold cursor-pointer">
+              Register</button></a>
+        </header>
 
 
-          <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-2 mt-20 xl:mt-40 justify-items-center lg:justify-items-start 
+        <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-2 mt-20 xl:mt-40 justify-items-center lg:justify-items-start 
     lg:ml-50">
-            <p class="text-white text-lg md:text-[clamp(1rem,3vw,2.5rem)] lg:leading-none text-center lg:text-left">
-              <span class="text-[#B76EFE]">Wave</span>
-              away<br />songs
-              wasting<br /> <span class="text-[#B76EFE]">space.</span>
-            </p>
-            <p
-              class="text-[#B76EFE] row-start-2 text-[12px] md:text-[clamp(0.8rem,1.5vw,1rem)] text-center lg:text-left max-w-[10rem] 2xl:max-w-[15rem] mt-5 font-semibold">
-              A fast tool for removing songs you don't listen to from your playlist.
-            </p>
-          </div>
+          <p class="text-white text-lg md:text-[clamp(1rem,3vw,2.5rem)] lg:leading-none text-center lg:text-left">
+            <span class="text-[#B76EFE]">Wave</span>
+            away<br />songs
+            wasting<br /> <span class="text-[#B76EFE]">space.</span>
+          </p>
+          <p
+            class="text-[#B76EFE] row-start-2 text-[12px] md:text-[clamp(0.8rem,1.5vw,1rem)] text-center lg:text-left max-w-[10rem] 2xl:max-w-[15rem] mt-5 font-semibold">
+            A fast tool for removing songs you don't listen to from your playlist.
+          </p>
+        </div>
 
 
-          <div class="flex justify-center mx-10 mt-20 lg:absolute lg:right-[5%] lg:-translate-y-1/2 lg:top-3/6">
-            <div class="bg-[#48404A] px-10 py-5 rounded-xl w-full max-w-sm">
-              <h2 class="text-white text-center text-[14px]">Create account</h2>
-              <hr class="border-t border-[#696969] w-1/2 accline:w-3/10 sm:w-3/10 lg:w-2/5 mx-auto">
-              <div class="flex flex-col gap-3">
-                <button (click)="login()"
-                  class="flex items-center justify-center bg-[#1ED760] text-black rounded-full mt-5 px-4 py-2 w-full min-h-[44px] hover:bg-[#17C211] font-sans">
-                  <img src="/images/spotify.png" alt="Spotify logo" class="w-6 h-6 mr-3 flex-shrink-0" />
-                  <span class="block regbutton:hidden">Spotify</span>
-                  <span class="hidden regbutton:block">Continue with Spotify</span>
-                </button>
+        <div class="flex justify-center mx-10 mt-20 lg:absolute lg:right-[5%] lg:-translate-y-1/2 lg:top-3/6">
+          <div class="bg-[#48404A] px-10 py-5 rounded-xl w-full max-w-sm border-1 border-[#5f5561]">
+            <h2 class="text-white text-center text-[clamp(1rem,1.5vw,3rem)]">Login</h2>
+            <hr class="border-t border-[#696969] w-1/2 accline:w-3/10 sm:w-3/10 lg:w-2/5 mx-auto">
+            <div class="flex flex-col gap-3">
+              <button (click)="login()"
+                class="flex items-center justify-center bg-[#1ED760] text-black rounded-full mt-5 px-4 py-2 w-full min-h-[44px] hover:bg-[#17C211] font-sans">
+                <img src="/images/spotify.png" alt="Spotify logo" class="w-6 h-6 mr-3 flex-shrink-0" />
+                <span class="block regbutton:hidden">Spotify</span>
+                <span class="hidden regbutton:block">Continue with Spotify</span>
+              </button>
 
-                <button
-                  class="flex items-center justify-center bg-white text-black rounded-full px-4 py-2 w-full min-h-[44px] hover:bg-[#c9c7c7] font-sans">
-                  <div class="w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">
-                    <svg class="w-full h-full" viewBox="0 0 48 48">
-                      <path fill="#EA4335"
-                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
-                      </path>
-                      <path fill="#4285F4"
-                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
-                      </path>
-                      <path fill="#FBBC05"
-                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
-                      </path>
-                      <path fill="#34A853"
-                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
-                      </path>
-                      <path fill="none" d="M0 0h48v48H0z"></path>
-                    </svg>
-                  </div>
-                  <span class="block regbutton:hidden">Google</span>
-                  <span class="hidden regbutton:block">Continue with Google</span>
-                </button>
-
-
-                <button
-                  class="flex items-center justify-center bg-black text-white rounded-full px-4 py-2 w-full min-h-[44px] hover:bg-[#363434] font-sans">
-                  <svg class="mr-3 h-8 w-8 flex-shrink-0" viewBox="0 0 30 30" y="0px" x="0px"
-                    xmlns="http://www.w3.org/2000/svg" fill="white">
-                    <path
-                      d="M25.565,9.785c-0.123,0.077-3.051,1.702-3.051,5.305c0.138,4.109,3.695,5.55,3.756,5.55 c-0.061,0.077-0.537,1.963-1.947,3.94C23.204,26.283,21.962,28,20.076,28c-1.794,0-2.438-1.135-4.508-1.135 c-2.223,0-2.852,1.135-4.554,1.135c-1.886,0-3.22-1.809-4.4-3.496c-1.533-2.208-2.836-5.673-2.882-9 c-0.031-1.763,0.307-3.496,1.165-4.968c1.211-2.055,3.373-3.45,5.734-3.496c1.809-0.061,3.419,1.242,4.523,1.242 c1.058,0,3.036-1.242,5.274-1.242C21.394,7.041,23.97,7.332,25.565,9.785z M15.001,6.688c-0.322-1.61,0.567-3.22,1.395-4.247 c1.058-1.242,2.729-2.085,4.17-2.085c0.092,1.61-0.491,3.189-1.533,4.339C18.098,5.937,16.488,6.872,15.001,6.688z">
+              <button
+                class="flex items-center justify-center bg-white text-black rounded-full px-4 py-2 w-full min-h-[44px] hover:bg-[#c9c7c7] font-sans">
+                <div class="w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg class="w-full h-full" viewBox="0 0 48 48">
+                    <path fill="#EA4335"
+                      d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
                     </path>
+                    <path fill="#4285F4"
+                      d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                    </path>
+                    <path fill="#FBBC05"
+                      d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                    </path>
+                    <path fill="#34A853"
+                      d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                    </path>
+                    <path fill="none" d="M0 0h48v48H0z"></path>
                   </svg>
-                  <span class="block regbutton:hidden">Apple</span>
-                  <span class="hidden regbutton:block">Continue with Apple</span>
-                </button>
-              </div>
+                </div>
+                <span class="block regbutton:hidden">Google</span>
+                <span class="hidden regbutton:block">Continue with Google</span>
+              </button>
 
-              <div class="flex justify-center mt-5">
-                <p class="text-white text-md">or</p>
-              </div>
-              <div class="flex flex-col justify-center mt-5">
-                <p class="text-white text-sm">Email</p>
-                <input type="text" class="w-full border-2 rounded-md p-1  border-[#7C7C7C] ">
-                <button routerLink="/register"
-                  class="bg-[#B76EFE]/15 rounded-full px-2 py-1 mt-10 w-full max-w-[150px] register:max-w-4/8  self-center hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">Register</button>
-              </div>
+
+              <button
+                class="flex items-center justify-center bg-black text-white rounded-full px-4 py-2 w-full min-h-[44px] hover:bg-[#363434] font-sans">
+                <svg class="mr-3 h-8 w-8 flex-shrink-0" viewBox="0 0 30 30" y="0px" x="0px"
+                  xmlns="http://www.w3.org/2000/svg" fill="white">
+                  <path
+                    d="M25.565,9.785c-0.123,0.077-3.051,1.702-3.051,5.305c0.138,4.109,3.695,5.55,3.756,5.55 c-0.061,0.077-0.537,1.963-1.947,3.94C23.204,26.283,21.962,28,20.076,28c-1.794,0-2.438-1.135-4.508-1.135 c-2.223,0-2.852,1.135-4.554,1.135c-1.886,0-3.22-1.809-4.4-3.496c-1.533-2.208-2.836-5.673-2.882-9 c-0.031-1.763,0.307-3.496,1.165-4.968c1.211-2.055,3.373-3.45,5.734-3.496c1.809-0.061,3.419,1.242,4.523,1.242 c1.058,0,3.036-1.242,5.274-1.242C21.394,7.041,23.97,7.332,25.565,9.785z M15.001,6.688c-0.322-1.61,0.567-3.22,1.395-4.247 c1.058-1.242,2.729-2.085,4.17-2.085c0.092,1.61-0.491,3.189-1.533,4.339C18.098,5.937,16.488,6.872,15.001,6.688z">
+                  </path>
+                </svg>
+                <span class="block regbutton:hidden">Apple</span>
+                <span class="hidden regbutton:block">Continue with Apple</span>
+              </button>
+            </div>
+
+            <div class="flex justify-center mt-5">
+              <p class="text-white text-md text-[clamp(1rem,1.3vw,2rem)]">or</p>
+            </div>
+            <div class="flex flex-col justify-center mt-5">
+              <p class="text-white text-sm text-[clamp(1rem,1.1vw,2rem)]">Email</p>
+              <input type="email"
+                class="w-full border-2 rounded-md p-1 border-[#7C7C7C] focus:outline-none focus:border-white">
+              <button
+                class="bg-[#B76EFE]/15 rounded-full px-2 py-1 mt-10 w-full max-w-[150px] register:max-w-4/8  self-center hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">Login</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
+
 
   <footer class="bg-[#252525] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-2 
   justify-items-center items-center px-4 md:px-10 lg:px-0 min-w-[320px]">
@@ -112,7 +113,7 @@
 
     <div class="flex flex-col mt-10 mb-10">
       <h2 class="text-xl text-center text-[#B76EFE] underline">Premium plan</h2>
-      <ul class="list-disc list-inside pl-0 left text-white">
+      <ul class="list-disc list-inside pl-0 text-left text-white">
         <li>Remove as many songs <span class="text-[#B76EFE]">as you want!</span></li>
         <li><span class="text-[#B76EFE]">Full</span> access to statistics</li>
         <li>Manage as many playlists as your <span class="text-[#B76EFE]">heart desires</span></li>
