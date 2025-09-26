@@ -1,0 +1,39 @@
+<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-34 xl:ml-41 2xl:ml-33  items-center gap-1">
+
+      <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+          {{title}}
+        </h1>
+      </a>
+      <div class="bg-[#B76EFE]/15 justify-self-end rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
+        <img [src]="userdata?.profilepic || 'images/placeholderpp.png'" alt="profilepic"
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover">
+      </div>
+    </header>
+    <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-start">
+      <div class="mt-10 md:py-5 lg:py-30 lg:mx-16 xl:pl-28 xl:mt-52">
+        <h1 class="text-white text-[clamp(1.5rem,2.5vw,4rem)] text-center lg:text-left font-semibold md:leading-12">
+          Select the <span class="text-[#B76EFE]">playlist</span><br>
+          you want to<br>
+          clean
+        </h1>
+      </div>
+
+
+      <div class="grid w-xs gap-5 p-5 md:grid-cols-2 md:w-md md:p-10 
+      lg:gap-7 lg:my-20 lg:ml-10
+      xl:w-lg xl:ml-32
+      rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
+        @for (playlist of playlists; track playlist.id) {
+        <app-playlist [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"
+          [id]="playlist.id"></app-playlist>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

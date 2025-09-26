@@ -1,56 +1,31 @@
-import { RouterLink } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
-import { Playlistdata } from '../playlistdata';
-import { ListComponent } from '../list/list.component';
-import { Userdata } from '../userdata';
+import { Component, Input } from '@angular/core';
+import { ConfirmPlaylistSelectComponent } from '../confirm-playlist-select/confirm-playlist-select.component';
 
 @Component({
   selector: 'app-playlist',
-  imports: [ListComponent, RouterLink],
+  imports: [ConfirmPlaylistSelectComponent],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
-export class PlaylistComponent implements OnInit {
-  playlists: Playlistdata[] = [];
-  title: string = 'WaveSpacer';
-  userdata!: Userdata | undefined;
+export class PlaylistComponent {
+  // Inputs acquired from homepage-component
+  @Input() name!: string;
+  @Input() img!: string;
+  @Input() totalTrack!: number;
+  @Input() id!: string;
 
-  constructor() {}
+  playlistName!: string; // Selected playlist's name that is sent to confirm-playlist-select-component
+  playlistImg!: string; // Selected playlist's image that is sent to confirm-playlist-select-component
 
-  ngOnInit(): void {
-    axios
-      .get('http://127.0.0.1:8888/profile', { withCredentials: true })
-      .then((response) => {
-        console.log(response);
-        this.userdata = {
-          display_name: response.data.display_name,
-          email: response.data.email,
-          country: response.data.country,
-          profilepic:
-            response.data.images.length === 0
-              ? 'placeholderpp.png'
-              : response.data.images[0].url,
-          product: response.data.product,
-          followers: response.data.followers.total,
-          id: response.data.id,
-        };
-      });
+  playlistSelected: boolean = false;
 
-    axios
-      .get('http://127.0.0.1:8888/playlists', { withCredentials: true })
-      .then((response) => {
-        console.log(response);
-        this.playlists = response.data.items.map(
-          (playlist: any): Playlistdata => ({
-            name: playlist.name,
-            img: playlist.images[0].url,
-            totalTracks: playlist.tracks.total,
-            id: playlist.id,
-          })
-        );
-        console.log(this.playlists);
-        console.log(this.userdata);
-      });
+  selectPlaylist(name: string, img: string): void {
+    this.playlistName = name;
+    this.playlistImg = img;
+    this.playlistSelected = true;
+  }
+
+  closeConfirm(value: boolean): void {
+    this.playlistSelected = value;
   }
 }
