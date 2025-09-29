@@ -1,5 +1,7 @@
 const spotifyService = require('../services/spotifyService');
+const authController = require('./authController');
 const createToken = require('../../createtoken');
+const User = require('../models/User');
 
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
@@ -14,7 +16,13 @@ exports.callback = async (req, res) => {
     const tokens = await spotifyService.getAccessToken(code);
     const me = await spotifyService.getProfile(tokens.access_token);
 
-    // delegoi authControlleriin
+    const user = new User(me.id);
+    const existingID = await user.getUserID();
+
+    if (!existingID) {
+      await user.save();
+    }
+
     return authController.loginWithSpotify(me, tokens, res);
   } catch (err) {
     console.error(err.response?.data || err.message);
