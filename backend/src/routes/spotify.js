@@ -9,5 +9,10 @@ router.get('/callback', spotifyController.callback);
 router.get('/profile', verifyToken, spotifyController.profile);
 router.get('/playlists', verifyToken, spotifyController.playlists);
 router.get('/recents', verifyToken, spotifyController.recents);
+router.get('/verify-token', verifyToken, (req, res) => {
+  res.json({
+    success: true,
+  });
+});
 
 module.exports = router;
