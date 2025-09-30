@@ -3,7 +3,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SpotifyCbComponent } from './spotify-cb/spotify-cb.component';
 import { RegisterComponent } from './register/register.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
-import { loginGuard } from './login.guard';
+import { loginGuard } from './utilities/guards/login.guard';
 
 export const routes: Routes = [
   {

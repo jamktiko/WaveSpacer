@@ -1,10 +1,10 @@
 import { RouterLink } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import axios from 'axios';
-import { Playlistdata } from '../interfaces/playlistdata';
+import { Playlistdata } from '../utilities/interfaces/playlistdata';
 import { PlaylistComponent } from '../playlist/playlist.component';
-import { Userdata } from '../interfaces/userdata';
-import { profileStore } from '../stores/profile.store';
+import { Userdata } from '../utilities/interfaces/userdata';
+import { profileStore } from '../utilities/stores/profile.store';
 
 @Component({
   selector: 'app-playlists',
