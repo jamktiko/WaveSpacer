@@ -1,6 +1,7 @@
 const axios = require('axios');
 const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
+const tokenStore = require('./tokenStore');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -49,7 +50,12 @@ exports.getAccessToken = async (code) => {
     expires_at: Date.now() + tokenResponse.data.expires_in * 1000,
   };
 
-  return spotifyTokens;
+  const spotifyToken2 = tokenStore.setAccessToken(
+    tokenResponse.data.access_token,
+    tokenResponse.data.expires_in
+  );
+
+  return spotifyToken;
 };
 
 exports.refreshAccessToken = async () => {
