@@ -1,6 +1,9 @@
 const spotifyService = require('../services/spotifyService');
 const authController = require('./authController');
 const createToken = require('../../createtoken');
+const tokenStore = require('../services/tokenStore');
+const User_tokens = require('../models/User_tokens');
+
 const User = require('../models/User');
 
 exports.login = (req, res) => {
@@ -15,18 +18,26 @@ exports.callback = async (req, res) => {
   try {
     const tokens = await spotifyService.getAccessToken(code);
     const me = await spotifyService.getProfile(tokens.access_token);
-
     const user = new User(me.id);
-    const existingID = await user.getUserID();
+    const userID = await user.getUserID();
 
-    if (!existingID) {
-      await user.save();
+    if (!userID) {
+      userID = await user.save();
     }
 
-    return authController.loginWithSpotify(me, tokens, res);
+    const userTokens = new User_tokens('spotify', tokens.refresh_token, userID);
+    tokenStore.setAccessToken(
+      userID,
+      tokens.access_token,
+      'spotify',
+      tokens.expires_in
+    );
+    userTokens.save();
+
+    return authController.loginWithSpotify(userID, tokens, res);
   } catch (err) {
     console.error(err.response?.data || err.message);
-    res.status(500).send('login failed');
+    res.status(500).json({ success: false, message: 'Spotify login failed' });
   }
 };
 
@@ -70,7 +81,9 @@ exports.callback = async (req, res) => {
 
 exports.profile = async (req, res) => {
   try {
-    const access_token = await spotifyService.getAccessTokenSafe();
+    // const access_token = await spotifyService.getAccessTokenSafe();
+    const userId = req.user_id;
+    const access_token = tokenStore.getAccessToken(userId);
     const profile = await spotifyService.getProfile(access_token);
     res.json(profile);
   } catch (err) {
@@ -81,7 +94,8 @@ exports.profile = async (req, res) => {
 
 exports.playlists = async (req, res) => {
   try {
-    const access_token = await spotifyService.getAccessTokenSafe();
+    const userId = req.user_id;
+    const access_token = tokenStore.getAccessToken(userId);
     const playlists = await spotifyService.getPlaylists(access_token);
     res.json(playlists);
   } catch (err) {

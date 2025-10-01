@@ -1,7 +1,7 @@
 const createToken = require('../../createtoken');
 
-exports.loginWithSpotify = async (spotifyProfile, tokens, res) => {
-  const jwtToken = createToken({ spotifyId: spotifyProfile.id });
+exports.loginWithSpotify = async (userID, tokens, res) => {
+  const jwtToken = createToken(userID);
 
   // lähetä cookie
   // development mode
@@ -12,7 +12,7 @@ exports.loginWithSpotify = async (spotifyProfile, tokens, res) => {
     path: '/',
     maxAge: 4 * 60 * 60 * 1000, // 4 tuntia
   });
-
+  
   //deploy mode below:
 
   // res.cookie('jwt', jwtToken, {

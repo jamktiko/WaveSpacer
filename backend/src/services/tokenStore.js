@@ -1,12 +1,18 @@
 tokenCache = new Map();
 
-function setAccessToken(userId, accessToken, expiresIn) {
+function setAccessToken(userId, accessToken, type, expiresIn) {
+  const existing = tokenCache.get(userId);
+
+  if (existing === accessToken) {
+    return;
+  }
   const expiresAt = Date.now() + (expiresIn - 60) * 1000;
-  tokenCache.set(userId, { accessToken, expiresAt });
+  tokenCache.set(userId, { type, accessToken, expiresAt });
 }
 
 function getAccessToken(userId) {
   const entry = tokenCache.get(userId);
+
   if (!entry) return null;
 
   // Is expired?
@@ -14,7 +20,6 @@ function getAccessToken(userId) {
     tokenCache.delete(userId);
     return null;
   }
-
   return entry.accessToken;
 }
 

@@ -10,7 +10,7 @@ module.exports = class User {
 
     const [result] = await pool.query(query, [this.spotify_user_id]);
 
-    return result;
+    return result.insertId;
   }
 
   async getUserID() {

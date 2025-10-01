@@ -21,7 +21,7 @@ function verifyToken(req, res, next) {
     }
 
     // Tallennetaan dekoodattu data requestiin
-    req.user = decoded;
+    req.user_id = decoded.user_id;
     next();
   });
 }
