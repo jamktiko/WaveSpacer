@@ -5,10 +5,10 @@
         want
         to select
         playlist</span><br />
-      <u>{{playlistName}}</u><span class="text-white">?</span>
+      <u>{{playlistStore.selected()?.name}}</u><span class="text-white">?</span>
     </h1>
     <img class="w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 2xl:w-53 2xl:h-53 object-cover my-5"
-      [src]="playlistImg" alt="playlist img">
+      [src]="playlistStore.selected()?.img" alt="playlist img">
     <div class="w-3/4 h-px bg-gray-500 mt-2"></div>
     <div class="flex items-center justify-center gap-10 mt-4">
       <button

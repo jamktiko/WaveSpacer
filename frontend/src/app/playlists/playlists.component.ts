@@ -26,20 +26,9 @@ export class PlaylistsComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
+  }
 
-    // axios
-    //   .get('http://127.0.0.1:8888/playlists', { withCredentials: true })
-    //   .then((response) => {
-    //     console.log(response);
-    //     this.playlists = response.data.items.map(
-    //       (playlist: any): Playlistdata => ({
-    //         name: playlist.name,
-    //         img: playlist.images[0].url,
-    //         totalTracks: playlist.tracks.total,
-    //         id: playlist.id,
-    //       })
-    //     );
-    //     console.log(this.playlists);
-    //   });
+  refreshPlaylists() {
+    this.playlistStore.getPlaylists(true);
   }
 }
