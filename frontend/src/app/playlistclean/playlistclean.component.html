@@ -1,4 +1,4 @@
-<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2">
+<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
   <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
       <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
@@ -21,18 +21,11 @@
           clean
         </h1>
       </div>
-
-
-      <div class="grid w-xs gap-5 p-5 md:grid-cols-2 md:w-md md:p-10 
-      lg:gap-7 lg:my-20 lg:ml-10
-      xl:w-lg xl:ml-32
-      rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
-        @for (playlist of playlistStore.playlists(); track playlist.id) {
-        <app-playlist [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"
-          [id]="playlist.id"></app-playlist>
-        }
+      <div class="rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
+        <div class="grid grid-cols-2">
+          <div class=""></div>
+        </div>
       </div>
     </div>
-
   </div>
 </div>

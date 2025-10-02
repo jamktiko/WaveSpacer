@@ -14,11 +14,18 @@ export class SpotifyCbComponent implements OnInit {
 
   ngOnInit(): void {
     const code = this.route.snapshot.queryParamMap.get('code');
+    if (!code) {
+      this.router.navigate(['']);
+    }
     console.log('code:' + code);
     axios
       .get('http://127.0.0.1:8888/callback?code=' + code, {
         withCredentials: true,
       })
-      .then((response) => this.router.navigate(['playlists']));
+      .then(() => this.router.navigate(['playlists']))
+      .catch((err) => {
+        console.warn(err);
+        this.router.navigate(['']);
+      });
   }
 }
