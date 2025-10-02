@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 @Injectable({
   providedIn: 'root',
@@ -7,19 +7,19 @@ import axios from 'axios';
 export class ApiService {
   constructor() {}
 
-  verifyToken() {
+  verifyToken(): Promise<AxiosResponse> {
     return axios.get('http://127.0.0.1:8888/verify-token', {
       withCredentials: true,
     });
   }
 
-  getProfile() {
+  getProfile(): Promise<AxiosResponse> {
     return axios.get('http://127.0.0.1:8888/profile', {
       withCredentials: true,
     });
   }
 
-  getPlaylists() {
+  getPlaylists(): Promise<AxiosResponse> {
     return axios.get('http://127.0.0.1:8888/playlists', {
       withCredentials: true,
     });
