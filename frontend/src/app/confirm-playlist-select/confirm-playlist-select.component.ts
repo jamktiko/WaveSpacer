@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-playlist-select',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './confirm-playlist-select.component.html',
   styleUrl: './confirm-playlist-select.component.css',
 })

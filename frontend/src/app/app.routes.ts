@@ -3,16 +3,20 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SpotifyCbComponent } from './spotify-cb/spotify-cb.component';
 import { RegisterComponent } from './register/register.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
+import { PlaylistComponent } from './playlist/playlist.component';
 import { loginGuard } from './utilities/guards/login.guard';
+import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
 
 export const routes: Routes = [
   {
     component: HomepageComponent,
+    title: 'Home',
     path: '',
   },
   {
     component: PlaylistsComponent,
     path: 'playlists',
+    title: 'Select your playlist',
     canActivate: [loginGuard],
   },
   {
@@ -22,5 +26,11 @@ export const routes: Routes = [
   {
     component: RegisterComponent,
     path: 'register',
+    title: 'Register your account',
+  },
+  {
+    component: PlaylistcleanComponent,
+    path: 'playlistclean',
+    title: 'Clean your playlist',
   },
 ];
