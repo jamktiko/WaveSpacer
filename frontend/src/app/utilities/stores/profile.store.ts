@@ -29,7 +29,7 @@ export const profileStore = signalStore(
             display_name: res.data.display_name,
             email: res.data.email,
             country: res.data.country,
-            profilepic: res.data.images[0].url,
+            profilepic: res.data.images[0]?.url || 'images/placeholderpp.png',
             product: res.data.product,
             followers: res.data.followers.total,
             id: res.data.id,

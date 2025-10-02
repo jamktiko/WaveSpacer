@@ -16,14 +16,16 @@
     <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-start">
       <div class="mt-10 md:py-5 lg:py-30 lg:ml-30 xl:ml-40 xl:mt-52">
         <h1 class="text-white text-[clamp(1.5rem,2.5vw,3rem)] text-center lg:text-left font-semibold md:leading-12">
-          Select the <span class="text-[#B76EFE]">playlist</span><br>
+          Select the <span class="text-[#B76EFE]">songs</span><br>
           you want to<br>
           clean
         </h1>
       </div>
       <div class="rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10">
         <div class="grid grid-cols-2">
-          <div class=""></div>
+          <div class="ml-10 mt-10">
+            <img [src]="playlistStore.selected()?.img" alt="playlist img">
+          </div>
         </div>
       </div>
     </div>
