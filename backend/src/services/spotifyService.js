@@ -1,7 +1,8 @@
 const axios = require('axios');
 const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
-const spotifyService = require('../services/spotifyService');
+const User_tokens = require('../models/User_tokens');
+const User = require('../models/User');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -59,30 +60,38 @@ exports.getAccessToken = async (code) => {
   // return spotifyToken;
 };
 
-exports.refreshAccessToken = async () => {
-  if (!spotifyTokens.refresh_token)
-    throw new Error('No refresh token available');
+exports.refreshAccessToken = async (userId) => {
+  const refresh_token = await User_tokens.getToken(userId, 'spotify');
 
-  const tokenResponse = await axios.post(
+  const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
+    'base64'
+  );
+
+  const params = new URLSearchParams();
+  params.append('grant_type', 'refresh_token');
+  params.append('refresh_token', refresh_token);
+
+  const response = await axios.post(
     'https://accounts.spotify.com/api/token',
-    querystring.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: spotifyTokens.refresh_token,
-    }),
+    params,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+        Authorization: 'Basic ' + authHeader,
       },
     }
   );
 
-  spotifyTokens.access_token = tokenResponse.data.access_token;
-  spotifyTokens.expires_at = Date.now() + tokenResponse.data.expires_in * 1000;
-
-  return spotifyTokens;
+  const access_token = response.data.access_token;
+  const new_refresh_token = response.data.refresh_token || refresh_token;
+  if (new_refresh_token !== refresh_token) {
+    const me = await spotifyService.getProfile(access_token);
+    const user = new User(me.id);
+    const userID = await user.getUserID();
+    const userTokens = new User_tokens('spotify', new_refresh_token, userID);
+    await userTokens.save();
+  }
+  return access_token;
 };
 
 exports.getAccessTokenSafe = async () => {

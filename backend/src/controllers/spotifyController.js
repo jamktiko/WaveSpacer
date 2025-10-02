@@ -32,7 +32,7 @@ exports.callback = async (req, res) => {
       'spotify',
       tokens.expires_in
     );
-    userTokens.save();
+    await userTokens.save();
 
     return authController.loginWithSpotify(userID, tokens, res);
   } catch (err) {
@@ -84,6 +84,9 @@ exports.profile = async (req, res) => {
     // const access_token = await spotifyService.getAccessTokenSafe();
     const userId = req.user_id;
     const access_token = tokenStore.getAccessToken(userId);
+    if (!access_token) {
+      access_token = spotifyService.refreshAccessToken(userId);
+    }
     const profile = await spotifyService.getProfile(access_token);
     res.json(profile);
   } catch (err) {
@@ -96,6 +99,9 @@ exports.playlists = async (req, res) => {
   try {
     const userId = req.user_id;
     const access_token = tokenStore.getAccessToken(userId);
+    if (!access_token) {
+      access_token = spotifyService.refreshAccessToken(userId);
+    }
     const playlists = await spotifyService.getPlaylists(access_token);
     res.json(playlists);
   } catch (err) {
@@ -106,7 +112,11 @@ exports.playlists = async (req, res) => {
 
 exports.recents = async (req, res) => {
   try {
-    const access_token = await spotifyService.getAccessTokenSafe();
+    const userId = req.user_id;
+    const access_token = tokenStore.getAccessToken(userId);
+    if (!access_token) {
+      access_token = spotifyService.refreshAccessToken(userId);
+    }
     const recents = await spotifyService.getRecentlyPlayed(access_token);
     res.json(recents);
   } catch (err) {

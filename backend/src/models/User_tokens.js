@@ -20,11 +20,11 @@ module.exports = class User_tokens {
     return result;
   }
 
-  async getToken() {
-    const query = `SELECT token FROM User_tokens WHERE User_id = ?`;
+  static async getToken(User_id, type) {
+    const query = `SELECT token FROM User_tokens WHERE User_id = ? AND type = ?`;
 
-    const [result] = await pool.query(query, [this.User_id]);
+    const [result] = await pool.query(query, [User_id, type]);
 
-    return result;
+    return result.length ? result[0].token : null;
   }
 };
