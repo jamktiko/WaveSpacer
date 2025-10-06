@@ -3,8 +3,9 @@ const authController = require('./authController');
 const createToken = require('../../createtoken');
 const tokenStore = require('../services/tokenStore');
 const User_tokens = require('../models/User_tokens');
-
 const User = require('../models/User');
+const PlayHistory = require('../models/PlayHistory');
+const Song = require('../models/Song');
 
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
@@ -122,6 +123,53 @@ exports.recents = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching recently played tracks');
+  }
+};
+
+exports.fetchRecentsForAllUsers = async () => {
+  const users = User.getAllUsers();
+  for (let user of users) {
+    const userId = user.id;
+    const accessToken = tokenStore.getAccessToken(userId);
+    const recents = spotifyService.getRecentlyPlayed(accessToken);
+    const existingTracks = Song.getUsersSongs(userId);
+    const existingIds = new Set(existingTracks.map((song) => song.track_id));
+    let newSongs = [];
+    let songHistory = [];
+
+    for (let song of recents.items) {
+      if (!existingIds.has(song.track.id)) {
+        // const song = new Song(
+        //   song.track.id,
+        //   song.track.name,
+        //   userId,
+        //   song.track.album.images[0].url
+        // );
+        newSongs.push({
+          spotify_track_id: song.track.id,
+          name: song.track.name,
+          User_id: userId,
+          track_image: song.track.album.images[0].url,
+        });
+        songHistory.push({
+          spotify_track_id: song.track.id,
+          played_at: song.played_at,
+          User_id: userId,
+        });
+      }
+    }
+    Song.save(newSongs);
+    const spotifyIds = songHistory.map((song) => song.spotify_track_id);
+    const existingSongs = Song.getSongsBySpotifyIds(userId, spotifyIds);
+    const playHistory = new Map(
+      songHistory.map((h) => [h.spotify_track_id, h.played_at, h.User_id])
+    );
+    const merged = existingSongs.map((song) => ({
+      ...song,
+      Song_id: playHistory.get(song.spotify_track_id),
+    }));
+
+    // const playHistory = new PlayHistory(song.played_at, songId, userId);
   }
 };
 

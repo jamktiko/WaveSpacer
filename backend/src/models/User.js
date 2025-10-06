@@ -19,4 +19,11 @@ module.exports = class User {
 
     return result.length > 0 ? result[0].id : null;
   }
+
+  static async getAllUsers() {
+    const query = `SELECT * FROM User`;
+    const [result] = await pool.query(query);
+
+    return result;
+  }
 };
