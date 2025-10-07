@@ -23,7 +23,7 @@
         </h1>
       </div>
       <div
-        class="rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10 min-w-[320px] mt-10">
+        class="rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10 min-w-[320px] mt-10 max-h-[90vh]">
         <div class="grid grid-cols-2">
           <div class="flex flex-col">
             <div class="px-10 pt-10">
@@ -59,6 +59,12 @@
             <div class="mt-30 flex items-center justify-center">
               <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>
             </div>
+          </div>
+          <div class="flex flex-col max-h-[90vh] overflow-y-auto overscroll-contain custom-scrollbar">
+            <p class="text-center mt-5 text-white">Your least played songs</p>
+            @for (song of songStore.songs(); track song.id; let i = $index) {
+            <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
+            }
           </div>
         </div>
       </div>

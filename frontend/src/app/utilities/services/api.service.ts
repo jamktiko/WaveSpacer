@@ -24,4 +24,8 @@ export class ApiService {
       withCredentials: true,
     });
   }
+
+  getSongs(): Promise<AxiosResponse> {
+    return axios.get('http://localhost:3000/songs');
+  }
 }

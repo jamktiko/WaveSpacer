@@ -2,7 +2,6 @@ import { RouterLink } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import { Playlistdata } from '../utilities/interfaces/playlistdata';
 import { PlaylistComponent } from '../playlist/playlist.component';
-import { Userdata } from '../utilities/interfaces/userdata';
 import { profileStore } from '../utilities/stores/profile.store';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { NgClass } from '@angular/common';

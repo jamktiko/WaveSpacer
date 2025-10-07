@@ -1,0 +1,16 @@
+<div class="p-1 flex gap-2">
+  <div [ngClass]="featuredSongs()">
+    <div class="text-white">{{index + 1}}.</div>
+    <label class="cursor-pointer gap-2 row-start-3">
+      <input type="checkbox" [(ngModel)]="checked" class="hidden">
+      <span class="w-5 h-5 border border-1 bg-[#B76EFE] flex rounded-sm">
+        @if (checked) {
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+        </svg>
+        }
+      </span>
+    </label>
+  </div>
+  <img class="w-30 h-30 rounded-xl" [src]="song.track_image" alt="track img">
+</div>
