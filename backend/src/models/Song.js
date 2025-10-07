@@ -15,7 +15,7 @@ module.exports = class Song {
       e.User_id,
       e.track_image,
     ]);
-    const query = `INSERT INTO Song (external_song_id, name, User_id, spotify_song_image) VALUES ?`;
+    const query = `INSERT IGNORE INTO Song (spotify_track_id, name, User_id, track_image) VALUES ?;`;
     await pool.query(query, [values]);
   }
 

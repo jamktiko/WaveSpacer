@@ -19,17 +19,12 @@ module.exports = class PlayHistory {
     this.User_id = User_id;
   }
 
-  async save(entries) {
+  static async save(entries) {
     if (!entries || entries.length === 0) return;
 
-    const values = entries.map((e) => [
-      e.played_at,
-      e.Song_id,
-      e.User_id,
-      e.track_id,
-    ]);
+    const values = entries.map((e) => [e.played_at, e.Song_id, e.User_id]);
 
-    const query = `INSERT INTO Play_history (played_at, Song_id, User_id) VALUES ?`;
+    const query = `INSERT IGNORE INTO Play_history (played_at, Song_id, User_id) VALUES ?;`;
 
     await pool.query(query, [values]);
   }

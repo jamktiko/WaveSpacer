@@ -1,7 +1,7 @@
 const axios = require('axios');
 const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
-const User_tokens = require('../models/User_tokens');
+const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -61,7 +61,7 @@ exports.getAccessToken = async (code) => {
 };
 
 exports.refreshAccessToken = async (userId) => {
-  const refresh_token = await User_tokens.getToken(userId, 'spotify');
+  const refresh_token = await UserTokens.getToken(userId, 'spotify');
 
   const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
     'base64'
@@ -88,7 +88,7 @@ exports.refreshAccessToken = async (userId) => {
     const me = await spotifyService.getProfile(access_token);
     const user = new User(me.id);
     const userID = await user.getUserID();
-    const userTokens = new User_tokens('spotify', new_refresh_token, userID);
+    const userTokens = new UserTokens('spotify', new_refresh_token, userID);
     await userTokens.save();
   }
   return access_token;
@@ -115,9 +115,20 @@ exports.getPlaylists = async (access_token) => {
   return response.data;
 };
 
-exports.getRecentlyPlayed = async (access_token) => {
+exports.getRecentlyPlayed = async (access_token, after) => {
+  let url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+  if (after) {
+    url += `&after=${after}`;
+  }
+  const response = await axios.get(url, {
+    headers: { Authorization: 'Bearer ' + access_token },
+  });
+  return response.data;
+};
+
+exports.getArtist = async (access_token, artistId) => {
   const response = await axios.get(
-    'https://api.spotify.com/v1/me/player/recently-played',
+    `https://api.spotify.com/v1/artists/${artistId}`,
     {
       headers: { Authorization: 'Bearer ' + access_token },
     }
