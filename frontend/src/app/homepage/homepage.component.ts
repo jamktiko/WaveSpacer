@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 //aws testi push kommentti 7
 
@@ -17,6 +18,6 @@ export class HomepageComponent {
   title = 'WaveSpacer';
 
   login() {
-    location.href = 'http://127.0.0.1:8888/login';
+    location.href = `${environment.apiUrl}login`;
   }
 }
