@@ -19,6 +19,10 @@ export class SongComponent {
   featuredSongs() {
     return this.featured
       ? `grid grid-flow-row grid-rows-4 h-full`
-      : `flex items-center`;
+      : `flex items-center gap-2`;
+  }
+
+  featuredSongImg() {
+    return this.featured ? `w-40 h-40 rounded-xl` : `w-30 h-30 rounded-xl`;
   }
 }

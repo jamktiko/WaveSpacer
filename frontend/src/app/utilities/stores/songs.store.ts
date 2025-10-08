@@ -3,6 +3,7 @@ import { songState } from '../interfaces/songstate';
 import { Songdata } from '../interfaces/songdata';
 import { inject } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { map } from 'rxjs';
 
 export const songStore = signalStore(
   {
@@ -26,7 +27,10 @@ export const songStore = signalStore(
             track_image: song.track_image,
             artists_name: song.artists_name.map((song: any) => song),
           }));
-          patchState(store, { songs: mapped, loading: false });
+          const filtered: Songdata[] = mapped.filter(
+            (song) => song.amount !== null && song.amount <= 5
+          );
+          patchState(store, { songs: filtered, loading: false });
         } catch (err) {
           console.error('Failed to fetch playlists', err);
           patchState(store, { songs: [], loading: false });

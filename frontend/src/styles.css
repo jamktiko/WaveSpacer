@@ -34,3 +34,16 @@ body {
 .custom-scrollbar::-webkit-scrollbar-button {
   display: none;
 }
+
+.scrollbar-gutter-stable {
+  scrollbar-gutter: stable both-edges;
+}
+
+.scrollbar-overlay {
+  scrollbar-gutter: stable overlay;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: rgba(183, 110, 254, 0.4);
+}

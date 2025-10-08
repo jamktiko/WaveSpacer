@@ -25,4 +25,13 @@ export class PlaylistcleanComponent implements OnInit {
     this.profileStore.getProfile();
     this.songStore.getSongs();
   }
+
+  capitalize(name: any) {
+    if (name) {
+      const capitalized = name[0].toUpperCase() + name.slice(1, name.length);
+      return capitalized;
+    } else {
+      return name;
+    }
+  }
 }

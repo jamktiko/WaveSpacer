@@ -14,29 +14,29 @@
       </div>
     </header>
 
-    <div class="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around">
+    <div
+      class="flex flex-col items-center gap-5 lg:gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around overflow-hidden">
       <div class="mt-10 md:py-5 lg:py-20 xl:py-32">
         <h1 class="text-white text-[clamp(1.5rem,2.5vw,3rem)] text-center lg:text-left font-semibold md:leading-12">
-          Here are your<br>
-          <span class="text-[#B76EFE]">least played</span><br>
-          songs
+          Choose the songs<br>
+          to be <span class="text-[#B76EFE]">deleted</span>
         </h1>
       </div>
-      <div
-        class="rounded-2xl bg-gradient-to-b from-[#212121] to-gray-500 border-[#58525A] border-1 mb-10 min-w-[320px] mt-10 max-h-[90vh]">
-        <div class="grid grid-cols-2">
-          <div class="flex flex-col">
-            <div class="px-10 pt-10">
-              <img
-                class="min-w-[150px] min-h-[150px] w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 rounded-md"
-                [src]="playlistStore.selected()?.img" alt="playlist img">
+      <div class="rounded-2xl bg-[#48404A] border-[#58525A] border-1 mb-10 min-w-[320px] max-w-[600px] lg:max-w-[750px] 
+        mt-5 lg:mt-10 max-h-900px lg:max-h-[90vh] overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
+          <div class="flex flex-col items-center justify-center p-4">
+            <img
+              class="min-w-[150px] min-h-[150px] w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 rounded-md"
+              [src]="playlistStore.selected()?.img" alt="playlist img">
 
-              <h1 class="text-white text-[clamp(0.8rem,3vw,1.5rem)] text-center">{{playlistStore.selected()?.name}}</h1>
-            </div>
+            <h1 class="text-white text-[clamp(0.8rem,3vw,1.5rem)] text-center">
+              {{capitalize(playlistStore.selected()?.name)}}</h1>
+
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <label class="flex items-center cursor-pointer gap-2 ml-3 my-5">
               <input type="checkbox" [(ngModel)]="checked" class="hidden">
-              <span class="w-5 h-5 border border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
+              <span class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
                 @if (checked) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#000000">
@@ -56,15 +56,17 @@
               <span class="text-[clamp(1rem,3vw,1.3rem)]">Filters</span>
             </div>
             <div class="h-px w-full bg-black/30 mt-3"></div>
-            <div class="mt-30 flex items-center justify-center">
+            <div class="mt-15 lg:mt-30 flex items-center justify-center">
               <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>
             </div>
           </div>
-          <div class="flex flex-col max-h-[90vh] overflow-y-auto overscroll-contain custom-scrollbar">
-            <p class="text-center mt-5 text-white">Your least played songs</p>
-            @for (song of songStore.songs(); track song.id; let i = $index) {
-            <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
-            }
+          <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-hidden">
+            <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">Your least played songs</h1>
+            <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+              @for (song of songStore.songs(); track song.id; let i = $index) {
+              <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
+              }
+            </div>
           </div>
         </div>
       </div>

@@ -17,7 +17,6 @@ export class SpotifyCbComponent implements OnInit {
     if (!code) {
       this.router.navigate(['']);
     }
-    console.log('code:' + code);
     axios
       .get('http://127.0.0.1:8888/callback?code=' + code, {
         withCredentials: true,
