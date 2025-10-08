@@ -5,7 +5,7 @@ const cors = require('cors');
 const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://127.0.0.1:4200',
+  origin: process.env.FRONTEND_URL,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   credentials: true,

@@ -6,8 +6,7 @@ const User = require('../models/User');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri =
-  process.env.SPOTIFY_REDIRECT_URI || 'http://127.0.0.1:4200/spotifycb';
+const redirect_uri = `${process.env.FRONTEND_URL}spotifycb`;
 
 let spotifyTokens = {};
 

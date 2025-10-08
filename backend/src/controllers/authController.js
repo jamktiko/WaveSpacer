@@ -2,27 +2,16 @@ const createToken = require('../../createtoken');
 
 exports.loginWithSpotify = async (userID, tokens, res) => {
   const jwtToken = createToken(userID);
+  const isProd = process.env.NODE_ENV === 'production';
 
   // lähetä cookie
-  // development mode
   res.cookie('jwt', jwtToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: isProd,
+    sameSite: isProd ? 'strict' : 'lax',
     path: '/',
-    maxAge: 4 * 60 * 60 * 1000, // 4 tuntia
+    maxAge: 4 * 60 * 60 * 1000,
   });
-  
-  //deploy mode below:
 
-  // res.cookie('jwt', jwtToken, {
-  //   httpOnly: true,
-  //   secure: true,
-  //   sameSite: 'strict',
-  //   path: '/',
-  //   maxAge: 4 * 60 * 60 * 1000,
-  // });
-
-  // res.redirect('http://127.0.0.1:4200/playlists');
   res.json({ login: 'success' });
 };
