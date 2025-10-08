@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL || 'http://127.0.0.1:4200',
@@ -25,5 +26,7 @@ app.use(cookieParser()); // <- ensin lisätään cookie-parser
 // reitit
 app.use('/', spotifyRoutes);
 app.use('/', dbRoutes);
+
+startCronJobs();
 
 module.exports = app;
