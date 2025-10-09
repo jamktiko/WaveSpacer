@@ -13,7 +13,7 @@ let spotifyTokens = {};
 exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
-
+  console.log('Redirect URI käytössä:', redirect_uri);
   return (
     'https://accounts.spotify.com/authorize?' +
     querystring.stringify({
