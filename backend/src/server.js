@@ -14,7 +14,7 @@ async function startServer() {
   // Alustetaan tietokantayhteys ennen kuin app käynnistyy
   await pool.initPool();
 
-  const PORT = process.env.PORT || 8888;
+  const PORT = process.env.PORT;
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running at port ${PORT}`);
   });
