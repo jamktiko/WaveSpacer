@@ -5,7 +5,7 @@ on:
     branches:
       - develop
     paths:
-      - 'backend/**' 
+      - 'backend/**'
 
 permissions:
   id-token: write
@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: ${{ secrets.ARN_ROLE }}   
+          role-to-assume: ${{ secrets.ARN_ROLE }}
           aws-region: eu-north-1
 
       - name: Deploy backend to EC2 via SSM
@@ -42,16 +42,11 @@ jobs:
               "cd /opt/backend || { mkdir -p /opt/backend && cd /opt/backend; }",
               "if [ ! -d .git ]; then git clone https://github.com/${GITHUB_REPOSITORY}.git .; fi",
               "git fetch --all",
-              "git checkout feature/awsConnection",
-              "git pull origin feature/awsConnection",
+              "git checkout develop",
+              "git pull origin develop",
               "cd backend",
               "npm install",
               "pm2 restart backend || pm2 start src/server.js --name backend",
               "pm2 save",
               "pm2 startup --yes"
             ]'
-
-
-
-
-
