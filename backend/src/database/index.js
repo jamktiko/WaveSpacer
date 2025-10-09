@@ -1,18 +1,12 @@
 const mysql = require('mysql2/promise');
 
-let pool; // alustetaan tyhjänä
+let pool = null;
 
 async function initPool() {
-  if (pool) return pool; // jos jo luotu, palauta se
+  if (pool) return pool;
 
-  // varmista että tarvittavat ympäristömuuttujat ovat olemassa
-  if (
-    !process.env.DB_HOST ||
-    !process.env.DB_USER ||
-    !process.env.DB_PASS ||
-    !process.env.DB_NAME
-  ) {
-    throw new Error('Database environment variables not loaded');
+  if (!process.env.DB_HOST) {
+    throw new Error('DB_HOST not set. Call loadSecrets() before initPool().');
   }
 
   pool = mysql.createPool({
@@ -26,23 +20,26 @@ async function initPool() {
     queueLimit: 0,
   });
 
-  console.log('MySQL pool created');
+  console.log('Database pool initialized');
   return pool;
 }
 
-// Palautetaan pool niin että muu koodi voi käyttää sitä normaalisti require:llä
-module.exports = new Proxy(
+// Proxy palauttaa oikean metodin (initPool tai poolin metodit)
+const poolProxy = new Proxy(
   {},
   {
-    get: (_, prop) => {
+    get(target, prop) {
+      if (prop === 'initPool') return initPool;
+
       if (!pool) {
         throw new Error(
           'Database pool not initialized. Call initPool() after loading secrets.'
         );
       }
+
       return pool[prop];
     },
   }
 );
 
-module.exports.initPool = initPool;
+module.exports = poolProxy;
