@@ -1,6 +1,5 @@
 const { loadSecrets } = require('./config/loadSecrets');
-
-await loadSecrets();
+const app = require('./app');
 
 async function startServer() {
   await loadSecrets();
