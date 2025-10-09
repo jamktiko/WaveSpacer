@@ -41,7 +41,7 @@ jobs:
               "set -e",
               "cd /opt || exit 1",
               "if [ -d backend ]; then rm -rf backend; fi",
-              "git clone -b develop https://github.com/${GITHUB_REPOSITORY}.git backend",
+              "git clone -b develop https://github.com/jamktiko/WaveSpacer.git backend",
               "cd backend/backend",
               "npm install",
               "pm2 restart backend || pm2 start src/server.js --name backend",
