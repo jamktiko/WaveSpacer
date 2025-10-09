@@ -1,6 +1,5 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Loginstate } from '../interfaces/loginstate';
-import axios from 'axios';
 import { ApiService } from '../services/api.service';
 import { inject } from '@angular/core';
 

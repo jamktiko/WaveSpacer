@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RegisterComponent } from '../register/register.component';
 import { RouterLink } from '@angular/router';
 
 //aws testi push kommentti 7
