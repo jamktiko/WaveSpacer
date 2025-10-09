@@ -45,8 +45,9 @@ jobs:
               "cd backend",
               "git sparse-checkout set backend",
               "cd backend",
-              "npm install",
-              "pm2 restart backend || pm2 start src/server.js --name backend",
-              "pm2 save",
-              "pm2 startup --yes"
+              "npm ci --omit=dev || npm install --omit=dev",
+              "chown -R ssm-user:ssm-user /opt/backend",
+              "sudo -u ssm-user pm2 restart backend || sudo -u ssm-user pm2 start src/server.js --name backend",
+              "sudo -u ssm-user pm2 save",
+              "sudo -u ssm-user pm2 startup --yes"
             ]'
