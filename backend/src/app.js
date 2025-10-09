@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
+// const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 // aws test push5
 
@@ -29,6 +29,6 @@ app.use(cookieParser()); // <- ensin lisätään cookie-parser
 app.use('/', spotifyRoutes);
 app.use('/', dbRoutes);
 
-startCronJobs();
+// startCronJobs();
 
 module.exports = app;

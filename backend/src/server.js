@@ -8,6 +8,7 @@ try {
 
 const { loadSecrets } = require('./config/loadSecrets');
 const pool = require('./database');
+const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 async function startServer() {
   //Ladataan AWS Secrets vain jos ollaan tuotannossa
@@ -29,6 +30,8 @@ async function startServer() {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running at port ${PORT}`);
   });
+
+  startCronJobs();
 }
 
 startServer();
