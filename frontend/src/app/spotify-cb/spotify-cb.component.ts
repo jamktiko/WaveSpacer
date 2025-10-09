@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-spotify-cb',
@@ -18,7 +19,7 @@ export class SpotifyCbComponent implements OnInit {
       this.router.navigate(['']);
     }
     axios
-      .get('http://127.0.0.1:8888/callback?code=' + code, {
+      .get(`${environment.apiUrl}callback?code=` + code, {
         withCredentials: true,
       })
       .then(() => this.router.navigate(['playlists']))

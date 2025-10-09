@@ -1,7 +1,15 @@
-const app = require('./app');
+const { loadSecrets } = require('./config/loadSecrets');
 
-const PORT = 8888;
+await loadSecrets();
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://127.0.0.1:${PORT}`);
-});
+async function startServer() {
+  await loadSecrets();
+
+  const PORT = process.env.PORT;
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server running at port ${PORT}`);
+  });
+}
+
+startServer();
