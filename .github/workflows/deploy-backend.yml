@@ -39,12 +39,10 @@ jobs:
             --comment "Deploy backend update" \
             --parameters 'commands=[
               "set -e",
-              "cd /opt/backend || { mkdir -p /opt/backend && cd /opt/backend; }",
-              "if [ ! -d .git ]; then git clone https://github.com/${GITHUB_REPOSITORY}.git .; fi",
-              "git fetch --all",
-              "git checkout develop",
-              "git pull origin develop",
-              "cd backend",
+              "cd /opt || exit 1",
+              "if [ -d backend ]; then rm -rf backend; fi",
+              "git clone -b develop https://github.com/${GITHUB_REPOSITORY}.git backend",
+              "cd backend/backend",
               "npm install",
               "pm2 restart backend || pm2 start src/server.js --name backend",
               "pm2 save",
