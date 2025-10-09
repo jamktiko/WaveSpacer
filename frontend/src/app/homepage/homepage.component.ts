@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-//aws testi push kommentti 7
+//aws testi push kommentti 8
 
 @Component({
   selector: 'app-homepage',
