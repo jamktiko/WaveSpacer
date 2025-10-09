@@ -7,6 +7,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  port: 3306,
   waitForConnections: true, // jos kaikki yhteydet varattuja, odota
   connectionLimit: 10, // max yhtäaikaisia yhteyksiä
   queueLimit: 0, // ei rajaa jonossa olevia yhteyksiä

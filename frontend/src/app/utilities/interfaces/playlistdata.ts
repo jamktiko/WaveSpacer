@@ -3,5 +3,4 @@ export interface Playlistdata {
   img: string;
   totalTracks: number;
   id: string;
-  loading: boolean;
 }
