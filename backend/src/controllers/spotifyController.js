@@ -111,44 +111,47 @@ exports.fetchRecentsForAllUsers = async () => {
       console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
       continue;
     }
-    let existingTracks = await Song.getUsersSongs(userId);
-    let existingIds = new Set(existingTracks.map((song) => song.track_id));
+    // let existingTracks = await Song.getUsersSongs(userId);
+    // let existingIds = new Set(
+    //   existingTracks.map((song) => song.spotify_track_id)
+    // );
     let newSongs = [];
     let songHistory = [];
     let artists = [];
     let genres = [];
 
     for (let song of recents.items) {
-      if (!existingIds.has(song.track.id)) {
-        // const song = new Song(
-        //   song.track.id,
-        //   song.track.name,
-        //   userId,
-        //   song.track.album.images[0].url
-        // );
-        newSongs.push({
-          spotify_track_id: song.track.id,
-          name: song.track.name,
-          User_id: userId,
-          track_image: song.track.album.images?.[0]?.url,
-        });
-        songHistory.push({
-          spotify_track_id: song.track.id,
-          played_at: song.played_at,
-          User_id: userId,
-        });
-
-        // for (let artist of song.track.artists) {
-        //   const artistData = await spotifyService.getArtist(
-        //     accessToken,
-        //     artist.id
-        //   );
-        //   artists.push(artist.name);
-        //   for (let genre of artist.genres) {
-        //     genres.push(genre);
-        //   }
-        // }
+      // const song = new Song(
+      //   song.track.id,
+      //   song.track.name,
+      //   userId,
+      //   song.track.album.images[0].url
+      // );
+      newSongs.push({
+        spotify_track_id: song.track.id,
+        name: song.track.name,
+        User_id: userId,
+        track_image: song.track.album.images?.[0]?.url,
+      });
+      songHistory.push({
+        spotify_track_id: song.track.id,
+        played_at: song.played_at,
+        User_id: userId,
+      });
+      for (let artist of song.track.artists) {
+        artists.push(artist.name);
       }
+
+      // for (let artist of song.track.artists) {
+      //   const artistData = await spotifyService.getArtist(
+      //     accessToken,
+      //     artist.id
+      //   );
+      //   artists.push(artist.name);
+      //   for (let genre of artist.genres) {
+      //     genres.push(genre);
+      //   }
+      // }
     }
 
     // artists = [...new Set(artists)];
