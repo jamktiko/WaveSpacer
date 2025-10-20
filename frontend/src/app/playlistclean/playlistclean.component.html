@@ -35,9 +35,9 @@
 
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <label class="flex items-center cursor-pointer gap-2 ml-3 my-5">
-              <input type="checkbox" [(ngModel)]="checked" class="hidden">
+              <input type="checkbox" [(ngModel)]="allChecked" class="hidden">
               <span class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
-                @if (checked) {
+                @if (allChecked) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#000000">
                   <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
@@ -64,7 +64,7 @@
             <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">Your least played songs</h1>
             <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
               @for (song of songStore.songs(); track song.id; let i = $index) {
-              <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
+              <app-song [song]="song" [index]="i" [featured]="i < 3" [allChecked]="allChecked"></app-song>
               }
             </div>
           </div>

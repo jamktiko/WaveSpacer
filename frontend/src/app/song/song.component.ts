@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { songSelect } from '../utilities/stores/songSelect.store';
 
 @Component({
   selector: 'app-song',
-  imports: [NgClass, FormsModule],
+  imports: [NgClass],
   templateUrl: './song.component.html',
   styleUrl: './song.component.css',
 })
@@ -13,8 +13,11 @@ export class SongComponent {
   @Input() featured!: boolean;
   @Input() index!: number;
   @Input() song!: Songdata;
+  @Input() allChecked!: boolean;
 
-  checked: boolean = false;
+  songSelectStore = inject(songSelect);
+
+  selectedSongs: number[] = [];
 
   featuredSongs() {
     return this.featured

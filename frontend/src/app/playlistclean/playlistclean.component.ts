@@ -15,7 +15,7 @@ import { SongComponent } from '../song/song.component';
 })
 export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
-  checked: boolean = false;
+  allChecked: boolean = false;
 
   profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
