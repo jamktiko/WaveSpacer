@@ -57,14 +57,15 @@
             </div>
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <div class="mt-15 lg:mt-30 flex items-center justify-center">
-              <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>
+              <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md"
+                routerLink="/dashboard">Delete selected</button>
             </div>
           </div>
           <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-hidden">
             <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">Your least played songs</h1>
             <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
               @for (song of songStore.songs(); track song.id; let i = $index) {
-              <app-song [song]="song" [index]="i" [featured]="i < 3" [allChecked]="allChecked"></app-song>
+              <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
               }
             </div>
           </div>
