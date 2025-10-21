@@ -35,9 +35,9 @@
 
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <label class="flex items-center cursor-pointer gap-2 ml-3 my-5">
-              <input type="checkbox" [(ngModel)]="allChecked" class="hidden">
+              <input type="checkbox" class="hidden" (change)="songSelectStore.selectAll()">
               <span class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
-                @if (allChecked) {
+                @if (songSelectStore.selectedIds().length === songStore.songs().length) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#000000">
                   <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />

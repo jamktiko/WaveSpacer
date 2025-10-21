@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { NgClass } from '@angular/common';
-import { songSelect } from '../utilities/stores/songSelect.store';
+import { songSelectStore } from '../utilities/stores/songSelect.store';
 
 @Component({
   selector: 'app-song',
@@ -15,7 +15,7 @@ export class SongComponent {
   @Input() song!: Songdata;
   @Input() allChecked!: boolean;
 
-  songSelectStore = inject(songSelect);
+  songSelectStore = inject(songSelectStore);
 
   selectedSongs: number[] = [];
 
