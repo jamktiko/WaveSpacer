@@ -10,8 +10,15 @@ module.exports = class ArtistSong {
     if (!entries || entries.length === 0) return;
     const values = entries.map((e) => [e.Song_id, e.Artist_id]);
 
-    const query = 'INSERT INTO ArtistSong VALUES ?';
+    const query = 'INSERT IGNORE INTO Artist_Song VALUES ?';
 
     await pool.query(query, [values]);
+  }
+
+  async getIds() {
+    const query =
+      'SELECT * FROM Artist_Song WHERE Song_id = ? AND Artist_id = ?;';
+    const [result] = await pool.query(query, [this.Song_id, this.Artist_id]);
+    return result;
   }
 };

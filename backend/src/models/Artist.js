@@ -20,4 +20,10 @@ module.exports = class Artist {
     const [result] = await pool.query(query, this.name);
     return result;
   }
+
+  async getArtists() {
+    const query = 'Select * FROM Artist';
+    const [result] = await pool.query(query);
+    return result;
+  }
 };

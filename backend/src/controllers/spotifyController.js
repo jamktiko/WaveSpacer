@@ -6,6 +6,8 @@ const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
 const PlayHistory = require('../models/PlayHistory');
 const Song = require('../models/Song');
+const Genre = require('../models/Genre');
+const Artist = require('../models/Artist');
 
 const lastFetchedAt = new Map();
 
@@ -139,7 +141,11 @@ exports.fetchRecentsForAllUsers = async () => {
         User_id: userId,
       });
       for (let artist of song.track.artists) {
-        artists.push(artist.name);
+        let artistData = spotifyService.getArtist(artist.id);
+        for (let genre of artistData.genres) {
+          genres.push(genre);
+        }
+        artists.push({ name: artist.name, genres: genres });
       }
 
       // for (let artist of song.track.artists) {
@@ -154,13 +160,20 @@ exports.fetchRecentsForAllUsers = async () => {
       // }
     }
 
-    // artists = [...new Set(artists)];
-    // genres = [...new Set(genres)];
+    artists = [...new Set(artists)];
+    genres = [...new Set(genres)];
+    newSongs = [...new Set(newSongs)];
 
     if (newSongs.length > 0) {
       await Song.save(newSongs);
     }
     let spotifyIds = songHistory.map((song) => song.spotify_track_id);
+
+    await Genre.save(genres);
+    await Artist.save(artists);
+
+    let allGenres = await Genre.getGenres(genres);
+
     let existingSongs = await Song.getSongsBySpotifyIds(userId, spotifyIds);
     let playHistory = new Map(
       songHistory.map((h) => [
@@ -168,6 +181,7 @@ exports.fetchRecentsForAllUsers = async () => {
         { played_at: h.played_at, User_id: h.User_id },
       ])
     );
+
     let merged = existingSongs.map((song) => {
       let history = playHistory.get(song.spotify_track_id);
       return {
