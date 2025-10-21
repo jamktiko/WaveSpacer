@@ -3,7 +3,6 @@ import { songState } from '../interfaces/songstate';
 import { Songdata } from '../interfaces/songdata';
 import { inject } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { map } from 'rxjs';
 
 export const songStore = signalStore(
   {
