@@ -125,7 +125,7 @@ exports.getRecentlyPlayed = async (access_token, after) => {
   return response.data;
 };
 
-exports.getArtist = async (artistId) => {
+exports.getArtist = async (artistId, access_token) => {
   const response = await axios.get(
     `https://api.spotify.com/v1/artists/${artistId}`,
     {

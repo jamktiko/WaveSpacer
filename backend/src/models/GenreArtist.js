@@ -6,16 +6,17 @@ module.exports = class GenreArtist {
     this.Artist_id = Artist_id;
   }
 
-  async save(entries) {
+  static async save(entries) {
     if (!entries || entries.length === 0) return;
     const values = entries.map((e) => [e.Genre_id, e.Artist_id]);
 
-    const query = 'INSERT INTO Genre_Artist VALUES ?';
+    const query =
+      'INSERT IGNORE INTO Genre_Artist (Genre_id, Artist_id) VALUES ?';
 
     await pool.query(query, [values]);
   }
 
-  async getIds() {
+  static async getIds() {
     const query =
       'SELECT * FROM Genre_Artist WHERE Genre_id = ? AND Artist_id = ?;';
     const [result] = await pool.query(query, [this.Genre_id, this.Artist_id]);

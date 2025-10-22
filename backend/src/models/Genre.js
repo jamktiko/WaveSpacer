@@ -8,7 +8,7 @@ module.exports = class Genre {
   static async save(entries) {
     if (!entries || entries.length === 0) return;
 
-    const values = entries.map((name) => [name]);
+    const values = entries.map((g) => [g.name]);
 
     const query = `INSERT IGNORE INTO Genre (name) VALUES ?;`;
 
@@ -22,8 +22,12 @@ module.exports = class Genre {
   }
 
   static async getGenres(names) {
-    const query = `Select * FROM Genre WHERE name IN ${names}`;
-    const [result] = await pool.query(query);
+    if (!names || names.length === 0) return [];
+
+    const placeholders = names.map(() => '?').join(', ');
+    const query = `SELECT * FROM Genre WHERE name IN (${placeholders})`;
+    const [result] = await pool.query(query, names);
+
     return result;
   }
 };
