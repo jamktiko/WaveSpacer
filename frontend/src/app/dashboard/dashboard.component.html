@@ -14,9 +14,73 @@
       </div>
     </header>
 
-    <div class="h-full w-[75%] mx-auto mt-30 items-center justify-end">
-      <div class="bg-black grid grid-cols-1 lg:grid-cols-2">
-        <img [src]="randomPlaylistImg" alt="playlist img" class="rounded-md p-6">
+    <div class="h-full w-[75%] min-w-[200px] mx-auto mt-30 items-center justify-end">
+      <div class="grid grid-cols-1 lg:grid-cols-2">
+        <div class="flex flex-col bg-[#48404A] gap-2 rounded-l-xl">
+          <div class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6">
+            <img [src]="randomPlaylistImg" alt="playlist img"
+              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
+            <div class="flex flex-col">
+              <h1 class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.5vw,1.8rem)]">
+                Playlist-cleaner</h1>
+              <p class="text-white text-center lg:text-start text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
+            </div>
+          </div>
+          <div class="h-px w-full bg-[#3D383E]"></div>
+          <div
+            class="grid grid-row grid-cols-4 lg:grid-cols-[auto_1fr_1fr] p-6 justify-items-center lg:justify-items-start items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#744C7C"
+              class="w-10 h-10 lg:w-15 lg:h-15 col-start-1 mobileM:col-start-2 col-span-2 mobileM:col-span-1 lg:col-start-1 sm:justify-self-end sm:mr-5">
+              <path
+                d="M313.33-80q-27 0-46.83-19.83-19.83-19.84-19.83-46.84v-100h-100q-27 0-46.84-19.83Q80-286.33 80-313.33V-390h66.67v76.67h100v-333.34q0-27 19.83-46.83t46.83-19.83h333.34v-100H570V-880h76.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84v100h100q27 0 46.84 19.83Q880-673.67 880-646.67v500q0 27-19.83 46.84Q840.33-80 813.33-80h-500Zm0-66.67h500v-500h-500v500ZM80-483.33v-160h66.67v160H80Zm0-253.34v-76.66q0-27 19.83-46.84Q119.67-880 146.67-880h76.66v66.67h-76.66v76.66H80Zm236.67-76.66V-880h160v66.67h-160Zm-3.34 666.66v-500 500Z" />
+            </svg>
+            <div class="grid lg:grid-row col-span-2 justify-self-start">
+              <h2 class="text-white underline text-[clamp(0.8rem,1vw,1.3rem)]">Duplicate-remover</h2>
+              <p class="text-white text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
+            </div>
+          </div>
+          <div class="h-px w-full bg-[#3D383E]"></div>
+          <div class="flex flex-col p-6 items-center gap-5">
+            <h2 class="text-white text-center text-[clamp(0.8rem,1vw,2rem)]">Your total songs cleaned<br /> with
+              WaveSpacer</h2>
+            <div class="px-3 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE]">acd</div>
+          </div>
+
+          <div class="bg-[#5B475F] flex justify-center rounded-bl-xl mt-auto">
+            <p class="text-white text-center my-auto text-[clamp(1.2rem,1vw,2.5rem)]">
+              You have been connected<br />
+              to WaveSpacer for 666 days
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 lg:max-h-[550px] overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay gap-2 rounded-r-xl">
+          <div class="flex flex-col gap-3">
+            <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.5vw,2rem)]">Your statistics</h1>
+            <canvas id="genreChart" aria-label="Genre chart" role="img" class="w-[100%]">
+              {{chart}}
+              <p class="text-white">Genre chart</p>
+            </canvas>
+          </div>
+          <div class="h-px w-full bg-[#48404A]"></div>
+          <div class="flex flex-col p-6 gap-4 items-start">
+            <h1 class="text-white underline">Your favorite from last month</h1>
+            <div class="flex items-center gap-6">
+              <img [src]="randomSong.img" alt="Song img"
+                class="w-10 h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 rounded-xl">
+              <div class="flex flex-col max-w-xs overflow-hidden">
+                <p class="text-white">{{randomSong.song}}</p>
+                <p class="text-white truncate">
+                  {{randomSong.artist}}</p>
+              </div>
+            </div>
+            <p class="text-white underline self-end">Learn more →</p>
+          </div>
+          <div class="h-px w-full bg-[#48404A]"></div>
+          @for (song of songStore.songs(); track song.id; let i = $index) {
+          <app-song [song]="song" [index]="i"></app-song>
+          }
+        </div>
       </div>
     </div>
   </div>

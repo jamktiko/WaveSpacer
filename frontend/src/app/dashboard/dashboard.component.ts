@@ -1,28 +1,50 @@
 import { Component, inject, effect } from '@angular/core';
 import { profileStore } from '../utilities/stores/profile.store';
 import { playlistStore } from '../utilities/stores/playlist.store';
+import { songStore } from '../utilities/stores/songs.store';
 import { OnInit } from '@angular/core';
+import { Chart, registerables, ChartConfiguration } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Songdata } from '../utilities/interfaces/songdata';
+import { SongComponent } from '../song/song.component';
+Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [SongComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   title: String = 'WaveSpacer';
   randomPlaylistImg!: string;
+  randomSong = {
+    img: '',
+    song: '',
+    artist: '',
+  };
+  chart!: any;
 
   profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
+  songStore = inject(songStore);
 
   constructor() {
     effect(() => {
       const playlists = this.playlistStore.playlists();
+      const songs = this.songStore.songs();
 
       if (playlists.length > 0) {
         const index = Math.floor(Math.random() * playlists.length);
         this.randomPlaylistImg = this.playlistStore.playlists()[index].img;
+      }
+
+      if (songs.length > 0) {
+        const index = Math.floor(Math.random() * songs.length);
+        const randomSong: Songdata = this.songStore.songs()[index];
+        this.randomSong.img = randomSong.track_image || '';
+        this.randomSong.song = randomSong.name || '';
+        this.randomSong.artist = randomSong.artists_name?.join(', ') || '';
       }
     });
   }
@@ -30,5 +52,69 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
+    this.createChart();
+  }
+
+  createChart() {
+    const data = {
+      labels: ['a', 'b', 'c', 'd', 'e'],
+      datasets: [
+        {
+          data: [100, 50, 30, 20, 10],
+          backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    const config: ChartConfiguration<'pie'> = {
+      type: 'pie',
+      data,
+      options: {
+        responsive: true,
+        plugins: {
+          datalabels: {
+            formatter: (value: any, context: any) => {
+              const dataset = context.chart.data.datasets[0];
+              const total = dataset.data.reduce(
+                (a: number, b: number) => a + b,
+                0
+              );
+              const percentage = ((value / total) * 100).toFixed(1) + '%';
+              return `${percentage}\n${value}`;
+            },
+            color: '#000000',
+            font: {
+              size: 10,
+              weight: 'bold',
+            },
+          },
+        },
+        aspectRatio: 2.5,
+      },
+      plugins: [ChartDataLabels],
+    };
+
+    this.chart = new Chart(
+      document.getElementById('genreChart') as HTMLCanvasElement,
+      config
+    );
+
+    // this.chart = new Chart('genreChart', {
+    //   type: 'pie',
+    //   data: {
+    //     labels: ['gen', 'baaa', 'caaa', 'genre1', 'c'],
+    //     datasets: [
+    //       {
+    //         data: [10, 20, 70, 10, 20],
+    //         backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
+    //         hoverOffset: 2,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     aspectRatio: 2.5,
+    //   },
+    // });
   }
 }
