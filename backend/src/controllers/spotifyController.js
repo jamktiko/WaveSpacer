@@ -108,7 +108,8 @@ exports.fetchRecentsForAllUsers = async () => {
 
     const lastTime = lastFetchedAt.get(userId);
 
-    const after = !lastTime ? null : lastTime - 1000 * 60 - 5000;
+    const after = !lastTime ? null : lastTime;
+    console.log('Unix aika' + after);
 
     let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
     if (!recents?.items?.length) {
@@ -220,9 +221,12 @@ exports.fetchRecentsForAllUsers = async () => {
 
     await PlayHistory.save(playHistoryRecords);
 
-    lastFetchedAt.set(userId, Date.now());
+    const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
+
+    lastFetchedAt.set(userId, newestPlayedAt);
 
     allMerged.push({ userId, count: playHistoryRecords.length });
+    console.log(playHistoryRecords);
   }
   return allMerged;
 };

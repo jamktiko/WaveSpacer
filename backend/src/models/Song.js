@@ -27,12 +27,12 @@ module.exports = class Song {
         (e) =>
           `('${e.spotify_track_id}', ${pool.escape(e.name)}, ${pool.escape(
             e.User_id
-          )}, ${pool.escape(e.track_image)}, 1)`
+          )}, ${pool.escape(e.track_image)})`
       )
       .join(',');
 
     const query = `
-    INSERT INTO Song (spotify_track_id, name, User_id, track_image, amount)
+    INSERT INTO Song (spotify_track_id, name, User_id, track_image)
     VALUES ${values}
     ON DUPLICATE KEY UPDATE amount = amount + 1;
   `;
