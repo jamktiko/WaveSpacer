@@ -14,9 +14,9 @@
       </div>
     </header>
 
-    <div class="h-full w-[75%] min-w-[200px] mx-auto mt-30 items-center justify-end">
-      <div class="grid grid-cols-1 lg:grid-cols-2">
-        <div class="flex flex-col bg-[#48404A] gap-2 rounded-l-xl">
+    <div class="h-full w-[75%] min-w-[200px] mx-auto mt-30">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
+        <div class="flex flex-col bg-[#48404A] gap-2 rounded-xl lg:rounded-none lg:rounded-l-xl">
           <div class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6">
             <img [src]="randomPlaylistImg" alt="playlist img"
               class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
@@ -41,12 +41,12 @@
           </div>
           <div class="h-px w-full bg-[#3D383E]"></div>
           <div class="flex flex-col p-6 items-center gap-5">
-            <h2 class="text-white text-center text-[clamp(0.8rem,1vw,2rem)]">Your total songs cleaned<br /> with
+            <h2 class="text-white text-center text-[clamp(1rem,1.2vw,2rem)]">Your total songs cleaned<br /> with
               WaveSpacer</h2>
-            <div class="px-3 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE]">acd</div>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">22</div>
           </div>
 
-          <div class="bg-[#5B475F] flex justify-center rounded-bl-xl mt-auto">
+          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
             <p class="text-white text-center my-auto text-[clamp(1.2rem,1vw,2.5rem)]">
               You have been connected<br />
               to WaveSpacer for 666 days
@@ -54,31 +54,29 @@
           </div>
         </div>
         <div
-          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 lg:max-h-[550px] overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay gap-2 rounded-r-xl">
+          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 gap-2 rounded-r-xl overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
           <div class="flex flex-col gap-3">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.5vw,2rem)]">Your statistics</h1>
             <canvas id="genreChart" aria-label="Genre chart" role="img" class="w-[100%]">
               {{chart}}
-              <p class="text-white">Genre chart</p>
             </canvas>
           </div>
-          <div class="h-px w-full bg-[#48404A]"></div>
-          <div class="flex flex-col p-6 gap-4 items-start">
-            <h1 class="text-white underline">Your favorite from last month</h1>
+          <div class="flex flex-col px-6 py-3 gap-4 items-start">
+            <h1 class="text-white underline text-[clamp(1rem,1.5vw,2rem)]">Your favorite from last month</h1>
             <div class="flex items-center gap-6">
               <img [src]="randomSong.img" alt="Song img"
                 class="w-10 h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 rounded-xl">
               <div class="flex flex-col max-w-xs overflow-hidden">
-                <p class="text-white">{{randomSong.song}}</p>
+                <p class="text-white truncate">{{randomSong.song}}</p>
                 <p class="text-white truncate">
                   {{randomSong.artist}}</p>
               </div>
             </div>
             <p class="text-white underline self-end">Learn more →</p>
           </div>
-          <div class="h-px w-full bg-[#48404A]"></div>
           @for (song of songStore.songs(); track song.id; let i = $index) {
-          <app-song [song]="song" [index]="i"></app-song>
+          <app-recentlistened [img]="song.track_image" [trackName]="song.name" [artists]="song.artists_name" [index]="i"
+            [firstRecentSong]="i < 1"></app-recentlistened>
           }
         </div>
       </div>

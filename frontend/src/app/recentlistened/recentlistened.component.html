@@ -1,0 +1,15 @@
+<div class="p-1 flex-col mb-5 bg-[#323132]">
+  @if (firstRecentSong) {
+  <h1 class="text-white underline">Recently listened</h1>
+  }
+  <div class="flex gap-2 items-center max-w-lg overflow-hidden">
+    <p class="text-white text-center">{{index + 1}}.</p>
+    <img [src]="img" alt="track img">
+    <div class="flex flex-col">
+      <p class="text-white">{{trackName}}</p>
+      <p class="text-white truncate">{{artists.join(', ')}}</p>
+    </div>
+    <p class="text-white">(1000 plays)</p>
+  </div>
+
+</div>

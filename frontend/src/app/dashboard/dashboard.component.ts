@@ -6,12 +6,12 @@ import { OnInit } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Songdata } from '../utilities/interfaces/songdata';
-import { SongComponent } from '../song/song.component';
+import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SongComponent],
+  imports: [RecentlistenedComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
+    this.songStore.getSongs();
     this.createChart();
   }
 
