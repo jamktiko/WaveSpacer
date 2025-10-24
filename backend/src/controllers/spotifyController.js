@@ -112,6 +112,7 @@ exports.fetchRecentsForAllUsers = async () => {
     console.log('Unix aika' + after);
 
     let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
+
     if (!recents?.items?.length) {
       console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
       continue;
@@ -164,6 +165,8 @@ exports.fetchRecentsForAllUsers = async () => {
 
     const artists = [...artistNames].map((name) => ({ name }));
     const genres = [...genreNames].map((name) => ({ name }));
+
+    console.log(newSongs);
 
     await Song.save(newSongs);
     await Genre.save(genres);
@@ -226,7 +229,7 @@ exports.fetchRecentsForAllUsers = async () => {
     lastFetchedAt.set(userId, newestPlayedAt);
 
     allMerged.push({ userId, count: playHistoryRecords.length });
-    console.log(playHistoryRecords);
+    // console.log(playHistoryRecords);
   }
   return allMerged;
 };
