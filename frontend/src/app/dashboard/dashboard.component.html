@@ -8,10 +8,15 @@
           {{title}}
         </h1>
       </a>
-      <div class="bg-[#B76EFE]/15 justify-self-end rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
-        <img [src]="profileStore.profilepic()" alt="profilepic"
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
+        <img [src]="profileStore.profilepic()" alt="profilepic" (click)="userDropDownVisible = !userDropDownVisible"
           class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover">
+        @if (userDropDownVisible) {
+        <app-userdropdown (close)="userDropDownVisible = false"></app-userdropdown>
+        }
       </div>
+
     </header>
 
     <div class="h-full w-[75%] min-w-[200px] mx-auto mt-30">

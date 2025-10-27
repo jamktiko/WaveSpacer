@@ -53,8 +53,12 @@
                 <path
                   d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
               </svg>
-              <span class="text-[clamp(1rem,3vw,1.3rem)]">Filters</span>
+              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer"
+                (click)="filtersVisible = !filtersVisible">Filters</span>
             </div>
+            @if (filtersVisible) {
+            <app-filters></app-filters>
+            }
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <div class="mt-15 lg:mt-30 flex items-center justify-center">
               <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>
