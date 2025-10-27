@@ -8,10 +8,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
 Chart.register(...registerables, ChartDataLabels);
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RecentlistenedComponent],
+  imports: [RecentlistenedComponent, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -81,13 +82,29 @@ export class DashboardComponent implements OnInit {
                 (a: number, b: number) => a + b,
                 0
               );
-              const percentage = ((value / total) * 100).toFixed(1) + '%';
-              return `${percentage}\n${value}`;
+              const percentage = ((value / total) * 100).toFixed(1);
+              const label = context.chart.data.labels[context.dataIndex];
+              return `${label}\n${value} (${percentage}%)`;
             },
             color: '#000000',
             font: {
               size: 10,
               weight: 'bold',
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = (context.raw as number) || 0;
+                const dataset = context.chart.data.datasets[0];
+                const total = (dataset.data as number[]).reduce(
+                  (a: number, b: number) => a + b,
+                  0
+                );
+                const percentage = ((value / total) * 100).toFixed(1);
+                return `${label}: ${value} (${percentage}%)`;
+              },
             },
           },
         },
@@ -100,22 +117,5 @@ export class DashboardComponent implements OnInit {
       document.getElementById('genreChart') as HTMLCanvasElement,
       config
     );
-
-    // this.chart = new Chart('genreChart', {
-    //   type: 'pie',
-    //   data: {
-    //     labels: ['gen', 'baaa', 'caaa', 'genre1', 'c'],
-    //     datasets: [
-    //       {
-    //         data: [10, 20, 70, 10, 20],
-    //         backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
-    //         hoverOffset: 2,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     aspectRatio: 2.5,
-    //   },
-    // });
   }
 }

@@ -1,15 +1,17 @@
-<div class="p-1 flex-col mb-5 bg-[#323132]">
+<div class="p-1 flex-col bg-[#323132] max-w-auto">
   @if (firstRecentSong) {
-  <h1 class="text-white underline">Recently listened</h1>
+  <h1 class="text-white underline p-3">Recently listened</h1>
   }
-  <div class="flex gap-2 items-center max-w-lg overflow-hidden">
+  <div class="flex gap-2 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">
     <p class="text-white text-center">{{index + 1}}.</p>
-    <img [src]="img" alt="track img">
+    <img [src]="img" alt="track img"
+      class="w-25 h-25 mobileM:w-28 mobileM:w-28 mobileL:w-31 mobileL:h-31 sm:w-34 sm:h-34 rounded-xl">
     <div class="flex flex-col">
-      <p class="text-white">{{trackName}}</p>
-      <p class="text-white truncate">{{artists.join(', ')}}</p>
+      <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{trackName}}</p>
+      <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{artists.join(', ')}}</p>
+      <p class="text-white block xl:hidden text-[clamp(0.8rem,1.5vw,1rem)]">(1000 plays)</p>
     </div>
-    <p class="text-white">(1000 plays)</p>
+    <p class="text-white ml-auto hidden xl:block text-[clamp(0.8rem,1.5vw,1rem)]">(1000 plays)</p>
   </div>
 
 </div>

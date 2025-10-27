@@ -22,6 +22,7 @@ export const routes: Routes = [
   {
     component: SpotifyCbComponent,
     path: 'spotifycb',
+    title: 'loading',
   },
   {
     component: RegisterComponent,

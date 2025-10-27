@@ -1,7 +1,7 @@
 <div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
   <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
-      <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
           class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
         <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
@@ -18,10 +18,12 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
         <div class="flex flex-col bg-[#48404A] gap-2 rounded-xl lg:rounded-none lg:rounded-l-xl">
           <div class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6">
-            <img [src]="randomPlaylistImg" alt="playlist img"
-              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
+            <img [src]="randomPlaylistImg" alt="playlist img" routerLink="/playlists"
+              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40 cursor-pointer">
             <div class="flex flex-col">
-              <h1 class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.5vw,1.8rem)]">
+              <h1
+                class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.5vw,1.8rem)] cursor-pointer"
+                routerLink="/playlists">
                 Playlist-cleaner</h1>
               <p class="text-white text-center lg:text-start text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
             </div>
@@ -54,10 +56,10 @@
           </div>
         </div>
         <div
-          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 gap-2 rounded-r-xl overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 gap-1 rounded-xl lg:rounded-none lg:rounded-r-xl overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
           <div class="flex flex-col gap-3">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.5vw,2rem)]">Your statistics</h1>
-            <canvas id="genreChart" aria-label="Genre chart" role="img" class="w-[100%]">
+            <canvas id="genreChart" aria-label="Genre chart" role="img">
               {{chart}}
             </canvas>
           </div>
@@ -67,8 +69,8 @@
               <img [src]="randomSong.img" alt="Song img"
                 class="w-10 h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 rounded-xl">
               <div class="flex flex-col max-w-xs overflow-hidden">
-                <p class="text-white truncate">{{randomSong.song}}</p>
-                <p class="text-white truncate">
+                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{randomSong.song}}</p>
+                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">
                   {{randomSong.artist}}</p>
               </div>
             </div>
