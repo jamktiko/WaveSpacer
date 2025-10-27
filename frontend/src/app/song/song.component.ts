@@ -13,7 +13,6 @@ export class SongComponent {
   @Input() featured!: boolean;
   @Input() index!: number;
   @Input() song!: Songdata;
-  @Input() allChecked!: boolean;
 
   songSelectStore = inject(songSelectStore);
 

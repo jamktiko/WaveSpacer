@@ -5,6 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import { loginGuard } from './utilities/guards/login.guard';
 import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {
     component: SpotifyCbComponent,
     path: 'spotifycb',
+    title: 'loading',
   },
   {
     component: RegisterComponent,
@@ -31,6 +33,12 @@ export const routes: Routes = [
     component: PlaylistcleanComponent,
     path: 'playlistclean',
     title: 'Clean your playlist',
+    canActivate: [loginGuard],
+  },
+  {
+    component: DashboardComponent,
+    path: 'dashboard',
+    title: 'Dashboard',
     canActivate: [loginGuard],
   },
 ];
