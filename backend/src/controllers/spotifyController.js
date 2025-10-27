@@ -10,6 +10,7 @@ const Genre = require('../models/Genre');
 const Artist = require('../models/Artist');
 const ArtistSong = require('../models/ArtistSong');
 const GenreArtist = require('../models/GenreArtist');
+const trackRepository = require('../repositories/trackRepository');
 
 const lastFetchedAt = new Map();
 
@@ -52,9 +53,9 @@ exports.profile = async (req, res) => {
   try {
     // const access_token = await spotifyService.getAccessTokenSafe();
     const userId = req.user_id;
-    const access_token = tokenStore.getAccessToken(userId);
+    const access_token = await tokenStore.getAccessToken(userId);
     if (!access_token) {
-      access_token = spotifyService.refreshAccessToken(userId);
+      access_token = await spotifyService.refreshAccessToken(userId);
     }
     const profile = await spotifyService.getProfile(access_token);
     res.json(profile);
@@ -67,9 +68,9 @@ exports.profile = async (req, res) => {
 exports.playlists = async (req, res) => {
   try {
     const userId = req.user_id;
-    const access_token = tokenStore.getAccessToken(userId);
+    const access_token = await tokenStore.getAccessToken(userId);
     if (!access_token) {
-      access_token = spotifyService.refreshAccessToken(userId);
+      access_token = await spotifyService.refreshAccessToken(userId);
     }
     const playlists = await spotifyService.getPlaylists(access_token);
     res.json(playlists);
@@ -117,10 +118,7 @@ exports.fetchRecentsForAllUsers = async () => {
       console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
       continue;
     }
-    // let existingTracks = await Song.getUsersSongs(userId);
-    // let existingIds = new Set(
-    //   existingTracks.map((song) => song.spotify_track_id)
-    // );
+
     let newSongs = [];
     let songHistory = [];
     let artistNames = new Set();
@@ -179,6 +177,7 @@ exports.fetchRecentsForAllUsers = async () => {
       newSongs.map((s) => s.spotify_track_id)
     );
 
+    // Artist_Song
     const artistSongRecords = artistSongLinks
       .map((link) => {
         const artist = allArtists.find((a) => a.name === link.artist_name);
@@ -232,6 +231,47 @@ exports.fetchRecentsForAllUsers = async () => {
     // console.log(playHistoryRecords);
   }
   return allMerged;
+};
+
+exports.getTracksFromFrontend = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const accessToken = await tokenStore.getAccessToken(userId);
+    const playlistId = req.body.id;
+
+    const playlistTracks = await spotifyService.getPlaylistTracks(
+      accessToken,
+      playlistId
+    );
+    if (!playlistTracks?.items?.length) {
+      return res.json({ message: 'Playlist is empty.' });
+    }
+
+    const allPlTrackIds = playlistTracks.items.map((item) => item.track.id);
+
+    const allTracks = await trackRepository.getTrackIds(userId, allPlTrackIds);
+
+    const SongsFromApi = allPlTrackIds.filter((id) => !allTracks.includes(id));
+
+    const apiTracksData = await spotifyService.getTracks(
+      SongsFromApi,
+      accessToken
+    );
+
+    const newTracks = apiTracksData.tracks.map((track) => ({
+      spotify_track_id: track.id,
+      song_name: track.name,
+      amount: 0,
+      track_image: track.album.images?.[0]?.url,
+    }));
+
+    const combinedTracks = [...allTracks, ...newTracks];
+
+    return res.json(combinedTracks);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error getting songs' });
+  }
 };
 
 // res.json({
