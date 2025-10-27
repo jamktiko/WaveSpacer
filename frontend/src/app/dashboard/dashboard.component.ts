@@ -7,12 +7,13 @@ import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
+import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 Chart.register(...registerables, ChartDataLabels);
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RecentlistenedComponent, RouterLink],
+  imports: [RecentlistenedComponent, UserdropdownComponent, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
     artist: '',
   };
   chart!: any;
+  userDropDownVisible: boolean = false;
 
   profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);

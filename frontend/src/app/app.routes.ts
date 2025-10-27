@@ -6,6 +6,7 @@ import { PlaylistsComponent } from './playlists/playlists.component';
 import { loginGuard } from './utilities/guards/login.guard';
 import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,12 @@ export const routes: Routes = [
     component: DashboardComponent,
     path: 'dashboard',
     title: 'Dashboard',
+    canActivate: [loginGuard],
+  },
+  {
+    component: ProfileComponent,
+    path: 'profile',
+    title: 'Profile',
     canActivate: [loginGuard],
   },
 ];

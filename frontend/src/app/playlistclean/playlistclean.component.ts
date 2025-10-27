@@ -7,15 +7,17 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SongComponent } from '../song/song.component';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
+import { FiltersComponent } from '../filters/filters.component';
 
 @Component({
   selector: 'app-playlistclean',
-  imports: [RouterLink, FormsModule, SongComponent],
+  imports: [RouterLink, FormsModule, SongComponent, FiltersComponent],
   templateUrl: './playlistclean.component.html',
   styleUrl: './playlistclean.component.css',
 })
 export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
+  filtersVisible: boolean = false;
 
   profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
