@@ -1,11 +1,11 @@
 //Lataa .env aina ensin, jos tiedosto on olemassa
 
-try {
-  require('dotenv').config({ override: false });
-  console.log('.env loaded (if present)');
-} catch (err) {
-  console.warn('Could not load .env (might be production environment)');
-}
+// try {
+//   require('dotenv').config({ override: false });
+//   console.log('.env loaded (if present)');
+// } catch (err) {
+//   console.warn('Could not load .env (might be production environment)');
+// }
 
 const { loadSecrets } = require('./config/loadSecrets');
 const pool = require('./database/index');
