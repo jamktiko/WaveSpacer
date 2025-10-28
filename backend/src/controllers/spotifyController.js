@@ -255,6 +255,8 @@ exports.getTracksFromFrontend = async (req, res) => {
 
     const SongsFromApi = allPlTrackIds.filter((id) => !allTracks.includes(id));
 
+    const SongsFromDb = await trackRepository.getTracks(userId, allPlTrackIds);
+
     const apiTracksData = await spotifyService.getTracks(
       SongsFromApi,
       accessToken
@@ -263,11 +265,12 @@ exports.getTracksFromFrontend = async (req, res) => {
     const newTracks = apiTracksData.tracks.map((track) => ({
       spotify_track_id: track.id,
       song_name: track.name,
+      artist_names: track.artists.map((a) => a.name).join(),
       amount: 0,
       track_image: track.album.images?.[0]?.url,
     }));
 
-    const combinedTracks = [...allTracks, ...newTracks];
+    const combinedTracks = [...SongsFromDb, ...newTracks];
 
     return res.json(combinedTracks);
   } catch (err) {
