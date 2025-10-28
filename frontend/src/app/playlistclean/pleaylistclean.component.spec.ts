@@ -30,8 +30,9 @@ describe('PlaylistcleanComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const headings = compiled.querySelectorAll('h1');
     const mainHeading = headings[1];
-    expect(mainHeading?.textContent?.trim()).toContain('Choose the');
-    expect(mainHeading?.textContent).toContain('songs');
+    expect(mainHeading?.textContent?.trim()).toContain(
+      'Choose the songs to be deleted'
+    );
   });
 
   // 🔹 Testi 3: Logo näkyy ja sillä on oikea src
@@ -58,7 +59,7 @@ describe('PlaylistcleanComponent', () => {
   });
 
   // 🔹 Testi 6: Komponentissa on routerLink "/"
-  it('should have a routerLink to "/" on the logo link', () => {
+  it('should have a routerLink to "/dashboard" on the logo link', () => {
     const routerLink = fixture.debugElement.query(
       By.css('a[routerLink="/dashboard"]')
     );
