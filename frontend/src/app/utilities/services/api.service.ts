@@ -26,7 +26,11 @@ export class ApiService {
     });
   }
 
-  getSongs(): Promise<AxiosResponse> {
-    return axios.get('http://localhost:3000/songs');
+  getSongs(id: string): Promise<AxiosResponse> {
+    return axios.post(
+      `${environment.apiUrl}playlistId`,
+      { playlist_id: id },
+      { withCredentials: true }
+    );
   }
 }

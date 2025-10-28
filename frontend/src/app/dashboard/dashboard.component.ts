@@ -55,7 +55,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
-    this.songStore.getSongs();
     this.createChart();
   }
 
