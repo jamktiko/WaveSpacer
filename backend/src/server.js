@@ -7,7 +7,7 @@ try {
 }
 
 const { loadSecrets } = require('./config/loadSecrets');
-const pool = require('./database');
+const pool = require('./database/index');
 const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 async function startServer() {
