@@ -13,14 +13,13 @@ console.log(
   'Spotify client id?',
   process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
 );
-console.log('Frontend URL: ' + process.env.FRONTEND_URL);
+console.log('redirect URL: ' + redirect_uri);
 
 let spotifyTokens = {};
 
 exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
-  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   console.log('Redirect URI käytössä:', redirect_uri);
   return (
     'https://accounts.spotify.com/authorize?' +
