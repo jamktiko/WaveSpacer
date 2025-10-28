@@ -11,7 +11,6 @@ try {
 
 const { loadSecrets } = require('./config/loadSecrets');
 const pool = require('./database/index');
-const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 async function startServer() {
   //Ladataan AWS Secrets vain jos ollaan tuotannossa
@@ -32,6 +31,7 @@ async function startServer() {
 
   //Tuodaan app vasta nyt, kun kaikki ympäristömuuttujat on varmasti paikallaan
   const app = require('./app');
+  const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
   //Alustetaan tietokantayhteys
   await pool.initPool();
