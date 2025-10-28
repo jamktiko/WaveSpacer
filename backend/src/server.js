@@ -12,12 +12,7 @@ const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 async function startServer() {
   //Ladataan AWS Secrets vain jos ollaan tuotannossa
-  if (process.env.NODE_ENV === 'production') {
-    await loadSecrets();
-    console.log('Secrets loaded from AWS Secrets Manager');
-  } else {
-    console.log('Using local .env configuration');
-  }
+  await loadSecrets();
 
   //Tuodaan app vasta nyt, kun kaikki ympäristömuuttujat on varmasti paikallaan
   const app = require('./app');
