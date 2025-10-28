@@ -8,15 +8,37 @@ module.exports = class Song {
     this.track_image = track_image;
   }
 
+  // static async save(entries) {
+  //   const values = entries.map((e) => [
+  //     e.spotify_track_id,
+  //     e.name,
+  //     e.User_id,
+  //     e.track_image,
+  //   ]);
+  //   const query = `INSERT INTO Song (spotify_track_id, name, amount, User_id, track_image) VALUES ?;`;
+  //   await pool.query(query, [values]);
+  // }
+
   static async save(entries) {
-    const values = entries.map((e) => [
-      e.spotify_track_id,
-      e.name,
-      e.User_id,
-      e.track_image,
-    ]);
-    const query = `INSERT IGNORE INTO Song (spotify_track_id, name, User_id, track_image) VALUES ?;`;
-    await pool.query(query, [values]);
+    if (!entries || entries.length === 0) return;
+
+    const values = entries
+      .map(
+        (e) =>
+          `('${e.spotify_track_id}', ${pool.escape(e.name)}, 1, ${pool.escape(
+            e.User_id
+          )}, ${pool.escape(e.track_image)})`
+      )
+      .join(',');
+
+    console.log('Values: ' + values);
+    const query = `
+    INSERT INTO Song (spotify_track_id, name, amount, User_id, track_image)
+    VALUES ${values}
+    ON DUPLICATE KEY UPDATE amount = amount + 1;
+  `;
+
+    await pool.query(query);
   }
 
   static async getUsersSongs(userId) {
@@ -36,5 +58,10 @@ module.exports = class Song {
   `;
     const [rows] = await pool.query(query, [userId, ...spotifyIds]);
     return rows;
+  }
+
+  static async updateAmount(id) {
+    const query = 'UPDATE Song SET amount = + 1 WHERE id = ?';
+    await pool.query(query, id);
   }
 };

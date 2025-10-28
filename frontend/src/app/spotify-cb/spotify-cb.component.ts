@@ -22,7 +22,7 @@ export class SpotifyCbComponent implements OnInit {
       .get(`${environment.apiUrl}callback?code=` + code, {
         withCredentials: true,
       })
-      .then(() => this.router.navigate(['playlists']))
+      .then(() => this.router.navigate(['dashboard']))
       .catch((err) => {
         console.warn(err);
         this.router.navigate(['']);

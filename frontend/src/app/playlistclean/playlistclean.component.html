@@ -1,7 +1,7 @@
 <div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
   <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
-      <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
           class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
         <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
@@ -35,9 +35,9 @@
 
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <label class="flex items-center cursor-pointer gap-2 ml-3 my-5">
-              <input type="checkbox" [(ngModel)]="checked" class="hidden">
+              <input type="checkbox" class="hidden" (change)="songSelectStore.selectAll()">
               <span class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
-                @if (checked) {
+                @if (songSelectStore.selectedIds().length === songStore.songs().length) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#000000">
                   <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
@@ -53,8 +53,12 @@
                 <path
                   d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
               </svg>
-              <span class="text-[clamp(1rem,3vw,1.3rem)]">Filters</span>
+              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer"
+                (click)="filtersVisible = !filtersVisible">Filters</span>
             </div>
+            @if (filtersVisible) {
+            <app-filters></app-filters>
+            }
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <div class="mt-15 lg:mt-30 flex items-center justify-center">
               <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>

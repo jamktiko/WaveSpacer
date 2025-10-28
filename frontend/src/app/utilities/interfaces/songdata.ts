@@ -3,5 +3,5 @@ export interface Songdata {
   name: string | null;
   amount: number | null;
   track_image: string | null;
-  artists_name: [] | null;
+  artists_name: [];
 }

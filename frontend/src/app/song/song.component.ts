@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { songSelectStore } from '../utilities/stores/songSelect.store';
 
 @Component({
   selector: 'app-song',
-  imports: [NgClass, FormsModule],
+  imports: [NgClass],
   templateUrl: './song.component.html',
   styleUrl: './song.component.css',
 })
@@ -14,7 +14,9 @@ export class SongComponent {
   @Input() index!: number;
   @Input() song!: Songdata;
 
-  checked: boolean = false;
+  songSelectStore = inject(songSelectStore);
+
+  selectedSongs: number[] = [];
 
   featuredSongs() {
     return this.featured
@@ -23,6 +25,6 @@ export class SongComponent {
   }
 
   featuredSongImg() {
-    return this.featured ? `w-40 h-40 rounded-xl` : `w-30 h-30 rounded-xl`;
+    return this.featured ? `w-30 h-30 rounded-xl` : `w-20 h-20 rounded-xl`;
   }
 }
