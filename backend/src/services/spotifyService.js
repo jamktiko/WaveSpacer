@@ -8,6 +8,16 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
 
+console.log('Spotify service envs:');
+console.log(
+  'Spotify client id?',
+  process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+);
+console.log(
+  'Frontend URL:',
+  process.env.FRONTEND_URL ? '✅ found' : '❌ missing'
+);
+
 let spotifyTokens = {};
 
 exports.getLoginUrl = () => {
