@@ -18,6 +18,7 @@ import { FiltersComponent } from '../filters/filters.component';
 export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
   filtersVisible: boolean = false;
+  selectedPlaylist!: any;
 
   profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
@@ -25,6 +26,10 @@ export class PlaylistcleanComponent implements OnInit {
   songSelectStore = inject(songSelectStore);
 
   ngOnInit(): void {
+    this.selectedPlaylist = JSON.parse(
+      localStorage.getItem('selectedPlaylist') || ''
+    );
+    this.songStore.getSongs(this.selectedPlaylist.id);
     this.profileStore.getProfile();
     this.songSelectStore.clear();
   }
