@@ -20,6 +20,7 @@ let spotifyTokens = {};
 exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   console.log('Redirect URI käytössä:', redirect_uri);
   return (
     'https://accounts.spotify.com/authorize?' +
