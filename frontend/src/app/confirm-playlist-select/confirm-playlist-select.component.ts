@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { songStore } from '../utilities/stores/songs.store';
@@ -10,8 +10,6 @@ import { songStore } from '../utilities/stores/songs.store';
   styleUrl: './confirm-playlist-select.component.css',
 })
 export class ConfirmPlaylistSelectComponent {
-  @Input() playlistName!: string; // Playlist's name is acquired from playlist-component, so it can be shown on confirm window
-  @Input() playlistImg!: string; //Playlist's image is acquired from playlist-component, so it can be shown on confirm window
   @Output() confirmShown = new EventEmitter<boolean>(); // Emits boolean value to close the confirm window
 
   playlistStore = inject(playlistStore);
