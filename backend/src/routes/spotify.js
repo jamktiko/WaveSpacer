@@ -14,5 +14,10 @@ router.get('/verify-token', verifyToken, (req, res) => {
     success: true,
   });
 });
+router.post(
+  '/playlistId',
+  verifyToken,
+  spotifyController.getTracksFromFrontend
+);
 
 module.exports = router;
