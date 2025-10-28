@@ -25,12 +25,12 @@ describe('PlaylistcleanComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // 🔹 Testi 2: Pääotsikko renderöityy oikein
-  it('should render main heading "Select the songs you want to clean"', () => {
+  // 🔹 Testi 2: Pääotsikko renderöityy oikein.
+  it('should render main heading "Choose the songs to be deleted"', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const headings = compiled.querySelectorAll('h1');
     const mainHeading = headings[1];
-    expect(mainHeading?.textContent?.trim()).toContain('Select the');
+    expect(mainHeading?.textContent?.trim()).toContain('Choose the');
     expect(mainHeading?.textContent).toContain('songs');
   });
 
@@ -59,7 +59,9 @@ describe('PlaylistcleanComponent', () => {
 
   // 🔹 Testi 6: Komponentissa on routerLink "/"
   it('should have a routerLink to "/" on the logo link', () => {
-    const routerLink = fixture.debugElement.query(By.css('a[routerLink="/"]'));
+    const routerLink = fixture.debugElement.query(
+      By.css('a[routerLink="/dashboard"]')
+    );
     expect(routerLink).toBeTruthy();
   });
 });
