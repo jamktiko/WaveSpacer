@@ -26,7 +26,6 @@ export class PlaylistcleanComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileStore.getProfile();
-    this.songStore.getSongs();
     this.songSelectStore.clear();
   }
 
