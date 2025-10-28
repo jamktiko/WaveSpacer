@@ -115,13 +115,22 @@ exports.getPlaylists = async (access_token) => {
 };
 
 exports.getPlaylistTracks = async (access_token, playlistId) => {
-  const response = await axios.get(
-    `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-    {
-      headers: { Authorization: 'Bearer ' + access_token },
-    }
-  );
-  return response.data;
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+      {
+        headers: { Authorization: 'Bearer ' + access_token },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Spotify API error:',
+      error.response?.status,
+      error.response?.data || error.message
+    );
+    throw new Error('Spotify API request failed');
+  }
 };
 
 exports.getRecentlyPlayed = async (access_token, after) => {
@@ -147,7 +156,7 @@ exports.getArtist = async (artistId, access_token) => {
 
 exports.getTracks = async (track_ids, access_token) => {
   const response = await axios.get(
-    `https://api.spotify.com/v1/tracks?${track_ids.join()}`,
+    `https://api.spotify.com/v1/tracks?ids=${track_ids.join()}`,
     {
       headers: { Authorization: 'Bearer ' + access_token },
     }

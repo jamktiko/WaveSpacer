@@ -237,7 +237,9 @@ exports.getTracksFromFrontend = async (req, res) => {
   try {
     const userId = req.user_id;
     const accessToken = await tokenStore.getAccessToken(userId);
-    const playlistId = req.body.id;
+    const playlistId = req.body.playlist_id;
+
+    console.log('playlistid: ' + playlistId);
 
     const playlistTracks = await spotifyService.getPlaylistTracks(
       accessToken,
