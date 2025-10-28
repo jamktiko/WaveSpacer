@@ -13,10 +13,7 @@ console.log(
   'Spotify client id?',
   process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
 );
-console.log(
-  'Frontend URL:',
-  process.env.FRONTEND_URL ? '✅ found' : '❌ missing'
-);
+console.log('Frontend URL: ' + process.env.FRONTEND_URL);
 
 let spotifyTokens = {};
 

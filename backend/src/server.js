@@ -1,7 +1,5 @@
 //Lataa .env aina ensin, jos tiedosto on olemassa
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-
 try {
   require('dotenv').config({ override: false });
   console.log('.env loaded (if present)');
