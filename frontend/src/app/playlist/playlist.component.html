@@ -7,6 +7,5 @@
 
 
 @if (playlistSelected) {
-<app-confirm-playlist-select [playlistName]="playlistName" [playlistImg]="playlistImg"
-  (confirmShown)="closeConfirm($event)"></app-confirm-playlist-select>
+<app-confirm-playlist-select (confirmShown)="closeConfirm($event)"></app-confirm-playlist-select>
 }

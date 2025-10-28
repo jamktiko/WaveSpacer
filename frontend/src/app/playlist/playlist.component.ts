@@ -30,6 +30,7 @@ export class PlaylistComponent {
       null;
     this.playlistStore.selectPlaylist(this.playlist);
     this.playlistSelected = true;
+    localStorage.setItem('selectedPlaylist', JSON.stringify(this.playlist));
   }
 
   closeConfirm(value: boolean): void {
