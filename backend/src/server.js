@@ -15,6 +15,10 @@ async function startServer() {
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
     console.log('Secrets loaded from AWS Secrets Manager');
+    console.log(
+      'Spotify client id?',
+      process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+    );
   } else {
     console.log('Using local .env configuration');
   }
