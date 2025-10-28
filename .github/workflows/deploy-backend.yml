@@ -47,8 +47,7 @@ jobs:
               "cd backend",
               "npm ci --omit=dev || npm install --omit=dev",
               "chown -R ssm-user:ssm-user /opt/backend",
-              "echo NODE_ENV=production",
-              "sudo -u ssm-user NODE_ENV=production pm2 restart backend || sudo -u ssm-user NODE_ENV=production pm2 start src/server.js --name backend",
+              "sudo -u ssm-user pm2 restart ecosystem.config.js --name backend || sudo -u ssm-user pm2 start ecosystem.config.js",
               "sudo -u ssm-user pm2 save",
               "sudo -u ssm-user pm2 startup --yes"
             ]'
