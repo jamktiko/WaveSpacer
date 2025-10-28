@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+
 function createToken(userID) {
   const payload = {
     user_id: userID,

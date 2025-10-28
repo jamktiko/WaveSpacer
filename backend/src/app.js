@@ -1,7 +1,4 @@
 const express = require('express');
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 // const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
