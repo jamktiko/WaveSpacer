@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config(); // dotenv lataa .env:n
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 function createToken(userID) {
   const payload = {
     user_id: userID,
