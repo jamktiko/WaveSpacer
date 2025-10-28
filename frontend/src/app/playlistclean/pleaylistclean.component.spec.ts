@@ -35,14 +35,14 @@ describe('PlaylistcleanComponent', () => {
     );
   });
 
-  // 🔹 Testi 3: Logo näkyy ja sillä on oikea src
+  // 🔹 Testi 3: Logo näkyy ja sillä on oikea src.
   it('should display logo image with correct src', () => {
     const logo = fixture.debugElement.query(By.css('img[alt="Logo"]'));
     expect(logo).toBeTruthy();
     expect(logo.nativeElement.src).toContain('/images/logo.png');
   });
 
-  // 🔹 Testi 4: Profiilikuva näkyy
+  // 🔹 Testi 4: Profiilikuva näkyy.
   it('should display profile picture', () => {
     const profilePic = fixture.debugElement.query(
       By.css('img[alt="profilepic"]')
