@@ -15,16 +15,17 @@ export const songStore = signalStore(
   withMethods((store) => {
     const apiService = inject(ApiService);
     return {
-      async getSongs() {
+      async getSongs(id: string) {
         patchState(store, { loading: true });
         try {
-          const res = await apiService.getSongs();
+          const res = await apiService.getSongs(id);
+          console.log(res);
           const mapped: Songdata[] = res.data.map((song: any) => ({
-            id: song.id,
-            name: song.name,
+            id: song.spotify_track_id,
+            name: song.song_name,
             amount: song.amount,
             track_image: song.track_image,
-            artists_name: song.artists_name.map((song: any) => song),
+            artist_names: song.artist_names.map((artist: any) => artist),
           }));
           const filtered: Songdata[] = mapped.filter(
             (song) => song.amount !== null && song.amount <= 5
