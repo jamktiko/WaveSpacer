@@ -21,7 +21,7 @@ exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
   console.log('Redirect URI käytössä:', redirect_uri);
-  return (
+  const spotify =
     'https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -29,8 +29,8 @@ exports.getLoginUrl = () => {
       scope,
       redirect_uri,
       state,
-    })
-  );
+    });
+  return spotify;
 };
 
 exports.getAccessToken = async (code) => {
