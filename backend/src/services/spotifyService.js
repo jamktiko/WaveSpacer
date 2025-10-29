@@ -4,20 +4,21 @@ const randomUtils = require('../utils/randomUtils');
 const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
 
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
+// const client_id = process.env.SPOTIFY_CLIENT_ID;
+// const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+// const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
 
-console.log('Spotify service envs:');
-console.log(
-  'Spotify client id?',
-  process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
-);
-console.log('redirect URL: ' + redirect_uri);
-
-let spotifyTokens = {};
+// console.log('Spotify service envs:');
+// console.log(
+//   'Spotify client id?',
+//   process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+// );
+// console.log('redirect URL: ' + redirect_uri);
 
 exports.getLoginUrl = () => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
   console.log('Redirect URI käytössä:', redirect_uri);
@@ -34,6 +35,9 @@ exports.getLoginUrl = () => {
 };
 
 exports.getAccessToken = async (code) => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const tokenResponse = await axios.post(
     'https://accounts.spotify.com/api/token',
     querystring.stringify({
@@ -51,22 +55,17 @@ exports.getAccessToken = async (code) => {
     }
   );
 
-  // spotifyTokens = {
-  //   access_token: tokenResponse.data.access_token,
-  //   refresh_token: tokenResponse.data.refresh_token,
-  //   expires_in: Date.now() + tokenResponse.data.expires_in * 1000,
-  // };
-
   return {
     access_token: tokenResponse.data.access_token,
     refresh_token: tokenResponse.data.refresh_token,
     expires_in: Date.now() + tokenResponse.data.expires_in,
   };
-
-  // return spotifyToken;
 };
 
 exports.refreshAccessToken = async (userId) => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const refresh_token = await UserTokens.getToken(userId, 'spotify');
 
   const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
@@ -100,12 +99,12 @@ exports.refreshAccessToken = async (userId) => {
   return access_token;
 };
 
-exports.getAccessTokenSafe = async () => {
-  if (!spotifyTokens.access_token || Date.now() > spotifyTokens.expires_at) {
-    await exports.refreshAccessToken();
-  }
-  return spotifyTokens.access_token;
-};
+// exports.getAccessTokenSafe = async () => {
+//   if (!spotifyTokens.access_token || Date.now() > spotifyTokens.expires_at) {
+//     await exports.refreshAccessToken();
+//   }
+//   return spotifyTokens.access_token;
+// };
 
 exports.getProfile = async (access_token) => {
   const response = await axios.get('https://api.spotify.com/v1/me', {
