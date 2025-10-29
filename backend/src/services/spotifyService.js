@@ -4,21 +4,18 @@ const randomUtils = require('../utils/randomUtils');
 const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
 
-// const client_id = process.env.SPOTIFY_CLIENT_ID;
-// const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-// const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
 
-// console.log('Spotify service envs:');
-// console.log(
-//   'Spotify client id?',
-//   process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
-// );
-// console.log('redirect URL: ' + redirect_uri);
+console.log('Spotify service envs:');
+console.log(
+  'Spotify client id?',
+  process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+);
+console.log('redirect URL: ' + redirect_uri);
 
 exports.getLoginUrl = () => {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
   console.log('Redirect URI käytössä:', redirect_uri);
@@ -35,9 +32,6 @@ exports.getLoginUrl = () => {
 };
 
 exports.getAccessToken = async (code) => {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const tokenResponse = await axios.post(
     'https://accounts.spotify.com/api/token',
     querystring.stringify({
@@ -63,9 +57,6 @@ exports.getAccessToken = async (code) => {
 };
 
 exports.refreshAccessToken = async (userId) => {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const refresh_token = await UserTokens.getToken(userId, 'spotify');
 
   const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
@@ -168,31 +159,4 @@ exports.getTracks = async (track_ids, access_token) => {
     }
   );
   return response.data;
-};
-
-exports.deletePlaylistTracks = async (
-  track_uris,
-  playlist_id,
-  access_token
-) => {
-  try {
-    const response = await axios.delete(
-      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
-      {
-        headers: {
-          Authorization: 'Bearer ' + access_token,
-          'Content-Type': 'application/json',
-        },
-        data: {
-          tracks: track_uris.map((uri) => ({ uri })),
-        },
-      }
-    );
-  } catch (error) {
-    console.error(
-      'Spotify deletePlaylistTracks error:',
-      error.response?.data || error.message
-    );
-    throw new Error('Failed to delete tracks from playlist');
-  }
 };

@@ -5,6 +5,8 @@ const cors = require('cors');
 
 // aws test push5
 
+console.log('CorsOptions url: ' + process.env.FRONTEND_URL);
+
 const corsOptions = {
   origin: process.env.FRONTEND_URL,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
