@@ -283,7 +283,11 @@ exports.deleteTracksFromPlaylist = async (req, res) => {
     const accessToken = await tokenStore.getAccessToken(userId);
     const { playlist_id, track_uris } = req.body;
 
-    spotifyService.deletePlaylistTracks(track_uris, playlist_id, accessToken);
+    await spotifyService.deletePlaylistTracks(
+      track_uris,
+      playlist_id,
+      accessToken
+    );
   } catch (error) {
     console.error('Error deleting tracks:', error.response?.data || error);
   }

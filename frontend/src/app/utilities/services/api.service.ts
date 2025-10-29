@@ -33,4 +33,12 @@ export class ApiService {
       { withCredentials: true }
     );
   }
+
+  deleteSongs(id: string, trackuris: string[]): Promise<AxiosResponse> {
+    return axios.post(
+      `${environment.apiUrl}deleteTracks`,
+      { playlist_id: id, track_uris: trackuris },
+      { withCredentials: true }
+    );
+  }
 }
