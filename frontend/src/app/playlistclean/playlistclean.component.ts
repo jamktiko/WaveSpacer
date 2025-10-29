@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { profileStore } from '../utilities/stores/profile.store';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { songStore } from '../utilities/stores/songs.store';
 import { RouterLink } from '@angular/router';
@@ -19,8 +18,8 @@ export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
   filtersVisible: boolean = false;
   selectedPlaylist!: any;
+  profilepic!: string;
 
-  profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
@@ -30,7 +29,9 @@ export class PlaylistcleanComponent implements OnInit {
       localStorage.getItem('selectedPlaylist') || ''
     );
     this.songStore.getSongs(this.selectedPlaylist.id);
-    this.profileStore.getProfile();
+    // this.profileStore.getProfile();
+    this.profilepic =
+      localStorage.getItem('profilepic') || 'images/placeholderpp.png';
     this.songSelectStore.clear();
   }
 

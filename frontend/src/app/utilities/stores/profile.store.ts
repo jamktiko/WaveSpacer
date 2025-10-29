@@ -34,6 +34,10 @@ export const profileStore = signalStore(
             id: res.data.id,
             loading: false,
           });
+          localStorage.setItem(
+            'profilepic',
+            store.profilepic() || 'images/placeholderpp.png'
+          );
         } catch (error) {
           patchState(store, { loading: false });
           console.error('Failed to fetch profile', error);

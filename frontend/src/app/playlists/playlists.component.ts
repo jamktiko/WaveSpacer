@@ -2,7 +2,6 @@ import { RouterLink } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import { Playlistdata } from '../utilities/interfaces/playlistdata';
 import { PlaylistComponent } from '../playlist/playlist.component';
-import { profileStore } from '../utilities/stores/profile.store';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { NgClass } from '@angular/common';
 
@@ -15,14 +14,14 @@ import { NgClass } from '@angular/common';
 export class PlaylistsComponent implements OnInit {
   playlists: Playlistdata[] = [];
   title: string = 'WaveSpacer';
+  profilepic!: string;
 
   constructor() {}
-
-  profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
 
   ngOnInit(): void {
-    this.profileStore.getProfile();
+    this.profilepic =
+      localStorage.getItem('profilepic') || 'images/placeholderpp.png';
     this.playlistStore.getPlaylists();
   }
 
