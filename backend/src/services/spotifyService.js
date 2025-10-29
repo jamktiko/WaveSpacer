@@ -16,6 +16,9 @@ console.log(
 console.log('redirect URL: ' + redirect_uri);
 
 exports.getLoginUrl = () => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
   console.log('Redirect URI käytössä:', redirect_uri);
@@ -32,6 +35,9 @@ exports.getLoginUrl = () => {
 };
 
 exports.getAccessToken = async (code) => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const tokenResponse = await axios.post(
     'https://accounts.spotify.com/api/token',
     querystring.stringify({
@@ -57,6 +63,9 @@ exports.getAccessToken = async (code) => {
 };
 
 exports.refreshAccessToken = async (userId) => {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
   const refresh_token = await UserTokens.getToken(userId, 'spotify');
 
   const authHeader = Buffer.from(client_id + ':' + client_secret).toString(

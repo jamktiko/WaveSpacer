@@ -16,6 +16,7 @@ const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
+  console.log('spotifyController url: ' + url);
   res.redirect(url);
 };
 
