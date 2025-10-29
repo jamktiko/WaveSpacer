@@ -13,25 +13,26 @@ export const songSelectStore = signalStore(
   withMethods((store) => {
     const _songStore = inject(songStore);
     return {
-      toggle(songid: number | null) {
+      toggle(songid: string | null) {
         if (songid !== null) {
-          const isSelected = store.selectedIds().includes(songid);
+          const uri = `spotify:track:${songid}`;
+          const isSelected = store
+            .selectedIds()
+            .includes(`spotify:track:${songid}`);
           if (isSelected) {
-            const filteredIds = store
-              .selectedIds()
-              .filter((id) => songid !== id);
+            const filteredIds = store.selectedIds().filter((id) => uri !== id);
             patchState(store, { selectedIds: filteredIds });
             console.log(store.selectedIds());
           } else {
             patchState(store, {
-              selectedIds: [...store.selectedIds(), songid],
+              selectedIds: [...store.selectedIds(), uri],
             });
             console.log(store.selectedIds());
           }
         }
       },
       selectAll() {
-        const idArray: number[] = [];
+        const idArray: string[] = [];
         if (
           store.selectedIds().length === 0 ||
           (store.selectedIds().length > 0 &&
@@ -39,7 +40,7 @@ export const songSelectStore = signalStore(
         ) {
           _songStore.songs().forEach((song) => {
             if (song.id !== null) {
-              idArray.push(song.id);
+              idArray.push(`spotify:track:${song.id}`);
             }
           });
           patchState(store, { selectedIds: [...idArray] });
