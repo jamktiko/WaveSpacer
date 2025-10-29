@@ -24,15 +24,16 @@ exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
   const scope = 'user-read-private user-read-email user-read-recently-played';
   console.log('Redirect URI käytössä:', redirect_uri);
-  const spotify =
-    'https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id,
-      scope,
-      redirect_uri,
-      state,
-    });
+  // const spotify =
+  //   'https://accounts.spotify.com/authorize?' +
+  //   querystring.stringify({
+  //     response_type: 'code',
+  //     client_id,
+  //     scope,
+  //     redirect_uri,
+  //     state,
+  //   });
+  const spotify = 'HEI';
   return spotify;
 };
 
