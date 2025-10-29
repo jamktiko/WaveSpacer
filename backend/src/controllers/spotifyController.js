@@ -15,6 +15,7 @@ const trackRepository = require('../repositories/trackRepository');
 const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
+  console.log('testi logi');
   const url = spotifyService.getLoginUrl();
   console.log('spotifyController url: ' + url);
   res.redirect(url);
