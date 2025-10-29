@@ -170,3 +170,30 @@ exports.getTracks = async (track_ids, access_token) => {
   );
   return response.data;
 };
+
+exports.deletePlaylistTracks = async (
+  track_uris,
+  playlist_id,
+  access_token
+) => {
+  try {
+    const response = await axios.delete(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + access_token,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          tracks: track_uris.map((uri) => ({ uri })),
+        },
+      }
+    );
+  } catch (error) {
+    console.error(
+      'Spotify deletePlaylistTracks error:',
+      error.response?.data || error.message
+    );
+    throw new Error('Failed to delete tracks from playlist');
+  }
+};
