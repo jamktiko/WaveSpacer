@@ -19,7 +19,7 @@ router.post(
   verifyToken,
   spotifyController.getTracksFromFrontend
 );
-router.delete(
+router.post(
   '/deleteTracks',
   verifyToken,
   spotifyController.deleteTracksFromPlaylist

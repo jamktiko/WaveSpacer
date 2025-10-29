@@ -1,0 +1,24 @@
+<div class="fixed top-0 left-0 bg-black/40 w-full h-full" (click)="closeSongDeletionConfirm()"></div>
+<div class="fixed flex items-center justify-center inset-0">
+  <div class="flex flex-col gap-1 items-center bg-[#48404A] border-[#58525A] p-10 rounded-xl text-center">
+    <h1 class="text-[#B76EFE]">
+      <span class="text-white">Are you sure you want to <br /> delete the selected
+        (</span>{{selectAmount}}<span class="text-white">) songs?</span>
+    </h1>
+    <img [src]="playlistStore.selected()?.img" alt="playlist img"
+      class="w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 2xl:w-53 2xl:h-53 object-cover rounded-xl mt-5">
+    <p class="text-white">{{playlistStore.selected()?.name}}</p>
+    <div class="flex items-center justify-center gap-15 mt-4">
+      <button (click)="closeSongDeletionConfirm()"
+        class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-bold px-4 py-2 rounded-2xl cursor-pointer text-[clamp(1rem,2vw,1.3rem)]">
+        no
+      </button>
+      <button (click)="songSelectStore.deleteSongs(playlistStore.selected()?.id || null, songSelectStore.selectedIds())"
+        class="bg-[#B76EFE]/15 text-[#B76EFE] hover:bg-[#B76EFE]/40 font-bold px-4 py-2 rounded-2xl cursor-pointer text-[clamp(1rem,2vw,1.3rem)]">
+        yes
+      </button>
+    </div>
+
+
+  </div>
+</div>
