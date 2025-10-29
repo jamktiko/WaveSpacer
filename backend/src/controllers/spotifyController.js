@@ -239,8 +239,6 @@ exports.getTracksFromFrontend = async (req, res) => {
     const accessToken = await tokenStore.getAccessToken(userId);
     const playlistId = req.body.playlist_id;
 
-    console.log('playlistid: ' + playlistId);
-
     const playlistTracks = await spotifyService.getPlaylistTracks(
       accessToken,
       playlistId
@@ -273,6 +271,18 @@ exports.getTracksFromFrontend = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error getting songs' });
+  }
+};
+
+exports.deleteTracksFromPlaylist = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const accessToken = await tokenStore.getAccessToken(userId);
+    const { playlist_id, track_uris } = req.body;
+
+    spotifyService.deletePlaylistTracks(track_uris, playlist_id, accessToken);
+  } catch (error) {
+    console.error('Error deleting tracks:', error.response?.data || error);
   }
 };
 
