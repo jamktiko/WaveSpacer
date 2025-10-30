@@ -37,6 +37,25 @@ export const songStore = signalStore(
           patchState(store, { songs: [], loading: false });
         }
       },
+      async deleteSongs(id: string | null, uris: string[]) {
+        patchState(store, { loading: true });
+        if (id) {
+          try {
+            await apiService.deleteSongs(id, uris);
+            const updatedSongs = store
+              .songs()
+              .filter((song) => !uris.includes(`spotify:track:${song.id}`));
+            patchState(store, {
+              songs: updatedSongs,
+              loading: false,
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('id was null');
+        }
+      },
     };
   })
 );
