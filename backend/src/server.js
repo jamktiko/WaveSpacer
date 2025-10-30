@@ -1,6 +1,6 @@
 //Lataa .env aina ensin, jos tiedosto on olemassa
 
-//test
+//test2
 
 try {
   require('dotenv').config({ override: false });
