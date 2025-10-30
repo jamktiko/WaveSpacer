@@ -173,7 +173,7 @@ exports.deletePlaylistTracks = async (
   access_token
 ) => {
   try {
-    const response = await axios.delete(
+    await axios.delete(
       `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
       {
         headers: {
