@@ -16,9 +16,8 @@ const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
   console.log('testi logi');
-  // const url = spotifyService.getLoginUrl();
+  const url = spotifyService.getLoginUrl();
   // console.log('spotifyController url: ' + url);
-  const url = 'hei';
   res.redirect(url);
 };
 
