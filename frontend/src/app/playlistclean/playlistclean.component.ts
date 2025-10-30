@@ -7,16 +7,24 @@ import { FormsModule } from '@angular/forms';
 import { SongComponent } from '../song/song.component';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
 import { FiltersComponent } from '../filters/filters.component';
+import { ConfirmSongDeletionSelectComponent } from '../confirm-song-deletion-select/confirm-song-deletion-select.component';
 
 @Component({
   selector: 'app-playlistclean',
-  imports: [RouterLink, FormsModule, SongComponent, FiltersComponent],
+  imports: [
+    RouterLink,
+    FormsModule,
+    SongComponent,
+    FiltersComponent,
+    ConfirmSongDeletionSelectComponent,
+  ],
   templateUrl: './playlistclean.component.html',
   styleUrl: './playlistclean.component.css',
 })
 export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
   filtersVisible: boolean = false;
+  confirmDeleteVisible!: boolean;
   selectedPlaylist!: any;
   profilepic!: string;
 
@@ -42,5 +50,9 @@ export class PlaylistcleanComponent implements OnInit {
     } else {
       return name;
     }
+  }
+
+  closeSongDeletionConfirm(value: boolean) {
+    this.confirmDeleteVisible = value;
   }
 }

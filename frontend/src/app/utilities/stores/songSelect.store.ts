@@ -2,6 +2,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { selectedSongs } from '../interfaces/songselectstate';
 import { songStore } from './songs.store';
 import { inject } from '@angular/core';
+import { ApiService } from '../services/api.service';
 
 export const songSelectStore = signalStore(
   {
@@ -9,8 +10,10 @@ export const songSelectStore = signalStore(
   },
   withState<selectedSongs>({
     selectedIds: [],
+    loading: false,
   }),
   withMethods((store) => {
+    const apiService = inject(ApiService);
     const _songStore = inject(songStore);
     return {
       toggle(songid: string | null) {
@@ -48,6 +51,19 @@ export const songSelectStore = signalStore(
         } else {
           patchState(store, { selectedIds: [] });
           console.log(store.selectedIds());
+        }
+      },
+      deleteSongs(id: string | null, uris: string[]) {
+        patchState(store, { loading: true });
+        if (id) {
+          try {
+            apiService.deleteSongs(id, uris).then((res) => console.log(res));
+            patchState(store, { selectedIds: [] });
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('id was null');
         }
       },
       clear() {
