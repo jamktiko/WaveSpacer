@@ -21,4 +21,12 @@ export class ConfirmSongDeletionSelectComponent {
   closeSongDeletionConfirm() {
     this.songDeletionConfirmVisible.emit(false);
   }
+
+  async deleteSongs() {
+    await this.songStore.deleteSongs(
+      this.playlistStore.selected()?.id || null,
+      this.songSelectStore.selectedIds()
+    );
+    this.songSelectStore.clear();
+  }
 }
