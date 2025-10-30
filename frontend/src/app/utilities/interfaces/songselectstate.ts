@@ -1,3 +1,4 @@
 export interface selectedSongs {
-  selectedIds: number[];
+  selectedIds: string[];
+  loading: boolean;
 }

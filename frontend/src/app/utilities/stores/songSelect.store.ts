@@ -2,6 +2,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { selectedSongs } from '../interfaces/songselectstate';
 import { songStore } from './songs.store';
 import { inject } from '@angular/core';
+import { ApiService } from '../services/api.service';
 
 export const songSelectStore = signalStore(
   {
@@ -9,29 +10,32 @@ export const songSelectStore = signalStore(
   },
   withState<selectedSongs>({
     selectedIds: [],
+    loading: false,
   }),
   withMethods((store) => {
+    const apiService = inject(ApiService);
     const _songStore = inject(songStore);
     return {
-      toggle(songid: number | null) {
+      toggle(songid: string | null) {
         if (songid !== null) {
-          const isSelected = store.selectedIds().includes(songid);
+          const uri = `spotify:track:${songid}`;
+          const isSelected = store
+            .selectedIds()
+            .includes(`spotify:track:${songid}`);
           if (isSelected) {
-            const filteredIds = store
-              .selectedIds()
-              .filter((id) => songid !== id);
+            const filteredIds = store.selectedIds().filter((id) => uri !== id);
             patchState(store, { selectedIds: filteredIds });
             console.log(store.selectedIds());
           } else {
             patchState(store, {
-              selectedIds: [...store.selectedIds(), songid],
+              selectedIds: [...store.selectedIds(), uri],
             });
             console.log(store.selectedIds());
           }
         }
       },
       selectAll() {
-        const idArray: number[] = [];
+        const idArray: string[] = [];
         if (
           store.selectedIds().length === 0 ||
           (store.selectedIds().length > 0 &&
@@ -39,7 +43,7 @@ export const songSelectStore = signalStore(
         ) {
           _songStore.songs().forEach((song) => {
             if (song.id !== null) {
-              idArray.push(song.id);
+              idArray.push(`spotify:track:${song.id}`);
             }
           });
           patchState(store, { selectedIds: [...idArray] });
@@ -47,6 +51,19 @@ export const songSelectStore = signalStore(
         } else {
           patchState(store, { selectedIds: [] });
           console.log(store.selectedIds());
+        }
+      },
+      deleteSongs(id: string | null, uris: string[]) {
+        patchState(store, { loading: true });
+        if (id) {
+          try {
+            apiService.deleteSongs(id, uris).then((res) => console.log(res));
+            patchState(store, { selectedIds: [] });
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('id was null');
         }
       },
       clear() {

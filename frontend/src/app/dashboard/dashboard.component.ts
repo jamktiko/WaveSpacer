@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
         const randomSong: Songdata = this.songStore.songs()[index];
         this.randomSong.img = randomSong.track_image || '';
         this.randomSong.song = randomSong.name || '';
-        this.randomSong.artist = randomSong.artists_name?.join(', ') || '';
+        this.randomSong.artist = randomSong.artist_names?.join(', ') || '';
       }
     });
   }
@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
     this.createChart();
+    // localStorage.removeItem('selectedPlaylist');
   }
 
   createChart() {

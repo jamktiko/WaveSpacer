@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { profileStore } from '../utilities/stores/profile.store';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { songStore } from '../utilities/stores/songs.store';
 import { RouterLink } from '@angular/router';
@@ -8,24 +7,39 @@ import { FormsModule } from '@angular/forms';
 import { SongComponent } from '../song/song.component';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
 import { FiltersComponent } from '../filters/filters.component';
+import { ConfirmSongDeletionSelectComponent } from '../confirm-song-deletion-select/confirm-song-deletion-select.component';
 
 @Component({
   selector: 'app-playlistclean',
-  imports: [RouterLink, FormsModule, SongComponent, FiltersComponent],
+  imports: [
+    RouterLink,
+    FormsModule,
+    SongComponent,
+    FiltersComponent,
+    ConfirmSongDeletionSelectComponent,
+  ],
   templateUrl: './playlistclean.component.html',
   styleUrl: './playlistclean.component.css',
 })
 export class PlaylistcleanComponent implements OnInit {
   title: string = 'WaveSpacer';
   filtersVisible: boolean = false;
+  confirmDeleteVisible!: boolean;
+  selectedPlaylist!: any;
+  profilepic!: string;
 
-  profileStore = inject(profileStore);
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
 
   ngOnInit(): void {
-    this.profileStore.getProfile();
+    this.selectedPlaylist = JSON.parse(
+      localStorage.getItem('selectedPlaylist') || ''
+    );
+    this.songStore.getSongs(this.selectedPlaylist.id);
+    // this.profileStore.getProfile();
+    this.profilepic =
+      localStorage.getItem('profilepic') || 'images/placeholderpp.png';
     this.songSelectStore.clear();
   }
 
@@ -36,5 +50,9 @@ export class PlaylistcleanComponent implements OnInit {
     } else {
       return name;
     }
+  }
+
+  closeSongDeletionConfirm(value: boolean) {
+    this.confirmDeleteVisible = value;
   }
 }

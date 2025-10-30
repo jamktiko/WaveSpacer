@@ -1,10 +1,11 @@
 const express = require('express');
-require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 // const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
 // aws test push5
+
+console.log('CorsOptions url: ' + process.env.FRONTEND_URL);
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL,

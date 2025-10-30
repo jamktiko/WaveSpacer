@@ -10,7 +10,7 @@ export const playlistStore = signalStore(
   },
   withState<PlaylistsState>({
     playlists: [] as Playlistdata[],
-    selected: null as Playlistdata | null,
+    selected: JSON.parse(localStorage.getItem('selectedPlaylist') || 'null'),
     loading: false,
     loaded: false,
   }),
@@ -48,6 +48,7 @@ export const playlistStore = signalStore(
       },
       selectPlaylist(playlist: Playlistdata | null) {
         patchState(store, { selected: playlist });
+        localStorage.setItem('selectedPlaylist', JSON.stringify(playlist));
       },
     };
   })

@@ -19,5 +19,10 @@ router.post(
   verifyToken,
   spotifyController.getTracksFromFrontend
 );
+router.post(
+  '/deleteTracks',
+  verifyToken,
+  spotifyController.deleteTracksFromPlaylist
+);
 
 module.exports = router;

@@ -25,8 +25,9 @@ export const songStore = signalStore(
             name: song.song_name,
             amount: song.amount,
             track_image: song.track_image,
-            artist_names: song.artist_names.map((artist: any) => artist),
+            artist_names: song.artist_names.split(','),
           }));
+          console.log(mapped);
           const filtered: Songdata[] = mapped.filter(
             (song) => song.amount !== null && song.amount <= 5
           );

@@ -9,7 +9,7 @@
         </h1>
       </a>
       <div class="bg-[#B76EFE]/15 justify-self-end rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
-        <img [src]="profileStore.profilepic()" alt="profilepic"
+        <img [src]="profilepic" alt="profilepic"
           class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover">
       </div>
     </header>
@@ -23,7 +23,7 @@
         </h1>
       </div>
       <div class="rounded-2xl bg-[#48404A] border-[#58525A] border-1 mb-10 min-w-[320px] max-w-[600px] lg:max-w-[750px] 
-        mt-5 lg:mt-10 max-h-900px lg:max-h-[90vh] overflow-hidden">
+        mt-5 lg:mt-10 max-h-1000px lg:max-h-[90vh] overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
           <div class="flex flex-col items-center justify-center p-4">
             <img
@@ -44,16 +44,16 @@
                 </svg>
                 }
               </span>
-              <span class="text-[clamp(1rem,3vw,1.3rem)]">Songs selected</span>
+              <span class="text-[clamp(1rem,3vw,1.3rem)] text-white">Songs selected</span>
             </label>
             <div class="h-px w-full bg-black/30 mt-3"></div>
-            <div class="flex items-center ml-3 my-5 gap-2">
+            <div class="flex items-center my-5 gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="#000000">
+                fill="#FFFFFF">
                 <path
                   d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
               </svg>
-              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer"
+              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer text-white"
                 (click)="filtersVisible = !filtersVisible">Filters</span>
             </div>
             @if (filtersVisible) {
@@ -61,7 +61,8 @@
             }
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <div class="mt-15 lg:mt-30 flex items-center justify-center">
-              <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md">Delete selected</button>
+              <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-full mx-8 mb-5 rounded-md cursor-pointer"
+                (click)="confirmDeleteVisible = true">Delete selected</button>
             </div>
           </div>
           <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-hidden">
@@ -75,5 +76,9 @@
         </div>
       </div>
     </div>
+    @if (confirmDeleteVisible) {
+    <app-confirm-song-deletion-select [selectAmount]="songSelectStore.selectedIds().length"
+      (songDeletionConfirmVisible)="closeSongDeletionConfirm($event)"></app-confirm-song-deletion-select>
+    }
   </div>
 </div>

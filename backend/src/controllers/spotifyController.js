@@ -15,7 +15,10 @@ const trackRepository = require('../repositories/trackRepository');
 const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
+  console.log('testi logi');
+  console.log('testi logi #2');
   const url = spotifyService.getLoginUrl();
+  // console.log('spotifyController url: ' + url);
   res.redirect(url);
 };
 
@@ -239,8 +242,6 @@ exports.getTracksFromFrontend = async (req, res) => {
     const accessToken = await tokenStore.getAccessToken(userId);
     const playlistId = req.body.playlist_id;
 
-    console.log('playlistid: ' + playlistId);
-
     const playlistTracks = await spotifyService.getPlaylistTracks(
       accessToken,
       playlistId
@@ -278,6 +279,24 @@ exports.getTracksFromFrontend = async (req, res) => {
     res.status(500).json({ message: 'Error getting songs' });
   }
 };
+
+exports.deleteTracksFromPlaylist = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const accessToken = await tokenStore.getAccessToken(userId);
+    const { playlist_id, track_uris } = req.body;
+
+    await spotifyService.deletePlaylistTracks(
+      track_uris,
+      playlist_id,
+      accessToken
+    );
+  } catch (error) {
+    console.error('Error deleting tracks:', error.response?.data || error);
+  }
+};
+
+//delete
 
 // res.json({
 //   jwt: jwtToken,
