@@ -5,11 +5,12 @@ import { songStore } from '../utilities/stores/songs.store';
 import { OnInit } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+Chart.register(...registerables, ChartDataLabels);
 import { Songdata } from '../utilities/interfaces/songdata';
 import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
-Chart.register(...registerables, ChartDataLabels);
 import { RouterLink } from '@angular/router';
+import { uiStore } from '../utilities/stores/ui.store';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  title: String = 'WaveSpacer';
+  profileStore = inject(profileStore);
+  playlistStore = inject(playlistStore);
+  songStore = inject(songStore);
+  uiStore = inject(uiStore);
+
+  title: String = this.uiStore.title();
   randomPlaylistImg!: string;
   randomSong = {
     img: '',
@@ -27,10 +33,6 @@ export class DashboardComponent implements OnInit {
   };
   chart!: any;
   userDropDownVisible: boolean = false;
-
-  profileStore = inject(profileStore);
-  playlistStore = inject(playlistStore);
-  songStore = inject(songStore);
 
   constructor() {
     effect(() => {

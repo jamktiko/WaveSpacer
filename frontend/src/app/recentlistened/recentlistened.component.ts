@@ -12,4 +12,8 @@ export class RecentlistenedComponent {
   @Input() artists!: string[] | [];
   @Input() index!: number;
   @Input() firstRecentSong!: boolean;
+
+  // checkIndex() {
+  //   return this.index < 10 {}
+  // }
 }

@@ -3,27 +3,33 @@
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
-          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
         <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
           {{title}}
         </h1>
       </a>
-      <div class="bg-[#B76EFE]/15 justify-self-end rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
         <img [src]="profilepic" alt="profilepic"
-          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover">
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
       </div>
+
     </header>
 
     <div
       class="flex flex-col items-center gap-5 lg:gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around overflow-hidden">
       <div class="mt-10 md:py-5 lg:py-20 xl:py-32">
-        <h1 class="text-white text-[clamp(1.5rem,2.5vw,3rem)] text-center lg:text-left font-semibold md:leading-12">
+        <h1 class="text-white text-[clamp(1.5rem,1.5vw,1.5rem)] text-center lg:text-left font-semibold md:leading-12">
           Choose the songs<br>
           to be <span class="text-[#B76EFE]">deleted</span>
         </h1>
       </div>
       <div class="rounded-2xl bg-[#48404A] border-[#58525A] border-1 mb-10 min-w-[320px] max-w-[600px] lg:max-w-[750px] 
-        mt-5 lg:mt-10 max-h-1000px lg:max-h-[90vh] overflow-hidden">
+        mt-5 max-h-1000px lg:max-h-[90vh] overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
           <div class="flex flex-col items-center justify-center p-4">
             <img
