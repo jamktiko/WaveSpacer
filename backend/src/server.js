@@ -1,5 +1,7 @@
 //Lataa .env aina ensin, jos tiedosto on olemassa
 
+//test2
+
 try {
   require('dotenv').config({ override: false });
   console.log('.env loaded (if present)');
