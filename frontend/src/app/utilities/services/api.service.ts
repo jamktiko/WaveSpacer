@@ -9,26 +9,26 @@ export class ApiService {
   constructor() {}
 
   verifyToken(): Promise<AxiosResponse> {
-    return axios.get(`${environment.apiUrl}verify-token`, {
+    return axios.get(`${environment.apiUrl}api/verify-token`, {
       withCredentials: true,
     });
   }
 
   getProfile(): Promise<AxiosResponse> {
-    return axios.get(`${environment.apiUrl}profile`, {
+    return axios.get(`${environment.apiUrl}api/profile`, {
       withCredentials: true,
     });
   }
 
   getPlaylists(): Promise<AxiosResponse> {
-    return axios.get(`${environment.apiUrl}playlists`, {
+    return axios.get(`${environment.apiUrl}api/playlists`, {
       withCredentials: true,
     });
   }
 
   getSongs(id: string): Promise<AxiosResponse> {
     return axios.post(
-      `${environment.apiUrl}playlistId`,
+      `${environment.apiUrl}api/playlistId`,
       { playlist_id: id },
       { withCredentials: true }
     );
@@ -36,7 +36,7 @@ export class ApiService {
 
   deleteSongs(id: string, trackuris: string[]): Promise<AxiosResponse> {
     return axios.post(
-      `${environment.apiUrl}deleteTracks`,
+      `${environment.apiUrl}api/deleteTracks`,
       { playlist_id: id, track_uris: trackuris },
       { withCredentials: true }
     );

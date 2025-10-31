@@ -17,6 +17,6 @@ export class HomepageComponent {
   title = 'WaveSpacer';
 
   login() {
-    location.href = `${environment.apiUrl}login`;
+    location.href = `${environment.apiUrl}api/login`;
   }
 }

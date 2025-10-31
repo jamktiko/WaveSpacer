@@ -27,8 +27,8 @@ app.use(express.json());
 app.use(cookieParser()); // <- ensin lisätään cookie-parser
 
 // reitit
-app.use('/', spotifyRoutes);
-app.use('/', dbRoutes);
+app.use('/api', spotifyRoutes);
+app.use('/api', dbRoutes);
 
 // startCronJobs();
 

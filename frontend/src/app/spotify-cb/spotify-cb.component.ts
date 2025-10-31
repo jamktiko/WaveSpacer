@@ -19,7 +19,7 @@ export class SpotifyCbComponent implements OnInit {
       this.router.navigate(['']);
     }
     axios
-      .get(`${environment.apiUrl}callback?code=` + code, {
+      .get(`${environment.apiUrl}api/callback?code=` + code, {
         withCredentials: true,
       })
       .then(() => this.router.navigate(['dashboard']))
