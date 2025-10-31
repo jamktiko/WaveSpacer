@@ -25,6 +25,6 @@ export class SongComponent {
   }
 
   featuredSongImg() {
-    return this.featured ? `w-30 h-30 rounded-xl` : `w-20 h-20 rounded-xl`;
+    return this.featured ? `w-25 h-25 rounded-xl` : `w-20 h-20 rounded-xl`;
   }
 }

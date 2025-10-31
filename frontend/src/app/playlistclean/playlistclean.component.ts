@@ -3,34 +3,36 @@ import { inject } from '@angular/core';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { songStore } from '../utilities/stores/songs.store';
 import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { SongComponent } from '../song/song.component';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
 import { FiltersComponent } from '../filters/filters.component';
 import { ConfirmSongDeletionSelectComponent } from '../confirm-song-deletion-select/confirm-song-deletion-select.component';
+import { uiStore } from '../utilities/stores/ui.store';
+import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 
 @Component({
   selector: 'app-playlistclean',
   imports: [
     RouterLink,
-    FormsModule,
     SongComponent,
     FiltersComponent,
     ConfirmSongDeletionSelectComponent,
+    UserdropdownComponent,
   ],
   templateUrl: './playlistclean.component.html',
   styleUrl: './playlistclean.component.css',
 })
 export class PlaylistcleanComponent implements OnInit {
-  title: string = 'WaveSpacer';
+  playlistStore = inject(playlistStore);
+  songStore = inject(songStore);
+  songSelectStore = inject(songSelectStore);
+  uiStore = inject(uiStore);
+
+  title: string = this.uiStore.title();
   filtersVisible: boolean = false;
   confirmDeleteVisible!: boolean;
   selectedPlaylist!: any;
   profilepic!: string;
-
-  playlistStore = inject(playlistStore);
-  songStore = inject(songStore);
-  songSelectStore = inject(songSelectStore);
 
   ngOnInit(): void {
     this.selectedPlaylist = JSON.parse(
