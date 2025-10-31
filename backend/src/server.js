@@ -1,6 +1,8 @@
-//Lataa .env aina ensin, jos tiedosto on olemassa
-
 //test2
+
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
 
 try {
   require('dotenv').config({ override: false });
@@ -13,34 +15,46 @@ const { loadSecrets } = require('./config/loadSecrets');
 const pool = require('./database/index');
 
 async function startServer() {
-  //Ladataan AWS Secrets vain jos ollaan tuotannossa
+  // Ladataan AWS Secrets vain jos ollaan tuotannossa
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
     console.log('Secrets loaded from AWS Secrets Manager');
     console.log(
       'Spotify client id?',
-      process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+      process.env.SPOTIFY_CLIENT_ID ? 'found' : 'missing'
     );
     console.log(
       'Frontend URL:',
-      process.env.FRONTEND_URL ? '✅ found' : '❌ missing'
+      process.env.FRONTEND_URL ? 'found' : 'missing'
     );
   } else {
     console.log('Using local .env configuration');
   }
 
-  //Tuodaan app vasta nyt, kun kaikki ympäristömuuttujat on varmasti paikallaan
   const app = require('./app');
   const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
 
-  //Alustetaan tietokantayhteys
   await pool.initPool();
 
-  //Käynnistetään palvelin
-  const PORT = process.env.PORT || 443;
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running at port ${PORT}`);
-  });
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      const key = fs.readFileSync('/home/ssm-user/mycerts/privatekey.pem');
+      const cert = fs.readFileSync('/home/ssm-user/mycerts/csr.pem');
+
+      https.createServer({ key, cert }, app).listen(443, '0.0.0.0', () => {
+        console.log('HTTPS server running on port 443');
+      });
+    } catch (err) {
+      console.error('Could not start HTTPS server:', err.message);
+    }
+  }
+  // Development: HTTP
+  else {
+    const PORT = process.env.PORT || 8888;
+    http.createServer(app).listen(PORT, '0.0.0.0', () => {
+      console.log(`HTTP server running on port ${PORT}`);
+    });
+  }
 
   startCronJobs();
 }

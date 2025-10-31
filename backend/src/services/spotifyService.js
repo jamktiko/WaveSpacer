@@ -13,7 +13,7 @@ const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
 console.log('Spotify service envs:');
 console.log(
   'Spotify client id?',
-  process.env.SPOTIFY_CLIENT_ID ? '✅ found' : '❌ missing'
+  process.env.SPOTIFY_CLIENT_ID ? 'found' : 'missing'
 );
 console.log('redirect URL: ' + redirect_uri);
 
