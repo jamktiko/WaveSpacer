@@ -41,7 +41,7 @@ async function startServer() {
   if (process.env.NODE_ENV === 'production') {
     try {
       const key = fs.readFileSync('/home/ssm-user/myserts/privatekey.pem');
-      const cert = fs.readFileSync('/home/ssm-user/myserts/csr.pem');
+      const cert = fs.readFileSync('/home/ssm-user/myserts/server.crt');
 
       https.createServer({ key, cert }, app).listen(443, '0.0.0.0', () => {
         console.log('HTTPS server running on port 443');
