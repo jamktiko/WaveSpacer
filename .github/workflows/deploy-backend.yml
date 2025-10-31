@@ -46,7 +46,6 @@ jobs:
               "git sparse-checkout set backend",
               "cd backend",
               "npm ci --omit=dev || npm install --omit=dev",
-              "sudo setcap 'cap_net_bind_service=+ep' $(which node)",
               "chown -R ssm-user:ssm-user /opt/backend",
               "sudo -u ssm-user pm2 restart ecosystem.config.js --name backend || sudo -u ssm-user pm2 start ecosystem.config.js",
               "sudo -u ssm-user pm2 save",
