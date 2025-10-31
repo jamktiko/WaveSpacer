@@ -16,6 +16,8 @@ const pool = require('./database/index');
 
 async function startServer() {
   // Ladataan AWS Secrets vain jos ollaan tuotannossa
+  console.log('NODE ENV:' + process.env.NODE_ENV);
+
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
     console.log('Secrets loaded from AWS Secrets Manager');
