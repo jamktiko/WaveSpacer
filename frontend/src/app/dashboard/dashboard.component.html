@@ -3,17 +3,18 @@
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
-          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 xl:w-22 xl:h-22 2xl:w-25 2xl:h-25 object-cover" />
-        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,2vw,2rem)]">
           {{title}}
         </h1>
       </a>
       <div
-        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold">
-        <img [src]="profileStore.profilepic()" alt="profilepic" (click)="userDropDownVisible = !userDropDownVisible"
-          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover">
-        @if (userDropDownVisible) {
-        <app-userdropdown (close)="userDropDownVisible = false"></app-userdropdown>
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profileStore.profilepic()" alt="profilepic"
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
         }
       </div>
 
@@ -41,10 +42,9 @@
               <path
                 d="M313.33-80q-27 0-46.83-19.83-19.83-19.84-19.83-46.84v-100h-100q-27 0-46.84-19.83Q80-286.33 80-313.33V-390h66.67v76.67h100v-333.34q0-27 19.83-46.83t46.83-19.83h333.34v-100H570V-880h76.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84v100h100q27 0 46.84 19.83Q880-673.67 880-646.67v500q0 27-19.83 46.84Q840.33-80 813.33-80h-500Zm0-66.67h500v-500h-500v500ZM80-483.33v-160h66.67v160H80Zm0-253.34v-76.66q0-27 19.83-46.84Q119.67-880 146.67-880h76.66v66.67h-76.66v76.66H80Zm236.67-76.66V-880h160v66.67h-160Zm-3.34 666.66v-500 500Z" />
             </svg>
-            <div class="grid lg:grid-row col-span-2 justify-self-start">
-              <h2 class="text-white underline text-[clamp(0.8rem,1vw,1.3rem)]">Duplicate-remover</h2>
-              <p class="text-white text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
-            </div>
+
+            <h2 class="text-white underline text-[clamp(0.8rem,1vw,1.3rem)]">Duplicate-remover</h2>
+
           </div>
           <div class="h-px w-full bg-[#3D383E]"></div>
           <div class="flex flex-col p-6 items-center gap-5">

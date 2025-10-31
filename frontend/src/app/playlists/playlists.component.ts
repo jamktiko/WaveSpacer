@@ -4,20 +4,22 @@ import { Playlistdata } from '../utilities/interfaces/playlistdata';
 import { PlaylistComponent } from '../playlist/playlist.component';
 import { playlistStore } from '../utilities/stores/playlist.store';
 import { NgClass } from '@angular/common';
+import { uiStore } from '../utilities/stores/ui.store';
+import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 
 @Component({
   selector: 'app-playlists',
-  imports: [PlaylistComponent, RouterLink, NgClass],
+  imports: [PlaylistComponent, RouterLink, NgClass, UserdropdownComponent],
   templateUrl: './playlists.component.html',
   styleUrl: './playlists.component.css',
 })
 export class PlaylistsComponent implements OnInit {
+  playlistStore = inject(playlistStore);
+  uiStore = inject(uiStore);
+
   playlists: Playlistdata[] = [];
   title: string = 'WaveSpacer';
   profilepic!: string;
-
-  constructor() {}
-  playlistStore = inject(playlistStore);
 
   ngOnInit(): void {
     this.profilepic =
