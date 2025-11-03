@@ -86,9 +86,9 @@ exports.playlists = async (req, res) => {
 exports.recents = async (req, res) => {
   try {
     const userId = req.user_id;
-    const access_token = tokenStore.getAccessToken(userId);
+    const access_token = await tokenStore.getAccessToken(userId);
     if (!access_token) {
-      access_token = spotifyService.refreshAccessToken(userId);
+      access_token = await spotifyService.refreshAccessToken(userId);
     }
     const recents = await spotifyService.getRecentlyPlayed(access_token);
     res.json(recents);
@@ -105,135 +105,142 @@ exports.fetchRecentsForAllUsers = async () => {
   let allMerged = [];
 
   for (let user of users) {
-    let userId = user.id;
-    let accessToken = await tokenStore.getAccessToken(userId);
-    if (!accessToken) {
-      console.warn(`Käyttäjältä ${userId} puuttuu access token`);
-      continue;
-    }
+    try {
+      let userId = user.id;
+      let accessToken = await tokenStore.getAccessToken(userId);
+      if (!accessToken) {
+        accessToken = await spotifyService.refreshAccessToken(userId);
+      }
 
-    const lastTime = lastFetchedAt.get(userId);
+      const lastTime = lastFetchedAt.get(userId);
 
-    const after = !lastTime ? null : lastTime;
-    console.log('Unix aika' + after);
+      const after = !lastTime ? null : lastTime;
+      console.log('Unix aika' + after);
 
-    let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
+      let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
 
-    if (!recents?.items?.length) {
-      console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
-      continue;
-    }
+      if (!recents?.items?.length) {
+        console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
+        continue;
+      }
 
-    let newSongs = [];
-    let songHistory = [];
-    let artistNames = new Set();
-    let genreNames = new Set();
-    let artistSongLinks = [];
-    let genreArtistLinks = [];
+      let newSongs = [];
+      let songHistory = [];
+      let artistNames = new Set();
+      let genreNames = new Set();
+      let artistSongLinks = [];
+      let genreArtistLinks = [];
 
-    for (let song of recents.items) {
-      songHistory.push({
-        spotify_track_id: song.track.id,
-        played_at: song.played_at,
-        User_id: userId,
-      });
-
-      newSongs.push({
-        spotify_track_id: song.track.id,
-        name: song.track.name,
-        User_id: userId,
-        track_image: song.track.album.images?.[0]?.url,
-      });
-
-      for (let artist of song.track.artists) {
-        let artistData = await spotifyService.getArtist(artist.id, accessToken);
-
-        artistNames.add(artist.name);
-
-        artistSongLinks.push({
-          artist_name: artist.name,
+      for (let song of recents.items) {
+        songHistory.push({
           spotify_track_id: song.track.id,
+          played_at: song.played_at,
+          User_id: userId,
         });
 
-        for (let genre of artistData.genres) {
-          genreNames.add(genre);
+        newSongs.push({
+          spotify_track_id: song.track.id,
+          name: song.track.name,
+          User_id: userId,
+          track_image: song.track.album.images?.[0]?.url,
+        });
 
-          genreArtistLinks.push({
+        for (let artist of song.track.artists) {
+          let artistData = await spotifyService.getArtist(
+            artist.id,
+            accessToken
+          );
+
+          artistNames.add(artist.name);
+
+          artistSongLinks.push({
             artist_name: artist.name,
-            genre_name: genre,
+            spotify_track_id: song.track.id,
           });
+
+          for (let genre of artistData.genres) {
+            genreNames.add(genre);
+
+            genreArtistLinks.push({
+              artist_name: artist.name,
+              genre_name: genre,
+            });
+          }
         }
       }
+
+      const artists = [...artistNames].map((name) => ({ name }));
+      const genres = [...genreNames].map((name) => ({ name }));
+
+      console.log(newSongs);
+
+      await Song.save(newSongs);
+      await Genre.save(genres);
+      await Artist.save(artists);
+
+      const allArtists = await Artist.getArtists(artists.map((a) => a.name));
+      const allGenres = await Genre.getGenres(genres.map((g) => g.name));
+      const allSongs = await Song.getSongsBySpotifyIds(
+        userId,
+        newSongs.map((s) => s.spotify_track_id)
+      );
+
+      // Artist_Song
+      const artistSongRecords = artistSongLinks
+        .map((link) => {
+          const artist = allArtists.find((a) => a.name === link.artist_name);
+          const song = allSongs.find(
+            (s) => s.spotify_track_id === link.spotify_track_id
+          );
+          return artist && song
+            ? { Artist_id: artist.id, Song_id: song.id }
+            : null;
+        })
+        .filter(Boolean);
+
+      await ArtistSong.save(artistSongRecords);
+
+      // Genre_Artist
+      const genreArtistRecords = genreArtistLinks
+        .map((link) => {
+          const artist = allArtists.find((a) => a.name === link.artist_name);
+          const genre = allGenres.find((g) => g.name === link.genre_name);
+          return artist && genre
+            ? { Artist_id: artist.id, Genre_id: genre.id }
+            : null;
+        })
+        .filter(Boolean);
+
+      await GenreArtist.save(genreArtistRecords);
+
+      // Play_history
+      const playHistoryRecords = songHistory
+        .map((entry) => {
+          const song = allSongs.find(
+            (s) => s.spotify_track_id === entry.spotify_track_id
+          );
+          return song
+            ? {
+                Song_id: song.id,
+                User_id: entry.User_id,
+                played_at: entry.played_at,
+              }
+            : null;
+        })
+        .filter(Boolean);
+
+      await PlayHistory.save(playHistoryRecords);
+
+      const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
+
+      lastFetchedAt.set(userId, newestPlayedAt);
+
+      allMerged.push({ userId, count: playHistoryRecords.length });
+      // console.log(playHistoryRecords);
+    } catch (err) {
+      console.error(`Virhe käyttäjältä ${user.id}:`, err.message);
+      continue;
     }
-
-    const artists = [...artistNames].map((name) => ({ name }));
-    const genres = [...genreNames].map((name) => ({ name }));
-
-    console.log(newSongs);
-
-    await Song.save(newSongs);
-    await Genre.save(genres);
-    await Artist.save(artists);
-
-    const allArtists = await Artist.getArtists(artists.map((a) => a.name));
-    const allGenres = await Genre.getGenres(genres.map((g) => g.name));
-    const allSongs = await Song.getSongsBySpotifyIds(
-      userId,
-      newSongs.map((s) => s.spotify_track_id)
-    );
-
-    // Artist_Song
-    const artistSongRecords = artistSongLinks
-      .map((link) => {
-        const artist = allArtists.find((a) => a.name === link.artist_name);
-        const song = allSongs.find(
-          (s) => s.spotify_track_id === link.spotify_track_id
-        );
-        return artist && song
-          ? { Artist_id: artist.id, Song_id: song.id }
-          : null;
-      })
-      .filter(Boolean);
-
-    await ArtistSong.save(artistSongRecords);
-
-    // Genre_Artist
-    const genreArtistRecords = genreArtistLinks
-      .map((link) => {
-        const artist = allArtists.find((a) => a.name === link.artist_name);
-        const genre = allGenres.find((g) => g.name === link.genre_name);
-        return artist && genre
-          ? { Artist_id: artist.id, Genre_id: genre.id }
-          : null;
-      })
-      .filter(Boolean);
-
-    await GenreArtist.save(genreArtistRecords);
-
-    // Play_history
-    const playHistoryRecords = songHistory
-      .map((entry) => {
-        const song = allSongs.find(
-          (s) => s.spotify_track_id === entry.spotify_track_id
-        );
-        return song
-          ? {
-              Song_id: song.id,
-              User_id: entry.User_id,
-              played_at: entry.played_at,
-            }
-          : null;
-      })
-      .filter(Boolean);
-
-    await PlayHistory.save(playHistoryRecords);
-
-    const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
-
-    lastFetchedAt.set(userId, newestPlayedAt);
-
-    allMerged.push({ userId, count: playHistoryRecords.length });
-    // console.log(playHistoryRecords);
   }
   return allMerged;
 };
