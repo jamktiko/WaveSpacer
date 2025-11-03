@@ -98,6 +98,8 @@ exports.recents = async (req, res) => {
   }
 };
 
+//stayLoggedIn
+
 exports.fetchRecentsForAllUsers = async () => {
   const users = await User.getAllUsers();
   let allMerged = [];
