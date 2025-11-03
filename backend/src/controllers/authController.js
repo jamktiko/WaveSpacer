@@ -7,8 +7,8 @@ exports.loginWithSpotify = async (userID, tokens, res) => {
   // lähetä cookie
   res.cookie('jwt', jwtToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     path: '/',
     maxAge: 4 * 60 * 60 * 1000,
   });
