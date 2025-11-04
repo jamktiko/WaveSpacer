@@ -1,4 +1,4 @@
-const pool = require('../database/index');
+const pool = require("../database/index");
 
 module.exports = class User_tokens {
   constructor(type, token, User_id) {
@@ -9,7 +9,7 @@ module.exports = class User_tokens {
 
   async save() {
     const query = `INSERT INTO User_tokens (type, token, User_id) VALUES (?, ?, ?) 
-    ON DUPLICATE KEY UPDATE token = VALUES(token)`;
+    ON DUPLICATE KEY UPDATE token = VALUES(token), expires_at = VALUES(expires_at);`;
 
     const [result] = await pool.query(query, [
       this.type,
@@ -21,10 +21,12 @@ module.exports = class User_tokens {
   }
 
   static async getToken(User_id, type) {
-    const query = `SELECT token FROM User_tokens WHERE User_id = ? AND type = ?`;
+    const query = `SELECT token, expires_at FROM User_tokens WHERE User_id = ? AND type = ?`;
 
     const [result] = await pool.query(query, [User_id, type]);
 
-    return result.length ? result[0].token : null;
+    if (result.expires_at)
+      return { token: result[0].token, expires_at: result.expires_at };
+    else return result.length ? result[0].token : null;
   }
 };
