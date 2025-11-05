@@ -16,19 +16,9 @@ const pool = require('./database/index');
 
 async function startServer() {
   // Ladataan AWS Secrets vain jos ollaan tuotannossa
-  console.log('NODE ENV:' + process.env.NODE_ENV);
 
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
-    console.log('Secrets loaded from AWS Secrets Manager');
-    console.log(
-      'Spotify client id?',
-      process.env.SPOTIFY_CLIENT_ID ? 'found' : 'missing'
-    );
-    console.log(
-      'Frontend URL:',
-      process.env.FRONTEND_URL ? 'found' : 'missing'
-    );
   } else {
     console.log('Using local .env configuration');
   }

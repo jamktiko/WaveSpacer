@@ -1,4 +1,4 @@
-const pool = require("../database/index");
+const pool = require('../database/index');
 
 // static async save(entries) {
 //   const values = entries.map((e) => [
@@ -21,9 +21,8 @@ exports.save = async (entries) => {
           e.User_id
         )}, ${pool.escape(e.track_image)})`
     )
-    .join(",");
+    .join(',');
 
-  console.log("Values: " + values);
   const query = `
     INSERT INTO Song (spotify_track_id, name, amount, User_id, track_image)
     VALUES ${values}
@@ -42,7 +41,7 @@ exports.getUsersSongs = async (userId) => {
 exports.getSongsBySpotifyIds = async (userId, spotifyIds) => {
   if (!spotifyIds.length) return [];
 
-  const placeholders = spotifyIds.map(() => "?").join(",");
+  const placeholders = spotifyIds.map(() => '?').join(',');
   const query = `
     SELECT id, spotify_track_id
     FROM Song
@@ -53,6 +52,6 @@ exports.getSongsBySpotifyIds = async (userId, spotifyIds) => {
 };
 
 exports.updateAmount = async (id) => {
-  const query = "UPDATE Song SET amount = + 1 WHERE id = ?";
+  const query = 'UPDATE Song SET amount = + 1 WHERE id = ?';
   await pool.query(query, id);
 };

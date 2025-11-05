@@ -1,45 +1,43 @@
-const spotifyService = require("../services/spotifyService");
-const authController = require("./authController");
-const createToken = require("../../createtoken");
-const tokenStore = require("../services/tokenStore");
-const UserTokens = require("../models/UserTokens");
-const User = require("../models/User");
-const PlayHistory = require("../models/PlayHistory");
-const Song = require("../models/Song");
-const Genre = require("../models/Genre");
-const Artist = require("../models/Artist");
-const ArtistSong = require("../models/ArtistSong");
-const GenreArtist = require("../models/GenreArtist");
-const trackRepository = require("../repositories/trackRepository");
-const e = require("cors");
+const spotifyService = require('../services/spotifyService');
+const authController = require('./authController');
+const createToken = require('../../createtoken');
+const tokenStore = require('../services/tokenStore');
+const UserTokens = require('../models/UserTokens');
+const User = require('../models/User');
+const PlayHistory = require('../models/PlayHistory');
+const Song = require('../models/Song');
+const Genre = require('../models/Genre');
+const Artist = require('../models/Artist');
+const ArtistSong = require('../models/ArtistSong');
+const GenreArtist = require('../models/GenreArtist');
+const trackRepository = require('../repositories/trackRepository');
+const e = require('cors');
 
 const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
-  console.log("testi logi");
-  console.log("testi logi #2");
   const url = spotifyService.getLoginUrl();
-  // console.log('spotifyController url: ' + url);
   res.redirect(url);
 };
 
 exports.callback = async (req, res) => {
   const code = req.query.code;
-  if (!code) return res.status(400).send("No code returned");
+  if (!code) return res.status(400).send('No code returned');
 
   try {
     const tokens = await spotifyService.getAccessToken(code);
     const me = await spotifyService.getProfile(tokens.access_token);
     const user = new User(me.id);
-    const userID = await user.getUserID();
+    let userID = await user.getUserID();
 
     if (!userID) {
       userID = await user.save();
     }
 
     const userTokens = new UserTokens(
-      "spotify_refresh_token",
+      'spotify_refresh_token',
       tokens.refresh_token,
+      null,
       userID
     );
 
@@ -48,7 +46,7 @@ exports.callback = async (req, res) => {
     const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
 
     const userTokens2 = new UserTokens(
-      "spotify_access_token",
+      'spotify_access_token',
       tokens.access_token,
       expiresAt,
       userID
@@ -59,7 +57,7 @@ exports.callback = async (req, res) => {
     return authController.loginWithSpotify(userID, tokens, res);
   } catch (err) {
     console.error(err.response?.data || err.message);
-    res.status(500).json({ success: false, message: "Spotify login failed" });
+    res.status(500).json({ success: false, message: 'Spotify login failed' });
   }
 };
 
@@ -69,13 +67,13 @@ exports.profile = async (req, res) => {
     const userId = req.user_id;
     const access_token = await tokenStore.getAccessTokenOrRefresh(
       userId,
-      "spotify_access_token"
+      'spotify_access_token'
     );
     const profile = await spotifyService.getProfile(access_token);
     res.json(profile);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error fetching profile");
+    res.status(500).send('Error fetching profile');
   }
 };
 
@@ -84,14 +82,14 @@ exports.playlists = async (req, res) => {
     const userId = req.user_id;
     let access_token = await tokenStore.getAccessTokenOrRefresh(
       userId,
-      "spotify_access_token"
+      'spotify_access_token'
     );
 
     const playlists = await spotifyService.getPlaylists(access_token);
     res.json(playlists);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error fetching playlists");
+    res.status(500).send('Error fetching playlists');
   }
 };
 
@@ -100,14 +98,14 @@ exports.recents = async (req, res) => {
     const userId = req.user_id;
     let access_token = await tokenStore.getAccessTokenOrRefresh(
       userId,
-      "spotify_access_token"
+      'spotify_access_token'
     );
 
     const recents = await spotifyService.getRecentlyPlayed(access_token);
     res.json(recents);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error fetching recently played tracks");
+    res.status(500).send('Error fetching recently played tracks');
   }
 };
 
@@ -122,15 +120,12 @@ exports.fetchRecentsForAllUsers = async () => {
       let userId = user.id;
       let accessToken = await tokenStore.getAccessTokenOrRefresh(
         userId,
-        "spotify_access_token"
+        'spotify_access_token'
       );
-
-      console.log("fecth functions accessToken:", accessToken);
 
       const lastTime = lastFetchedAt.get(userId);
 
       const after = !lastTime ? null : lastTime;
-      console.log("Unix aika" + after);
 
       let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
 
@@ -251,7 +246,6 @@ exports.fetchRecentsForAllUsers = async () => {
       lastFetchedAt.set(userId, newestPlayedAt);
 
       allMerged.push({ userId, count: playHistoryRecords.length });
-      // console.log(playHistoryRecords);
     } catch (err) {
       console.error(`Virhe käyttäjältä ${user.id}:`, err.message);
       continue;
@@ -265,7 +259,7 @@ exports.getTracksFromFrontend = async (req, res) => {
     const userId = req.user_id;
     let accessToken = await tokenStore.getAccessTokenOrRefresh(
       userId,
-      "spotify_access_token"
+      'spotify_access_token'
     );
     const playlistId = req.body.playlist_id;
 
@@ -274,7 +268,7 @@ exports.getTracksFromFrontend = async (req, res) => {
       playlistId
     );
     if (!playlistTracks?.items?.length) {
-      return res.json({ message: "Playlist is empty." });
+      return res.json({ message: 'Playlist is empty.' });
     }
 
     const allPlTrackIds = playlistTracks.items.map((item) => item.track.id);
@@ -303,7 +297,7 @@ exports.getTracksFromFrontend = async (req, res) => {
     return res.json(combinedTracks);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error getting songs" });
+    res.status(500).json({ message: 'Error getting songs' });
   }
 };
 
@@ -312,7 +306,7 @@ exports.deleteTracksFromPlaylist = async (req, res) => {
     const userId = req.user_id;
     let accessToken = await tokenStore.getAccessTokenOrRefresh(
       userId,
-      "spotify_access_token"
+      'spotify_access_token'
     );
     const { playlist_id, track_uris } = req.body;
 
@@ -322,7 +316,7 @@ exports.deleteTracksFromPlaylist = async (req, res) => {
       accessToken
     );
   } catch (error) {
-    console.error("Error deleting tracks:", error.response?.data || error);
+    console.error('Error deleting tracks:', error.response?.data || error);
   }
 };
 
