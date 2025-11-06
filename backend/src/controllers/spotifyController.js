@@ -123,7 +123,8 @@ exports.fetchRecentsForAllUsers = async () => {
         'spotify_access_token'
       );
 
-      const lastTime = lastFetchedAt.get(userId);
+      // const lastTime = lastFetchedAt.get(userId);
+      const lastTime = await PlayHistory.getLastPlayedAt(userId);
 
       const after = !lastTime ? null : lastTime;
 
@@ -243,7 +244,7 @@ exports.fetchRecentsForAllUsers = async () => {
 
       const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
 
-      lastFetchedAt.set(userId, newestPlayedAt);
+      // lastFetchedAt.set(userId, newestPlayedAt);
 
       allMerged.push({ userId, count: playHistoryRecords.length });
     } catch (err) {

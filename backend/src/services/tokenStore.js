@@ -18,9 +18,9 @@ async function getAccessToken(userId, type) {
   const entry = await UserTokens.getToken(userId, type);
   if (!entry) return null;
 
-  if (Date.now() > entry.expires_at) {
-    const userTokens2 = new UserTokens(type, null, null, userId);
-    userTokens2.save();
+  const expiresAt = Number(entry.expires_at);
+
+  if (Date.now() > expiresAt) {
     return null;
   }
 
