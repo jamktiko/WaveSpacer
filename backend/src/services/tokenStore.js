@@ -18,9 +18,9 @@ async function getAccessToken(userId, type) {
   const entry = await UserTokens.getToken(userId, type);
   if (!entry) return null;
 
-  const expiresAt = Number(entry.expires_at);
+  // const expiresAt = Number(entry.expires_at);
 
-  if (Date.now() > expiresAt) {
+  if (Math.floor(Date.now() / 1000) > entry.expires_at) {
     return null;
   }
 

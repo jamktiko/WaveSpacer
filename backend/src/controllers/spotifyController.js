@@ -43,7 +43,8 @@ exports.callback = async (req, res) => {
 
     await userTokens.save();
 
-    const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
+    // const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
+    const expiresAt = Math.floor(Date.now() / 1000) + (tokens.expires_in - 60);
 
     const userTokens2 = new UserTokens(
       'spotify_access_token',
@@ -70,6 +71,7 @@ exports.profile = async (req, res) => {
       'spotify_access_token'
     );
     const profile = await spotifyService.getProfile(access_token);
+
     res.json(profile);
   } catch (err) {
     console.error(err);

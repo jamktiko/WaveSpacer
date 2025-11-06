@@ -82,7 +82,12 @@ exports.refreshAccessToken = async (userId) => {
   // const me = await this.getProfile(access_token);
   // const user = new User(me.id);
   // const userID = await user.getUserID();
-  const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
+  // const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
+  const expiresAt =
+    Math.floor(Date.now() / 1000) + (response.data.expires_in - 60);
+
+  console.log('expiresAt LASKETTU:', expiresAt);
+
   const userTokens = new UserTokens(
     'spotify_access_token',
     access_token,
