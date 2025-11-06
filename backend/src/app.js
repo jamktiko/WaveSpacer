@@ -1,11 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const { startCronJobs } = require('../src/jobs/recentlyPlayedJob');
-
-// aws test push7
-
-console.log('CorsOptions url: ' + process.env.FRONTEND_URL);
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL,
@@ -16,7 +11,6 @@ const corsOptions = {
 };
 
 const spotifyRoutes = require('./routes/spotify');
-const dbRoutes = require('./routes/db');
 
 const app = express();
 
@@ -28,7 +22,6 @@ app.use(cookieParser()); // <- ensin lisätään cookie-parser
 
 // reitit
 app.use('/api', spotifyRoutes);
-app.use('/api', dbRoutes);
 
 // startCronJobs();
 

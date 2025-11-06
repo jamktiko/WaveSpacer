@@ -17,7 +17,6 @@ async function loadSecrets() {
       for (const [key, value] of Object.entries(secrets)) {
         process.env[key] = value;
       }
-      console.log('Secrets loaded successfully from AWS Secrets Manager');
     } else {
       console.error('No SecretString found in response');
     }

@@ -11,14 +11,12 @@ const Artist = require('../models/Artist');
 const ArtistSong = require('../models/ArtistSong');
 const GenreArtist = require('../models/GenreArtist');
 const trackRepository = require('../repositories/trackRepository');
+const e = require('cors');
 
 const lastFetchedAt = new Map();
 
 exports.login = (req, res) => {
-  console.log('testi logi');
-  console.log('testi logi #2');
   const url = spotifyService.getLoginUrl();
-  // console.log('spotifyController url: ' + url);
   res.redirect(url);
 };
 
@@ -30,20 +28,31 @@ exports.callback = async (req, res) => {
     const tokens = await spotifyService.getAccessToken(code);
     const me = await spotifyService.getProfile(tokens.access_token);
     const user = new User(me.id);
-    const userID = await user.getUserID();
+    let userID = await user.getUserID();
 
     if (!userID) {
       userID = await user.save();
     }
 
-    const userTokens = new UserTokens('spotify', tokens.refresh_token, userID);
-    tokenStore.setAccessToken(
-      userID,
-      tokens.access_token,
-      'spotify',
-      tokens.expires_in
+    const userTokens = new UserTokens(
+      'spotify_refresh_token',
+      tokens.refresh_token,
+      null,
+      userID
     );
+
     await userTokens.save();
+
+    const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
+
+    const userTokens2 = new UserTokens(
+      'spotify_access_token',
+      tokens.access_token,
+      expiresAt,
+      userID
+    );
+
+    await userTokens2.save();
 
     return authController.loginWithSpotify(userID, tokens, res);
   } catch (err) {
@@ -56,10 +65,10 @@ exports.profile = async (req, res) => {
   try {
     // const access_token = await spotifyService.getAccessTokenSafe();
     const userId = req.user_id;
-    const access_token = await tokenStore.getAccessToken(userId);
-    if (!access_token) {
-      access_token = await spotifyService.refreshAccessToken(userId);
-    }
+    const access_token = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
     const profile = await spotifyService.getProfile(access_token);
     res.json(profile);
   } catch (err) {
@@ -71,10 +80,11 @@ exports.profile = async (req, res) => {
 exports.playlists = async (req, res) => {
   try {
     const userId = req.user_id;
-    const access_token = await tokenStore.getAccessToken(userId);
-    if (!access_token) {
-      access_token = await spotifyService.refreshAccessToken(userId);
-    }
+    let access_token = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
+
     const playlists = await spotifyService.getPlaylists(access_token);
     res.json(playlists);
   } catch (err) {
@@ -86,10 +96,11 @@ exports.playlists = async (req, res) => {
 exports.recents = async (req, res) => {
   try {
     const userId = req.user_id;
-    const access_token = tokenStore.getAccessToken(userId);
-    if (!access_token) {
-      access_token = spotifyService.refreshAccessToken(userId);
-    }
+    let access_token = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
+
     const recents = await spotifyService.getRecentlyPlayed(access_token);
     res.json(recents);
   } catch (err) {
@@ -98,140 +109,147 @@ exports.recents = async (req, res) => {
   }
 };
 
+//stayLoggedIn
+
 exports.fetchRecentsForAllUsers = async () => {
   const users = await User.getAllUsers();
   let allMerged = [];
 
   for (let user of users) {
-    let userId = user.id;
-    let accessToken = await tokenStore.getAccessToken(userId);
-    if (!accessToken) {
-      console.warn(`Käyttäjältä ${userId} puuttuu access token`);
-      continue;
-    }
+    try {
+      let userId = user.id;
+      let accessToken = await tokenStore.getAccessTokenOrRefresh(
+        userId,
+        'spotify_access_token'
+      );
 
-    const lastTime = lastFetchedAt.get(userId);
+      const lastTime = lastFetchedAt.get(userId);
 
-    const after = !lastTime ? null : lastTime;
-    console.log('Unix aika' + after);
+      const after = !lastTime ? null : lastTime;
 
-    let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
+      let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
 
-    if (!recents?.items?.length) {
-      console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
-      continue;
-    }
+      if (!recents?.items?.length) {
+        console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
+        continue;
+      }
 
-    let newSongs = [];
-    let songHistory = [];
-    let artistNames = new Set();
-    let genreNames = new Set();
-    let artistSongLinks = [];
-    let genreArtistLinks = [];
+      let newSongs = [];
+      let songHistory = [];
+      let artistNames = new Set();
+      let genreNames = new Set();
+      let artistSongLinks = [];
+      let genreArtistLinks = [];
 
-    for (let song of recents.items) {
-      songHistory.push({
-        spotify_track_id: song.track.id,
-        played_at: song.played_at,
-        User_id: userId,
-      });
-
-      newSongs.push({
-        spotify_track_id: song.track.id,
-        name: song.track.name,
-        User_id: userId,
-        track_image: song.track.album.images?.[0]?.url,
-      });
-
-      for (let artist of song.track.artists) {
-        let artistData = await spotifyService.getArtist(artist.id, accessToken);
-
-        artistNames.add(artist.name);
-
-        artistSongLinks.push({
-          artist_name: artist.name,
+      for (let song of recents.items) {
+        songHistory.push({
           spotify_track_id: song.track.id,
+          played_at: song.played_at,
+          User_id: userId,
         });
 
-        for (let genre of artistData.genres) {
-          genreNames.add(genre);
+        newSongs.push({
+          spotify_track_id: song.track.id,
+          name: song.track.name,
+          User_id: userId,
+          track_image: song.track.album.images?.[0]?.url,
+        });
 
-          genreArtistLinks.push({
+        for (let artist of song.track.artists) {
+          let artistData = await spotifyService.getArtist(
+            artist.id,
+            accessToken
+          );
+
+          artistNames.add(artist.name);
+
+          artistSongLinks.push({
             artist_name: artist.name,
-            genre_name: genre,
+            spotify_track_id: song.track.id,
           });
+
+          for (let genre of artistData.genres) {
+            genreNames.add(genre);
+
+            genreArtistLinks.push({
+              artist_name: artist.name,
+              genre_name: genre,
+            });
+          }
         }
       }
+
+      const artists = [...artistNames].map((name) => ({ name }));
+      const genres = [...genreNames].map((name) => ({ name }));
+
+      console.log(newSongs);
+
+      await Song.save(newSongs);
+      await Genre.save(genres);
+      await Artist.save(artists);
+
+      const allArtists = await Artist.getArtists(artists.map((a) => a.name));
+      const allGenres = await Genre.getGenres(genres.map((g) => g.name));
+      const allSongs = await Song.getSongsBySpotifyIds(
+        userId,
+        newSongs.map((s) => s.spotify_track_id)
+      );
+
+      // Artist_Song
+      const artistSongRecords = artistSongLinks
+        .map((link) => {
+          const artist = allArtists.find((a) => a.name === link.artist_name);
+          const song = allSongs.find(
+            (s) => s.spotify_track_id === link.spotify_track_id
+          );
+          return artist && song
+            ? { Artist_id: artist.id, Song_id: song.id }
+            : null;
+        })
+        .filter(Boolean);
+
+      await ArtistSong.save(artistSongRecords);
+
+      // Genre_Artist
+      const genreArtistRecords = genreArtistLinks
+        .map((link) => {
+          const artist = allArtists.find((a) => a.name === link.artist_name);
+          const genre = allGenres.find((g) => g.name === link.genre_name);
+          return artist && genre
+            ? { Artist_id: artist.id, Genre_id: genre.id }
+            : null;
+        })
+        .filter(Boolean);
+
+      await GenreArtist.save(genreArtistRecords);
+
+      // Play_history
+      const playHistoryRecords = songHistory
+        .map((entry) => {
+          const song = allSongs.find(
+            (s) => s.spotify_track_id === entry.spotify_track_id
+          );
+          return song
+            ? {
+                Song_id: song.id,
+                User_id: entry.User_id,
+                played_at: entry.played_at,
+              }
+            : null;
+        })
+        .filter(Boolean);
+
+      await PlayHistory.save(playHistoryRecords);
+
+      const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
+
+      lastFetchedAt.set(userId, newestPlayedAt);
+
+      allMerged.push({ userId, count: playHistoryRecords.length });
+    } catch (err) {
+      console.error(`Virhe käyttäjältä ${user.id}:`, err.message);
+      continue;
     }
-
-    const artists = [...artistNames].map((name) => ({ name }));
-    const genres = [...genreNames].map((name) => ({ name }));
-
-    console.log(newSongs);
-
-    await Song.save(newSongs);
-    await Genre.save(genres);
-    await Artist.save(artists);
-
-    const allArtists = await Artist.getArtists(artists.map((a) => a.name));
-    const allGenres = await Genre.getGenres(genres.map((g) => g.name));
-    const allSongs = await Song.getSongsBySpotifyIds(
-      userId,
-      newSongs.map((s) => s.spotify_track_id)
-    );
-
-    // Artist_Song
-    const artistSongRecords = artistSongLinks
-      .map((link) => {
-        const artist = allArtists.find((a) => a.name === link.artist_name);
-        const song = allSongs.find(
-          (s) => s.spotify_track_id === link.spotify_track_id
-        );
-        return artist && song
-          ? { Artist_id: artist.id, Song_id: song.id }
-          : null;
-      })
-      .filter(Boolean);
-
-    await ArtistSong.save(artistSongRecords);
-
-    // Genre_Artist
-    const genreArtistRecords = genreArtistLinks
-      .map((link) => {
-        const artist = allArtists.find((a) => a.name === link.artist_name);
-        const genre = allGenres.find((g) => g.name === link.genre_name);
-        return artist && genre
-          ? { Artist_id: artist.id, Genre_id: genre.id }
-          : null;
-      })
-      .filter(Boolean);
-
-    await GenreArtist.save(genreArtistRecords);
-
-    // Play_history
-    const playHistoryRecords = songHistory
-      .map((entry) => {
-        const song = allSongs.find(
-          (s) => s.spotify_track_id === entry.spotify_track_id
-        );
-        return song
-          ? {
-              Song_id: song.id,
-              User_id: entry.User_id,
-              played_at: entry.played_at,
-            }
-          : null;
-      })
-      .filter(Boolean);
-
-    await PlayHistory.save(playHistoryRecords);
-
-    const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
-
-    lastFetchedAt.set(userId, newestPlayedAt);
-
-    allMerged.push({ userId, count: playHistoryRecords.length });
-    // console.log(playHistoryRecords);
   }
   return allMerged;
 };
@@ -239,7 +257,10 @@ exports.fetchRecentsForAllUsers = async () => {
 exports.getTracksFromFrontend = async (req, res) => {
   try {
     const userId = req.user_id;
-    const accessToken = await tokenStore.getAccessToken(userId);
+    let accessToken = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
     const playlistId = req.body.playlist_id;
 
     const playlistTracks = await spotifyService.getPlaylistTracks(
@@ -283,7 +304,10 @@ exports.getTracksFromFrontend = async (req, res) => {
 exports.deleteTracksFromPlaylist = async (req, res) => {
   try {
     const userId = req.user_id;
-    const accessToken = await tokenStore.getAccessToken(userId);
+    let accessToken = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
     const { playlist_id, track_uris } = req.body;
 
     await spotifyService.deletePlaylistTracks(
