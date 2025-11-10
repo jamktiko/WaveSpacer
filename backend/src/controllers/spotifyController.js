@@ -128,9 +128,32 @@ exports.fetchRecentsForAllUsers = async () => {
       // const lastTime = lastFetchedAt.get(userId);
       const lastTime = await PlayHistory.getLastPlayedAt(userId);
 
-      const after = !lastTime ? null : lastTime;
+      const after = !lastTime ? null : lastTime + 1000;
+
+      console.log('after aika:', after);
 
       let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
+
+      console.log('recents palautus:', recents.items);
+
+      console.log('raw lastTime:', lastTime);
+      console.log('lastTime type:', typeof lastTime);
+      if (lastTime !== null)
+        console.log('lastTime human:', new Date(lastTime).toISOString());
+
+      if (recents.items.length > 0) {
+        const playedMs = new Date(recents.items[0].played_at).getTime();
+        console.log('playedMs:', playedMs);
+        console.log('playedMs human:', new Date(playedMs).toISOString());
+        console.log('comparison result:', playedMs > lastTime);
+      }
+
+      recents.items = recents.items.filter((item) => {
+        const playedMs = new Date(item.played_at).getTime();
+        return lastTime === null || playedMs > lastTime;
+      });
+
+      console.log('uusi recents palautus:', recents.items);
 
       if (!recents?.items?.length) {
         console.log(`Ei uusia kappaleita käyttäjälle ${userId}`);
@@ -185,7 +208,7 @@ exports.fetchRecentsForAllUsers = async () => {
       const artists = [...artistNames].map((name) => ({ name }));
       const genres = [...genreNames].map((name) => ({ name }));
 
-      console.log(newSongs);
+      console.log('newSongs:', newSongs);
 
       await Song.save(newSongs);
       await Genre.save(genres);
