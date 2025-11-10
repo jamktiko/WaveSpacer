@@ -76,16 +76,23 @@ exports.refreshAccessToken = async (userId) => {
     }
   );
 
+  console.log('REFRESH RESULT:', response.data);
+
   const access_token = response.data.access_token;
-  const me = await this.getProfile(access_token);
-  const user = new User(me.id);
-  const userID = await user.getUserID();
-  const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
+  // const me = await this.getProfile(access_token);
+  // const user = new User(me.id);
+  // const userID = await user.getUserID();
+  // const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
+  const expiresAt =
+    Math.floor(Date.now() / 1000) + (response.data.expires_in - 60);
+
+  console.log('expiresAt LASKETTU:', expiresAt);
+
   const userTokens = new UserTokens(
     'spotify_access_token',
     access_token,
     expiresAt,
-    userID
+    userId
   );
 
   await userTokens.save();
@@ -96,7 +103,7 @@ exports.refreshAccessToken = async (userId) => {
       'spotify_refresh_token',
       new_refresh_token,
       null,
-      userID
+      userId
     );
     await userTokens2.save();
   }

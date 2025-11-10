@@ -1,16 +1,4 @@
-const pool = require("../database/index");
-
-// exports.createPlayHistory = async (req, res) => {
-//   try {
-//     const query =
-//       "INSERT INTO Play_history ('played_at','Song_id','User_id','track_id') VALUES (?,?,?,?)";
-//     const [results] = await pool.query(query);
-//     res.json({ success: true, results });
-//   } catch (err) {
-//     console.error('DB connection error:', err);
-//     res.status(500).json({ success: false, message: 'DB connection failed' });
-//   }
-// };
+const pool = require('../database/index');
 
 exports.save = async (entries) => {
   if (!entries || entries.length === 0) return;
@@ -31,5 +19,5 @@ exports.getLastPlayedAt = async (userId) => {
     LIMIT 1
   `;
   const [rows] = await pool.query(query, [userId]);
-  return rows.length ? new Date(rows[0].played_at).getTime() : null;
+  return rows.length ? new Date(rows[0].played_at + 'Z').getTime() : null;
 };
