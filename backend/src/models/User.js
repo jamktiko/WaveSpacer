@@ -23,7 +23,12 @@ module.exports = class User {
   static async getAllUsers() {
     const query = `SELECT * FROM User`;
     const [result] = await pool.query(query);
-
     return result;
+  }
+
+  static async getUserById(user_id) {
+    const query = `SELECT * FROM User where id = ?`;
+    const result = await pool.query(query, [user_id]);
+    return result[0];
   }
 };

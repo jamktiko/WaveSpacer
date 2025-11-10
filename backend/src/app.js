@@ -11,6 +11,7 @@ const corsOptions = {
 };
 
 const spotifyRoutes = require('./routes/spotify');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -18,11 +19,10 @@ const app = express();
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(cookieParser()); // <- ensin lisätään cookie-parser
+app.use(cookieParser());
 
 // reitit
 app.use('/api', spotifyRoutes);
-
-// startCronJobs();
+app.use('/user', userRoutes);
 
 module.exports = app;

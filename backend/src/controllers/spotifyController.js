@@ -13,8 +13,6 @@ const GenreArtist = require('../models/GenreArtist');
 const trackRepository = require('../repositories/trackRepository');
 const e = require('cors');
 
-const lastFetchedAt = new Map();
-
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
   res.redirect(url);
