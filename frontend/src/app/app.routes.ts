@@ -8,6 +8,7 @@ import { selectionGuard } from './utilities/guards/selection.guard';
 import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,12 @@ export const routes: Routes = [
     component: ProfileComponent,
     path: 'profile',
     title: 'Profile',
+    canActivate: [loginGuard],
+  },
+  {
+    component: SettingsComponent,
+    path: 'settings',
+    title: 'Settings',
     canActivate: [loginGuard],
   },
 ];

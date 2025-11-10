@@ -1,0 +1,50 @@
+<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+          {{uiStore.title()}}
+        </h1>
+      </a>
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profilepic" alt="profilepic"
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
+      </div>
+    </header>
+
+    <div class="flex flex-col items-center lg:flex-row lg:items-start lg:justify-around overflow-hidden">
+      <div class="text-center lg:text-left lg:py-40">
+        <h1 class="text-white text-[clamp(1rem,2vw,1.5rem)]">Adjust all the <span class="text-[#B76EFE]">settings</span>
+        </h1>
+      </div>
+      <div class="py-5 lg:py-20">
+        <div class="flex flex-col rounded-xl bg-[#323132] gap-2">
+          <h2 class="text-white py-1 text-center">Settings</h2>
+          <div class="h-px w-full bg-[#463F48]"></div>
+          <div class="grid grid-cols-2 gap-30 px-2 items-center text-left">
+            <p class="justify-self-start text-white">Account</p>
+            <p class="justify-self-end">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#FFFFFF" class="w-5 h-5">
+                <path
+                  d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+              </svg>
+            </p>
+          </div>
+          <div class="h-px w-full bg-[#463F48]"></div>
+          <div class="grid grid-cols-2 gap-30 px-2 text-left">
+            <p class="justify-self-start text-white">Language</p>
+            <p class="justify-self-end text-white">a</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
