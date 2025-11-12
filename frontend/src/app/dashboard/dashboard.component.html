@@ -20,7 +20,7 @@
 
     </header>
 
-    <div class="h-full w-[75%] min-w-[200px] mx-auto mt-10">
+    <div class="h-full w-[75%] min-w-[200px]  mx-auto mt-10">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
         <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">
           <div
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div
-          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[900px]">
           <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
             <canvas id="genreChart" aria-label="Genre chart" role="img">
@@ -70,20 +70,23 @@
           <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
             <h1 class="text-white underline text-[clamp(1rem,1.2vw,1.5rem)]">Your favorite from last month</h1>
             <div class="flex items-center gap-6">
-              <img [src]="randomSong.img" alt="Song img"
+              <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img"
                 class="w-10 h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 rounded-xl">
               <div class="flex flex-col max-w-xs overflow-hidden">
-                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{randomSong.song}}</p>
+                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{recentlistensStore.lastMonthFav().name}}</p>
                 <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">
-                  {{randomSong.artist}}</p>
+                  {{recentlistensStore.lastMonthFav().artist_names}}</p>
               </div>
             </div>
             <p class="text-white underline self-end">Learn more →</p>
           </div>
-          @for (song of songStore.songs(); track song.id; let i = $index) {
-          <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-            [artists]="song.artist_names" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
-          }
+          <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+            @for (song of recentlistensStore.recents(); track song.listenedAt; let i = $index) {
+            <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+              [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt" [index]="i"
+              [firstRecentSong]="i < 1"></app-recentlistened>
+            }
+          </div>
         </div>
       </div>
     </div>

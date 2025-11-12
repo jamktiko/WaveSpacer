@@ -11,6 +11,8 @@ import { RecentlistenedComponent } from '../recentlistened/recentlistened.compon
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 import { RouterLink } from '@angular/router';
 import { uiStore } from '../utilities/stores/ui.store';
+import { recentListensStore } from '../utilities/stores/recentlistens.store';
+// import { ApiService } from '../utilities/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +25,8 @@ export class DashboardComponent implements OnInit {
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   uiStore = inject(uiStore);
+  recentlistensStore = inject(recentListensStore);
+  // a = inject(ApiService);
 
   title: String = this.uiStore.title();
   randomPlaylistImg!: string;
@@ -58,7 +62,10 @@ export class DashboardComponent implements OnInit {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
     this.createChart();
+    this.recentlistensStore.getLastMonthFav();
     // localStorage.removeItem('selectedPlaylist');
+    // this.a.getRecents();
+    this.recentlistensStore.getRecentListens();
   }
 
   createChart() {
