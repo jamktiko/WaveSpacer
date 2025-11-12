@@ -4,8 +4,10 @@ import {
   HostListener,
   Output,
   EventEmitter,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { uiStore } from '../utilities/stores/ui.store';
 
 @Component({
   selector: 'app-userdropdown',
@@ -14,6 +16,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './userdropdown.component.css',
 })
 export class UserdropdownComponent {
+  uiStore = inject(uiStore);
+
   @Output() close = new EventEmitter<void>();
 
   constructor(private eRef: ElementRef) {}
