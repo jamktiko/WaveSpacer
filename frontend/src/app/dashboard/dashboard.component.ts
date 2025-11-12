@@ -87,8 +87,8 @@ export class DashboardComponent implements OnInit {
                 0
               );
               const percentage = ((value / total) * 100).toFixed(1);
-              const label = context.chart.data.labels[context.dataIndex];
-              return `${label}\n${value} (${percentage}%)`;
+
+              return `${value} (${percentage}%)`;
             },
             color: '#000000',
             font: {
@@ -110,6 +110,9 @@ export class DashboardComponent implements OnInit {
                 return `${label}: ${value} (${percentage}%)`;
               },
             },
+          },
+          legend: {
+            position: 'bottom',
           },
         },
         aspectRatio: 2.5,

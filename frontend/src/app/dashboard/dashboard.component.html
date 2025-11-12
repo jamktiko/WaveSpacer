@@ -22,21 +22,20 @@
 
     <div class="h-full w-[75%] min-w-[200px] mx-auto mt-10">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
-        <div class="flex flex-col bg-[#48404A] gap-2 rounded-xl lg:rounded-none lg:rounded-l-xl">
-          <div class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6">
+        <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">
+          <div
+            class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6 cursor-pointer hover:bg-[#544b57]"
+            routerLink="/playlists">
             <img [src]="randomPlaylistImg" alt="playlist img" routerLink="/playlists"
-              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40 cursor-pointer">
+              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
             <div class="flex flex-col">
-              <h1
-                class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.4vw,1.5rem)] cursor-pointer"
-                routerLink="/playlists">
+              <h1 class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.4vw,1.5rem)]">
                 Playlist-cleaner</h1>
               <p class="text-white text-center lg:text-start text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
             </div>
           </div>
-          <div class="h-px w-full bg-[#3D383E]"></div>
-          <div
-            class="grid grid-row grid-cols-4 lg:grid-cols-[auto_1fr_1fr] p-6 justify-items-center lg:justify-items-start items-center gap-2">
+          <div class="grid grid-row grid-cols-4 lg:grid-cols-[auto_1fr_1fr] p-6 justify-items-center lg:justify-items-start items-center 
+            gap-2 cursor-pointer hover:bg-[#544b57]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#744C7C"
               class="w-10 h-10 lg:w-15 lg:h-15 col-start-1 mobileM:col-start-2 col-span-2 mobileM:col-span-1 lg:col-start-1 sm:justify-self-end sm:mr-5">
               <path
@@ -46,14 +45,13 @@
             <h2 class="text-white underline text-[clamp(0.8rem,1vw,1.3rem)]">Duplicate-remover</h2>
 
           </div>
-          <div class="h-px w-full bg-[#3D383E]"></div>
-          <div class="flex flex-col p-6 items-center gap-5">
+
+          <div class="flex flex-col p-6 items-center gap-5 border-b-0">
             <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Your total songs cleaned<br /> with
               WaveSpacer</h2>
             <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">22</div>
           </div>
-
-          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
+          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto ">
             <p class="text-white text-center my-auto text-[clamp(1rem,1vw,2.5rem)]">
               You have been connected<br />
               to WaveSpacer for 666 days
@@ -61,14 +59,15 @@
           </div>
         </div>
         <div
-          class="flex flex-col bg-[#3D383E] mt-6 lg:mt-0 gap-1 rounded-xl lg:rounded-none lg:rounded-r-xl overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
-          <div class="flex flex-col gap-3">
+          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+          <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
             <canvas id="genreChart" aria-label="Genre chart" role="img">
               {{chart}}
             </canvas>
+            <p class="self-end underline px-6 text-white mb-3">View statistics →</p>
           </div>
-          <div class="flex flex-col px-6 py-3 gap-4 items-start">
+          <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
             <h1 class="text-white underline text-[clamp(1rem,1.2vw,1.5rem)]">Your favorite from last month</h1>
             <div class="flex items-center gap-6">
               <img [src]="randomSong.img" alt="Song img"
@@ -82,8 +81,8 @@
             <p class="text-white underline self-end">Learn more →</p>
           </div>
           @for (song of songStore.songs(); track song.id; let i = $index) {
-          <app-recentlistened [img]="song.track_image" [trackName]="song.name" [artists]="song.artist_names" [index]="i"
-            [firstRecentSong]="i < 1"></app-recentlistened>
+          <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+            [artists]="song.artist_names" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
           }
         </div>
       </div>

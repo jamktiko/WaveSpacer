@@ -26,7 +26,7 @@
       </div>
       <div class="py-5 lg:py-20">
         <div class="flex flex-col rounded-xl bg-[#323132] gap-5 w-100 p-5">
-          <h2 class="text-white py-1 text-center">Settings</h2>
+          <h2 class="text-white py-1 text-center text-[clamp(1rem,1.2vw,1.5rem)]">Settings</h2>
           <div class="h-px w-full bg-[#463F48]"></div>
           <div class="grid grid-cols-2 gap-30 px-2 items-center text-left">
             <p class="justify-self-start text-white">Account</p>
@@ -68,7 +68,7 @@
           </div>
           <div class="h-px w-full bg-[#463F48]"></div>
           <div class="grid grid-cols-2 gap-20 px-[10px] text-left items-center">
-            <p class="justify-self-start text-white">Theme</p>
+            <p class="justify-self-start text-white">Light mode</p>
             <label for="check" [ngClass]="lightModeActive()"
               class="relative w-12 h-6 rounded-full justify-self-end cursor-pointer"
               (change)="settingStore.toggleLightMode()">
@@ -114,14 +114,14 @@
               <span class="hidden regbutton:block">Disconnect Spotify</span>
             </button>
             <button
-              class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-light px-4 py-2 rounded-2xl cursor-pointer text-[clamp(0.8rem,1.3vw,1rem)]">
+              class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-light px-4 py-2 rounded-2xl cursor-pointer text-sm">
               Log out
             </button>
           </div>
           <div class="h-px w-full bg-[#463F48]"></div>
           <div class="flex flex-col items-center">
             <button
-              class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-light px-4 py-2 rounded-2xl cursor-pointer text-[clamp(0.6rem,1vw,0.9rem)]">
+              class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-light px-4 py-2 rounded-2xl cursor-pointer text-sm">
               Delete Account
             </button>
           </div>
