@@ -35,6 +35,11 @@ export class SettingsComponent implements OnInit {
     } else {
       this.settingStore.changeLanguage(localStorage.getItem('language') || '');
     }
+    if (localStorage.getItem('lightmode')) {
+      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
+        this.settingStore.turnOnLightMode();
+      }
+    }
   }
 
   languageDropdownVisible() {
@@ -43,5 +48,17 @@ export class SettingsComponent implements OnInit {
 
   lightModeActive() {
     return this.settingStore.lightmode() ? `bg-white` : `bg-black`;
+  }
+
+  lightModeActive2() {
+    return this.settingStore.lightmode()
+      ? 'right-1 bg-black'
+      : 'left-1 bg-[#D9D9D9]';
+  }
+
+  modeBackground() {
+    return this.settingStore.lightmode()
+      ? `bg-[url(/images/lightbackground2.png)]`
+      : `bg-[url(/images/background2.png)]`;
   }
 }

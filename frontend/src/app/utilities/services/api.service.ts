@@ -41,4 +41,24 @@ export class ApiService {
       { withCredentials: true }
     );
   }
+
+  getRecents(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/recents`, {
+      withCredentials: true,
+    });
+  }
+
+  // getRecents() {
+  //   axios
+  //     .get(`${environment.apiUrl}api/recents`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => console.log(res));
+  // }
+
+  getLastMonthFavorite(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/lastMonthFav`, {
+      withCredentials: true,
+    });
+  }
 }

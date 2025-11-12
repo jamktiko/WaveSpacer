@@ -26,6 +26,10 @@ export const settingStore = signalStore(
         patchState(store, { lightmode: !store.lightmode() });
         localStorage.setItem('lightmode', JSON.stringify(store.lightmode()));
       },
+      turnOnLightMode() {
+        patchState(store, { lightmode: true });
+        localStorage.setItem('lightmode', JSON.stringify(store.lightmode()));
+      },
     };
   })
 );
