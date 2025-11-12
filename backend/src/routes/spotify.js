@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../../verifytoken');
 const spotifyController = require('../controllers/spotifyController');
+const trackRepository = require('../repositories/trackRepository');
+const genreRepository = require('../repositories/genreRepository');
 
 // Routes
 router.get('/login', spotifyController.login);
@@ -24,5 +26,15 @@ router.post(
   verifyToken,
   spotifyController.deleteTracksFromPlaylist
 );
+router.get('/lastMonthFav', verifyToken, async (req, res) => {
+  const userId = req.user_id;
+  const result = await trackRepository.favoriteFromLastMonth(userId);
+  res.json(result);
+});
+router.get('/genres', verifyToken, async (req, res) => {
+  const userId = req.user_id;
+  const result = await genreRepository.getTopGenres(userId);
+  res.json(result);
+});
 
 module.exports = router;

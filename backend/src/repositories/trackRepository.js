@@ -51,5 +51,5 @@ exports.favoriteFromLastMonth = async (userId) => {
   LIMIT 1;`;
 
   const result = await pool.query(query, [userId]);
-  return result;
+  return result[0] || null;
 };
