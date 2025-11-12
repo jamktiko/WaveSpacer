@@ -26,11 +26,7 @@ router.post(
   verifyToken,
   spotifyController.deleteTracksFromPlaylist
 );
-router.get('/lastMonthFav', verifyToken, async (req, res) => {
-  const userId = req.user_id;
-  const result = await trackRepository.favoriteFromLastMonth(userId);
-  res.json(result);
-});
+router.get('/lastMonthFav', verifyToken, spotifyController.lastMonthFavInfo);
 router.get('/genres', verifyToken, async (req, res) => {
   const userId = req.user_id;
   const result = await genreRepository.getTopGenres(userId);

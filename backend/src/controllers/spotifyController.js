@@ -11,6 +11,8 @@ const Artist = require('../models/Artist');
 const ArtistSong = require('../models/ArtistSong');
 const GenreArtist = require('../models/GenreArtist');
 const trackRepository = require('../repositories/trackRepository');
+const genreRepository = require('../repositories/genreRepository');
+
 const e = require('cors');
 
 exports.login = (req, res) => {
@@ -102,10 +104,59 @@ exports.recents = async (req, res) => {
     );
 
     const recents = await spotifyService.getRecentlyPlayed(access_token);
-    res.json(recents);
+    let spotifyIds = [];
+    let songs = [];
+    for (let song of recents.items) {
+      spotifyIds.push(song.track.id);
+      songs.push({
+        spotify_track_id: song.track.id,
+        name: song.track.name,
+        User_id: userId,
+        played_at: song.played_at,
+        track_image: song.track.album.images?.[0]?.url,
+        artists: song.track.artists,
+      });
+    }
+    const dbSongs = await Song.getSongsBySpotifyIds(userId, spotifyIds);
+
+    const amountMap = new Map(
+      dbSongs.map((s) => [s.spotify_track_id, s.amount])
+    );
+
+    songs = songs.map((song) => ({
+      ...song,
+      amount: amountMap.get(song.spotify_track_id) || 0,
+    }));
+
+    res.json(songs);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching recently played tracks');
+  }
+};
+
+exports.lastMonthFavInfo = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    let access_token = await tokenStore.getAccessTokenOrRefresh(
+      userId,
+      'spotify_access_token'
+    );
+    const result = await trackRepository.favoriteFromLastMonth(userId);
+    const info = await spotifyService.getTrack(
+      result.spotify_track_id,
+      access_token
+    );
+    const genres = await genreRepository.getGenresOfSong(
+      result.spotify_track_id,
+      userId
+    );
+    result.duration_ms = info.duration_ms;
+    result.genres = genres.join(', ');
+    res.json(result);
+  } catch (err) {
+    console.error('Error in lastMonthFavInfo:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

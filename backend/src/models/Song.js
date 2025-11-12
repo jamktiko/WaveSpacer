@@ -43,7 +43,7 @@ exports.getSongsBySpotifyIds = async (userId, spotifyIds) => {
 
   const placeholders = spotifyIds.map(() => '?').join(',');
   const query = `
-    SELECT id, spotify_track_id
+    SELECT id, spotify_track_id, amount
     FROM Song
     WHERE User_id = ? AND spotify_track_id IN (${placeholders})
   `;

@@ -181,6 +181,16 @@ exports.getTracks = async (track_ids, access_token) => {
   return response.data;
 };
 
+exports.getTrack = async (track_id, access_token) => {
+  const response = await axios.get(
+    `https://api.spotify.com/v1/tracks/${track_id}`,
+    {
+      headers: { Authorization: 'Bearer ' + access_token },
+    }
+  );
+  return response.data;
+};
+
 exports.deletePlaylistTracks = async (
   track_uris,
   playlist_id,

@@ -6,3 +6,9 @@ exports.getTopGenres = async (userId) => {
   const [result] = await pool.query(query, [userId]);
   return result;
 };
+
+exports.getGenresOfSong = async (trackId, userId) => {
+  const query = `SELECT g.name FROM Genre g INNER JOIN Genre_Artist ga ON g.id = ga.Genre_id INNER JOIN Artist_Song ars ON ga.Artist_id = ars.Artist_id INNER JOIN Song s ON ars.Song_id = s.id WHERE s.User_id = ? AND s.spotify_track_id = ? `;
+  const result = await pool.query(query, [userId, trackId]);
+  return result.length > 0 ? result.map((r) => r.name) : [];
+};
