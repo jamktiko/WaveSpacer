@@ -152,7 +152,12 @@ exports.lastMonthFavInfo = async (req, res) => {
       userId
     );
     result.duration_ms = info.duration_ms;
-    result.genres = genres.join(', ');
+
+    if (result.genres) {
+      result.genres = genres.join(', ');
+    } else {
+      result.genres = null;
+    }
     res.json(result);
   } catch (err) {
     console.error('Error in lastMonthFavInfo:', err);

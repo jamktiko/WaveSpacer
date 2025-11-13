@@ -50,6 +50,6 @@ exports.favoriteFromLastMonth = async (userId) => {
   last_played DESC
   LIMIT 1;`;
 
-  const result = await pool.query(query, [userId]);
+  const [result] = await pool.query(query, [userId]);
   return result[0] || null;
 };
