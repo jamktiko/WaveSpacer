@@ -4,6 +4,7 @@ const verifyToken = require('../../verifytoken');
 const spotifyController = require('../controllers/spotifyController');
 const trackRepository = require('../repositories/trackRepository');
 const genreRepository = require('../repositories/genreRepository');
+const User = require('../models/User');
 
 // Routes
 router.get('/login', spotifyController.login);
@@ -31,6 +32,15 @@ router.get('/genres', verifyToken, async (req, res) => {
   const userId = req.user_id;
   const result = await genreRepository.getTopGenres(userId);
   res.json(result);
+});
+router.get('/regDate', verifyToken, async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const result = await User.getUserRegDate(userId);
+    res.json(result);
+  } catch (err) {
+    console.log('Error getting registered at date:', err.message);
+  }
 });
 
 module.exports = router;

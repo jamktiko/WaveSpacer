@@ -27,7 +27,13 @@ module.exports = class User {
   }
 
   static async getUserById(user_id) {
-    const query = `SELECT * FROM User where id = ?`;
+    const query = `SELECT * FROM User WHERE id = ?`;
+    const result = await pool.query(query, [user_id]);
+    return result[0];
+  }
+
+  static async getUserRegDate(user_id) {
+    const query = `SELECT registered_at FROM User WHERE id = ?`;
     const result = await pool.query(query, [user_id]);
     return result[0];
   }
