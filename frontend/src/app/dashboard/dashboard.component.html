@@ -1,4 +1,4 @@
-<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2 min-w-fit">
   <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
@@ -21,7 +21,7 @@
     </header>
 
     <div class="h-full w-[75%] min-w-[200px]  mx-auto mt-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
         <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">
           <div
             class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6 cursor-pointer hover:bg-[#544b57]"

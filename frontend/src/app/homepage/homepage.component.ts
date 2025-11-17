@@ -37,4 +37,8 @@ export class HomepageComponent implements OnInit {
       ? `bg-[url(/images/lightbackground2.png)]`
       : `bg-[url(/images/background.png)]`;
   }
+
+  modeBackground2() {
+    return this.settingStore.lightmode() ? `bg-[#D8D8D8]` : `bg-[#252525]`;
+  }
 }

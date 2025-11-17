@@ -33,7 +33,7 @@ export const recentListensStore = signalStore(
             loading: false,
           });
         } catch (err) {
-          console.error('Error fetching last month favortie');
+          console.error('Error fetching last month favorite', err);
           patchState(store, { loading: false });
         }
       },
@@ -42,12 +42,12 @@ export const recentListensStore = signalStore(
         try {
           const res = await apiService.getRecents();
           console.log(res);
-          const mapped: Recentsongs[] = res.data.items.map((song: any) => ({
-            id: song.track.id,
-            name: song.track.name,
-            amount: 1000,
-            track_image: song.track.album.images[0].url,
-            artist_names: song.track.album.artists
+          const mapped: Recentsongs[] = res.data.map((song: any) => ({
+            id: song.spotify_track_id,
+            name: song.name,
+            amount: song.amount,
+            track_image: song.track_image,
+            artist_names: song.artists
               .map((artist: any) => artist.name)
               .join(', '),
             listenedAt: song.played_at,

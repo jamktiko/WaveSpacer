@@ -1,4 +1,4 @@
-<div class="bg-[url(/images/background2.png)] bg-cover bg-no-repeat min-h-1/2 min-w-fit">
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2 min-w-fit">
   <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
     <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
@@ -20,18 +20,40 @@
     </header>
 
     <div class="h-full w-[75%] min-w-[200px] mx-auto mt-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch lg:h-[550px]">
-        <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">
-          <div class="flex flex-col p-4">
-            <h1 class="text-white text-xl">Your state</h1>
-            <div class="flex items-center justify-between py-4 px-5 mt-5">
-              @for (decade of decades; track decade.decade) {
-              <app-decadecard [year]="decade.decade" [count]="decade.count"></app-decadecard>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
+        <div class="flex flex-col bg-[#48404A] rounded-xl lg:rounded-none lg:rounded-l-xl p-4">
+          <h1 class="text-white text-xl">Your taste</h1>
+          <h2 class="text-white text-md pt-4 px-4 text-center">By year:</h2>
+          <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2">
+            @for (decade of decades; track decade.decade) {
+            <app-decadecard [year]="decade.decade" [count]="decade.count"></app-decadecard>
+            }
+          </div>
+          <h2 class="text-white text-md pt-4 px-4 text-center">Other categories:</h2>
+          <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2">
+            @for (category of otherCategories; track category.category) {
+            <app-decadecard [year]="category.category" [count]="category.count"></app-decadecard>
+            }
+          </div>
+          <div class="flex flex-col lg:flex-row">
+            <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+              @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
+              <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+                [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt" [index]="i"
+                [firstRecentSong]="i < 1"></app-recentlistened>
+              }
+            </div>
+            <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+              @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
+              <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+                [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt" [index]="i"
+                [firstRecentSong]="i < 1"></app-recentlistened>
               }
             </div>
           </div>
         </div>
       </div>
-
     </div>
+
+
   </div>
