@@ -48,14 +48,6 @@ export class ApiService {
     });
   }
 
-  // getRecents() {
-  //   axios
-  //     .get(`${environment.apiUrl}api/recents`, {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => console.log(res));
-  // }
-
   getLastMonthFavorite(): Promise<AxiosResponse> {
     return axios.get(`${environment.apiUrl}api/lastMonthFav`, {
       withCredentials: true,
