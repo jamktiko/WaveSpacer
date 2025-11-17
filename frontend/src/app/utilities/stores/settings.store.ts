@@ -1,5 +1,12 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { settings } from '../interfaces/settings';
+import { computed } from '@angular/core';
 
 export const settingStore = signalStore(
   {
@@ -10,6 +17,13 @@ export const settingStore = signalStore(
     dropdownvisible: false,
     lightmode: false,
   }),
+  withComputed((store) => ({
+    background: computed(() =>
+      store.lightmode()
+        ? 'bg-[url(/images/lightbackground2.png)]'
+        : 'bg-[url(/images/background2.png)]'
+    ),
+  })),
   withMethods((store) => {
     return {
       changeLanguage(language: string) {

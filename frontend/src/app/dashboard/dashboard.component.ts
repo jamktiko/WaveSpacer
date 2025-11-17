@@ -12,11 +12,17 @@ import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 import { RouterLink } from '@angular/router';
 import { uiStore } from '../utilities/stores/ui.store';
 import { recentListensStore } from '../utilities/stores/recentlistens.store';
-// import { ApiService } from '../utilities/services/api.service';
+import { settingStore } from '../utilities/stores/settings.store';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RecentlistenedComponent, UserdropdownComponent, RouterLink],
+  imports: [
+    RecentlistenedComponent,
+    UserdropdownComponent,
+    RouterLink,
+    NgClass,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -26,7 +32,7 @@ export class DashboardComponent implements OnInit {
   songStore = inject(songStore);
   uiStore = inject(uiStore);
   recentlistensStore = inject(recentListensStore);
-  // a = inject(ApiService);
+  settingStore = inject(settingStore);
 
   title: String = this.uiStore.title();
   randomPlaylistImg!: string;
@@ -63,9 +69,14 @@ export class DashboardComponent implements OnInit {
     this.playlistStore.getPlaylists();
     this.createChart();
     this.recentlistensStore.getLastMonthFav();
-    // localStorage.removeItem('selectedPlaylist');
-    // this.a.getRecents();
+    localStorage.removeItem('selectedPlaylist');
     this.recentlistensStore.getRecentListens();
+
+    if (localStorage.getItem('lightmode')) {
+      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
+        this.settingStore.turnOnLightMode();
+      }
+    }
   }
 
   createChart() {

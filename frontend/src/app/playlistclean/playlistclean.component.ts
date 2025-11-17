@@ -9,6 +9,8 @@ import { FiltersComponent } from '../filters/filters.component';
 import { ConfirmSongDeletionSelectComponent } from '../confirm-song-deletion-select/confirm-song-deletion-select.component';
 import { uiStore } from '../utilities/stores/ui.store';
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
+import { settingStore } from '../utilities/stores/settings.store';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-playlistclean',
@@ -18,6 +20,7 @@ import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
     FiltersComponent,
     ConfirmSongDeletionSelectComponent,
     UserdropdownComponent,
+    NgClass,
   ],
   templateUrl: './playlistclean.component.html',
   styleUrl: './playlistclean.component.css',
@@ -27,6 +30,7 @@ export class PlaylistcleanComponent implements OnInit {
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
   uiStore = inject(uiStore);
+  settingStore = inject(settingStore);
 
   title: string = this.uiStore.title();
   filtersVisible: boolean = false;
