@@ -55,7 +55,7 @@ exports.refreshAccessToken = async (userId) => {
     'spotify_refresh_token'
   );
 
-  const refresh_token = refreshData.token;
+  const refresh_token = decrypt(refreshData.token);
 
   const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
     'base64'
@@ -88,9 +88,11 @@ exports.refreshAccessToken = async (userId) => {
 
   console.log('expiresAt LASKETTU:', expiresAt);
 
+  const encryptedAccTkn = await encrypt(access_token);
+
   const userTokens = new UserTokens(
     'spotify_access_token',
-    access_token,
+    encryptedAccTkn,
     expiresAt,
     userId
   );
@@ -99,9 +101,11 @@ exports.refreshAccessToken = async (userId) => {
 
   const new_refresh_token = response.data.refresh_token || refresh_token;
   if (new_refresh_token !== refresh_token) {
+    const encryptedRefTkn = await encrypt(new_refresh_token);
+
     const userTokens2 = new UserTokens(
       'spotify_refresh_token',
-      new_refresh_token,
+      encryptedRefTkn,
       null,
       userId
     );

@@ -1,5 +1,6 @@
 const tokenCache = new Map();
 const UserTokens = require('../models/UserTokens');
+const { decrypt } = require('../utils/encryption');
 
 const spotifyService = require('./spotifyService');
 
@@ -16,6 +17,7 @@ async function setAccessToken(userId, access_token, type, expiresIn) {
 
 async function getAccessToken(userId, type) {
   const entry = await UserTokens.getToken(userId, type);
+
   if (!entry) return null;
 
   // const expiresAt = Number(entry.expires_at);
@@ -24,7 +26,9 @@ async function getAccessToken(userId, type) {
     return null;
   }
 
-  return entry.token;
+  const decryptedTkn = await decrypt(entry.token);
+
+  return decryptedTkn;
 }
 
 async function getAccessTokenOrRefresh(userId, type) {
