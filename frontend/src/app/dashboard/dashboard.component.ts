@@ -6,7 +6,6 @@ import { OnInit } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
-import { Songdata } from '../utilities/interfaces/songdata';
 import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 import { RouterLink } from '@angular/router';
@@ -14,6 +13,7 @@ import { uiStore } from '../utilities/stores/ui.store';
 import { recentListensStore } from '../utilities/stores/recentlistens.store';
 import { settingStore } from '../utilities/stores/settings.store';
 import { NgClass } from '@angular/common';
+import { Genre } from '../utilities/interfaces/genre';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,30 +36,23 @@ export class DashboardComponent implements OnInit {
 
   title: String = this.uiStore.title();
   randomPlaylistImg!: string;
-  randomSong = {
-    img: '',
-    song: '',
-    artist: '',
-  };
   chart!: any;
   userDropDownVisible: boolean = false;
+  chartInitialized: boolean = false;
 
   constructor() {
     effect(() => {
       const playlists = this.playlistStore.playlists();
-      const songs = this.songStore.songs();
+      const genres = this.songStore.genres();
 
       if (playlists.length > 0) {
         const index = Math.floor(Math.random() * playlists.length);
         this.randomPlaylistImg = this.playlistStore.playlists()[index].img;
       }
 
-      if (songs.length > 0) {
-        const index = Math.floor(Math.random() * songs.length);
-        const randomSong: Songdata = this.songStore.songs()[index];
-        this.randomSong.img = randomSong.track_image || '';
-        this.randomSong.song = randomSong.name || '';
-        this.randomSong.artist = randomSong.artist_names?.join(', ') || '';
+      if (genres && genres.length > 0 && !this.chartInitialized) {
+        this.createChart(genres);
+        this.chartInitialized = true;
       }
     });
   }
@@ -67,11 +60,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
-    this.createChart();
+    this.songStore.getGenres();
     this.recentlistensStore.getLastMonthFav();
     localStorage.removeItem('selectedPlaylist');
     this.recentlistensStore.getRecentListens();
-
     if (localStorage.getItem('lightmode')) {
       if (JSON.parse(localStorage.getItem('lightmode') || '')) {
         this.settingStore.turnOnLightMode();
@@ -79,12 +71,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  createChart() {
+  createChart(genres: Genre[]) {
+    const labels = genres.map((genre) => genre.genre);
+    const amount = genres.map((genre) => genre.amount);
+
     const data = {
-      labels: ['a', 'b', 'c', 'd', 'e'],
+      labels: labels.slice(0, 5),
       datasets: [
         {
-          data: [100, 50, 30, 20, 10],
+          data: amount.slice(0, 5),
           backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
           hoverOffset: 4,
         },
@@ -96,6 +91,7 @@ export class DashboardComponent implements OnInit {
       data,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           datalabels: {
             formatter: (value: any, context: any) => {

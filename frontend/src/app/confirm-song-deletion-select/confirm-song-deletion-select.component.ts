@@ -27,6 +27,8 @@ export class ConfirmSongDeletionSelectComponent {
       this.playlistStore.selected()?.id || null,
       this.songSelectStore.selectedIds()
     );
+    this.songStore.getSongs(this.playlistStore.selected()?.id || '');
     this.songSelectStore.clear();
+    this.songDeletionConfirmVisible.emit(false);
   }
 }

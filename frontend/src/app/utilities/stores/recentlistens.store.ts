@@ -24,11 +24,11 @@ export const recentListensStore = signalStore(
           console.log(res);
           patchState(store, {
             lastMonthFav: {
-              name: res.data[0].name,
-              artist_names: res.data[0].artist_names,
-              plays: res.data[0].plays,
-              last_played: res.data[0].last_played,
-              track_img: res.data[0].track_image,
+              name: res.data.song_name,
+              artist_names: res.data.artist_names,
+              plays: res.data.plays,
+              last_played: res.data.last_played,
+              track_img: res.data.track_image,
             },
             loading: false,
           });

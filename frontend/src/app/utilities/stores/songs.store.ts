@@ -3,6 +3,7 @@ import { songState } from '../interfaces/songstate';
 import { Songdata } from '../interfaces/songdata';
 import { inject } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Genre } from '../interfaces/genre';
 
 export const songStore = signalStore(
   {
@@ -11,6 +12,7 @@ export const songStore = signalStore(
   withState<songState>({
     songs: [] as Songdata[],
     loading: false,
+    genres: [] as Genre[],
   }),
   withMethods((store) => {
     const apiService = inject(ApiService);
@@ -54,6 +56,23 @@ export const songStore = signalStore(
           }
         } else {
           console.log('id was null');
+        }
+      },
+      async getGenres() {
+        patchState(store, { loading: true });
+        try {
+          const res = await apiService.getGenres();
+          const genres: Genre[] = res.data.map((genre: any) => ({
+            genre: genre.genre,
+            amount: genre.count,
+          }));
+          const sorted: Genre[] = [...genres].sort(
+            (a, b) => b.amount - a.amount
+          );
+          console.log(sorted);
+          patchState(store, { genres: sorted });
+        } catch (err) {
+          console.log('error getting genres', err);
         }
       },
     };
