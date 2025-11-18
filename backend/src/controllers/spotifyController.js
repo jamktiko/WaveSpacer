@@ -14,6 +14,7 @@ const trackRepository = require('../repositories/trackRepository');
 const genreRepository = require('../repositories/genreRepository');
 
 const e = require('cors');
+const { encrypt } = require('../utils/encryption');
 
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
@@ -34,9 +35,11 @@ exports.callback = async (req, res) => {
       userID = await user.save();
     }
 
+    const encryptedRefTkn = await encrypt(tokens.refresh_token);
+
     const userTokens = new UserTokens(
       'spotify_refresh_token',
-      tokens.refresh_token,
+      encryptedRefTkn,
       null,
       userID
     );
@@ -46,9 +49,12 @@ exports.callback = async (req, res) => {
     // const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
     const expiresAt = Math.floor(Date.now() / 1000) + (tokens.expires_in - 60);
 
+    const encryptedAccTkn = await encrypt(tokens.access_token);
+    console.log('pituus:', encryptedAccTkn.length);
+
     const userTokens2 = new UserTokens(
       'spotify_access_token',
-      tokens.access_token,
+      encryptedAccTkn,
       expiresAt,
       userID
     );
