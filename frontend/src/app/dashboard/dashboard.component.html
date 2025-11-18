@@ -46,15 +46,22 @@
 
           </div>
 
-          <div class="flex flex-col p-6 items-center gap-5 border-b-0">
-            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Your total songs cleaned<br /> with
+          <div class="flex flex-col p-6 items-center gap-5 border-b-0 mt-8">
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Total songs cleaned<br /> with
               WaveSpacer</h2>
             <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">22</div>
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Duplicate songs removed<br /> with
+              WaveSpacer</h2>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">40</div>
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Time saved while<br /> using
+              WaveSpacer</h2>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">Infinity
+            </div>
           </div>
           <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
             <p class="text-white text-center my-auto text-[clamp(1rem,1vw,2.5rem)]">
               You have been connected<br />
-              to WaveSpacer for 666 days
+              to WaveSpacer for {{daysSinceRegister.toFixed(0)}} days
             </p>
           </div>
         </div>
@@ -62,7 +69,7 @@
           class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[900px]">
           <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
-            <div class="w-full h-[200px] md:h-[300px]">
+            <div class="w-full h-[200px]">
               <canvas id="genreChart" aria-label="Genre chart" role="img">
                 {{chart}}
               </canvas>
@@ -72,11 +79,10 @@
           <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
             <h1 class="text-white underline text-[clamp(1rem,1.2vw,1.5rem)]">Your favorite from last month</h1>
             <div class="flex items-center gap-6">
-              <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img"
-                class="w-10 h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 rounded-xl">
+              <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img" class="w-20 h-20 rounded-xl">
               <div class="flex flex-col max-w-xs overflow-hidden">
-                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">{{recentlistensStore.lastMonthFav().name}}</p>
-                <p class="text-white text-[clamp(0.8rem,1.5vw,1rem)]">
+                <p class="text-white text-sm">{{recentlistensStore.lastMonthFav().name}}</p>
+                <p class="text-white text-sm">
                   {{recentlistensStore.lastMonthFav().artist_names}}</p>
               </div>
             </div>
