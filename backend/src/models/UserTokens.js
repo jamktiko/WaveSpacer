@@ -10,7 +10,7 @@ module.exports = class User_tokens {
 
   async save() {
     const query = `INSERT INTO User_tokens (type, token, expires_at, User_id) VALUES (?, ?, ?, ?) 
-    ON DUPLICATE KEY UPDATE token = VALUES(token), expires_at = VALUES(expires_at);`;
+    ON DUPLICATE KEY UPDATE token = VALUES(token), expires_at = VALUES(expires_at)`;
 
     const [result] = await pool.query(query, [
       this.type,
