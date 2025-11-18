@@ -1,0 +1,103 @@
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2 min-w-fit">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,2vw,2rem)]">
+          {{title}}
+        </h1>
+      </a>
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profileStore.profilepic()" alt="profilepic"
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
+      </div>
+
+    </header>
+
+    <div class="h-full w-[75%] min-w-[200px]  mx-auto mt-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
+        <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">
+          <div
+            class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-6 cursor-pointer hover:bg-[#544b57]"
+            routerLink="/playlists">
+            <img [src]="randomPlaylistImg" alt="playlist img" routerLink="/playlists"
+              class="rounded-2xl w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
+            <div class="flex flex-col">
+              <h1 class="text-white underline text-center lg:text-start text-[clamp(0.8rem,1.4vw,1.5rem)]">
+                Playlist-cleaner</h1>
+              <p class="text-white text-center lg:text-start text-[clamp(0.6rem,0.8vw,1.0rem)]">Uses left</p>
+            </div>
+          </div>
+          <div class="grid grid-row grid-cols-4 lg:grid-cols-[auto_1fr_1fr] p-6 justify-items-center lg:justify-items-start items-center 
+            gap-2 cursor-pointer hover:bg-[#544b57]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#744C7C"
+              class="w-10 h-10 lg:w-15 lg:h-15 col-start-1 mobileM:col-start-2 col-span-2 mobileM:col-span-1 lg:col-start-1 sm:justify-self-end sm:mr-5">
+              <path
+                d="M313.33-80q-27 0-46.83-19.83-19.83-19.84-19.83-46.84v-100h-100q-27 0-46.84-19.83Q80-286.33 80-313.33V-390h66.67v76.67h100v-333.34q0-27 19.83-46.83t46.83-19.83h333.34v-100H570V-880h76.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84v100h100q27 0 46.84 19.83Q880-673.67 880-646.67v500q0 27-19.83 46.84Q840.33-80 813.33-80h-500Zm0-66.67h500v-500h-500v500ZM80-483.33v-160h66.67v160H80Zm0-253.34v-76.66q0-27 19.83-46.84Q119.67-880 146.67-880h76.66v66.67h-76.66v76.66H80Zm236.67-76.66V-880h160v66.67h-160Zm-3.34 666.66v-500 500Z" />
+            </svg>
+
+            <h2 class="text-white underline text-[clamp(0.8rem,1vw,1.3rem)]">Duplicate-remover</h2>
+
+          </div>
+
+          <div class="flex flex-col p-6 items-center gap-5 border-b-0 mt-8">
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Total songs cleaned<br /> with
+              WaveSpacer</h2>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">22</div>
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Duplicate songs removed<br /> with
+              WaveSpacer</h2>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">40</div>
+            <h2 class="text-white text-center text-[clamp(1rem,1.1vw,1.5rem)]">Time saved while<br /> using
+              WaveSpacer</h2>
+            <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">Infinity
+            </div>
+          </div>
+          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
+            <p class="text-white text-center my-auto text-[clamp(1rem,1vw,2.5rem)]">
+              You have been connected<br />
+              to WaveSpacer for {{daysSinceRegister.toFixed(0)}} days
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[900px]">
+          <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
+            <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
+            <div class="w-full h-[200px]">
+              <canvas id="genreChart" aria-label="Genre chart" role="img">
+                {{chart}}
+              </canvas>
+            </div>
+            <p class="self-end underline px-6 text-white mb-3">View statistics →</p>
+          </div>
+          <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
+            <h1 class="text-white underline text-[clamp(1rem,1.2vw,1.5rem)]">Your favorite from last month</h1>
+            <div class="flex items-center gap-6">
+              <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img" class="w-20 h-20 rounded-xl">
+              <div class="flex flex-col max-w-xs overflow-hidden">
+                <p class="text-white text-sm">{{recentlistensStore.lastMonthFav().name}}</p>
+                <p class="text-white text-sm">
+                  {{recentlistensStore.lastMonthFav().artist_names}}</p>
+              </div>
+            </div>
+            <p class="text-white underline self-end">Learn more →</p>
+          </div>
+          <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+            @for (song of recentlistensStore.recents().slice(0,20); track song.listenedAt; let i = $index) {
+            <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+              [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt"
+              [listType]="'dashboardRecents'" [title]="'Recently listened'" [index]="i"
+              [firstRecentSong]="i < 1"></app-recentlistened>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

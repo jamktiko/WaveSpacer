@@ -1,0 +1,11 @@
+<div
+  class="bg-[#38313A] rounded-b-md py-2 z-1000 max-h-[300px] flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay"
+  (click)="$event.stopPropagation()">
+  <div class="flex flex-col gap-3 text-left p-0 text-white font-normal">
+    @for (language of remainingLanguages(); track language.id) {
+    <div class="px-3 pr-20 hover:bg-[#706573] cursor-pointer" (click)="settingStore.changeLanguage(language.language)">
+      {{language.language}}</div>
+    }
+
+  </div>
+</div>

@@ -1,19 +1,18 @@
 const axios = require('axios');
 const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
+const UserTokens = require('../models/UserTokens');
+const User = require('../models/User');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri =
-  process.env.SPOTIFY_REDIRECT_URI || 'http://127.0.0.1:4200/spotifycb';
-
-let spotifyTokens = {};
+const redirect_uri = `${process.env.FRONTEND_URL}/spotifycb`;
 
 exports.getLoginUrl = () => {
   const state = randomUtils.generateRandomString();
-  const scope = 'user-read-private user-read-email user-read-recently-played';
-
-  return (
+  const scope =
+    'user-read-private user-read-email user-read-recently-played playlist-modify-public playlist-modify-private';
+  const spotify =
     'https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -21,8 +20,8 @@ exports.getLoginUrl = () => {
       scope,
       redirect_uri,
       state,
-    })
-  );
+    });
+  return spotify;
 };
 
 exports.getAccessToken = async (code) => {
@@ -43,47 +42,84 @@ exports.getAccessToken = async (code) => {
     }
   );
 
-  spotifyTokens = {
+  return {
     access_token: tokenResponse.data.access_token,
     refresh_token: tokenResponse.data.refresh_token,
-    expires_at: Date.now() + tokenResponse.data.expires_in * 1000,
+    expires_in: tokenResponse.data.expires_in,
   };
-
-  return spotifyTokens;
 };
 
-exports.refreshAccessToken = async () => {
-  if (!spotifyTokens.refresh_token)
-    throw new Error('No refresh token available');
+exports.refreshAccessToken = async (userId) => {
+  const refreshData = await UserTokens.getToken(
+    userId,
+    'spotify_refresh_token'
+  );
 
-  const tokenResponse = await axios.post(
+  const refresh_token = decrypt(refreshData.token);
+
+  const authHeader = Buffer.from(client_id + ':' + client_secret).toString(
+    'base64'
+  );
+
+  const params = new URLSearchParams();
+  params.append('grant_type', 'refresh_token');
+  params.append('refresh_token', refresh_token);
+
+  const response = await axios.post(
     'https://accounts.spotify.com/api/token',
-    querystring.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: spotifyTokens.refresh_token,
-    }),
+    params,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+        Authorization: 'Basic ' + authHeader,
       },
     }
   );
 
-  spotifyTokens.access_token = tokenResponse.data.access_token;
-  spotifyTokens.expires_at = Date.now() + tokenResponse.data.expires_in * 1000;
+  console.log('REFRESH RESULT:', response.data);
 
-  return spotifyTokens;
-};
+  const access_token = response.data.access_token;
+  // const me = await this.getProfile(access_token);
+  // const user = new User(me.id);
+  // const userID = await user.getUserID();
+  // const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
+  const expiresAt =
+    Math.floor(Date.now() / 1000) + (response.data.expires_in - 60);
 
-exports.getAccessTokenSafe = async () => {
-  if (!spotifyTokens.access_token || Date.now() > spotifyTokens.expires_at) {
-    await exports.refreshAccessToken();
+  console.log('expiresAt LASKETTU:', expiresAt);
+
+  const encryptedAccTkn = await encrypt(access_token);
+
+  const userTokens = new UserTokens(
+    'spotify_access_token',
+    encryptedAccTkn,
+    expiresAt,
+    userId
+  );
+
+  await userTokens.save();
+
+  const new_refresh_token = response.data.refresh_token || refresh_token;
+  if (new_refresh_token !== refresh_token) {
+    const encryptedRefTkn = await encrypt(new_refresh_token);
+
+    const userTokens2 = new UserTokens(
+      'spotify_refresh_token',
+      encryptedRefTkn,
+      null,
+      userId
+    );
+    await userTokens2.save();
   }
-  return spotifyTokens.access_token;
+  return access_token;
 };
+
+// exports.getAccessTokenSafe = async () => {
+//   if (!spotifyTokens.access_token || Date.now() > spotifyTokens.expires_at) {
+//     await exports.refreshAccessToken();
+//   }
+//   return spotifyTokens.access_token;
+// };
 
 exports.getProfile = async (access_token) => {
   const response = await axios.get('https://api.spotify.com/v1/me', {
@@ -99,12 +135,89 @@ exports.getPlaylists = async (access_token) => {
   return response.data;
 };
 
-exports.getRecentlyPlayed = async (access_token) => {
+exports.getPlaylistTracks = async (access_token, playlistId) => {
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+      {
+        headers: { Authorization: 'Bearer ' + access_token },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Spotify API error:',
+      error.response?.status,
+      error.response?.data || error.message
+    );
+    throw new Error('Spotify API request failed');
+  }
+};
+
+exports.getRecentlyPlayed = async (access_token, after) => {
+  let url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+  if (after) {
+    url += `&after=${after}`;
+  }
+  const response = await axios.get(url, {
+    headers: { Authorization: 'Bearer ' + access_token },
+  });
+  return response.data;
+};
+
+exports.getArtist = async (artistId, access_token) => {
   const response = await axios.get(
-    'https://api.spotify.com/v1/me/player/recently-played',
+    `https://api.spotify.com/v1/artists/${artistId}`,
     {
       headers: { Authorization: 'Bearer ' + access_token },
     }
   );
   return response.data;
+};
+
+exports.getTracks = async (track_ids, access_token) => {
+  const response = await axios.get(
+    `https://api.spotify.com/v1/tracks?ids=${track_ids.join()}`,
+    {
+      headers: { Authorization: 'Bearer ' + access_token },
+    }
+  );
+  return response.data;
+};
+
+exports.getTrack = async (track_id, access_token) => {
+  const response = await axios.get(
+    `https://api.spotify.com/v1/tracks/${track_id}`,
+    {
+      headers: { Authorization: 'Bearer ' + access_token },
+    }
+  );
+  return response.data;
+};
+
+exports.deletePlaylistTracks = async (
+  track_uris,
+  playlist_id,
+  access_token
+) => {
+  try {
+    await axios.delete(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + access_token,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          tracks: track_uris.map((uri) => ({ uri })),
+        },
+      }
+    );
+  } catch (error) {
+    console.error(
+      'Spotify deletePlaylistTracks error:',
+      error.response?.data || error.message
+    );
+    throw new Error('Failed to delete tracks from playlist');
+  }
 };

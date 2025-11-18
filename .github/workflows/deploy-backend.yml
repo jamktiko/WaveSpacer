@@ -1,0 +1,53 @@
+name: Deploy Backend to AWS
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'backend/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ secrets.ARN_ROLE }}
+          aws-region: eu-north-1
+
+      - name: Deploy backend to EC2 via SSM
+        run: |
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=playlist-cleaner-api-dev" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+
+          echo "Deploying to EC2 instance: $INSTANCE_ID"
+
+          aws ssm send-command \
+            --targets "Key=instanceIds,Values=$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy backend update" \
+            --parameters 'commands=[
+              "set -e",
+              "cd /opt || exit 1",
+              "if [ -d backend ]; then rm -rf backend; fi",
+              "git clone -b develop --depth=1 --filter=blob:none --sparse https://github.com/jamktiko/WaveSpacer.git backend",
+              "cd backend",
+              "git sparse-checkout set backend",
+              "cd backend",
+              "npm ci --omit=dev || npm install --omit=dev",
+              "chown -R ssm-user:ssm-user /opt/backend",
+              "sudo -u ssm-user pm2 restart ecosystem.config.js --name backend || sudo -u ssm-user pm2 start ecosystem.config.js",
+              "sudo -u ssm-user pm2 save",
+              "sudo -u ssm-user pm2 startup --yes"
+            ]'

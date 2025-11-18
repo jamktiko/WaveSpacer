@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-spotify-cb',
@@ -14,11 +15,17 @@ export class SpotifyCbComponent implements OnInit {
 
   ngOnInit(): void {
     const code = this.route.snapshot.queryParamMap.get('code');
-    console.log('code:' + code);
+    if (!code) {
+      this.router.navigate(['']);
+    }
     axios
-      .get('http://127.0.0.1:8888/callback?code=' + code, {
+      .get(`${environment.apiUrl}api/callback?code=` + code, {
         withCredentials: true,
       })
-      .then((response) => this.router.navigate(['playlists']));
+      .then(() => this.router.navigate(['dashboard']))
+      .catch((err) => {
+        console.warn(err);
+        this.router.navigate(['']);
+      });
   }
 }

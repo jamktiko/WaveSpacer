@@ -1,69 +1,58 @@
-<div
-  class="font-[Montserrat] min-h-screen bg-gradient-to-b from-[#212121] to-[#252525] flex flex-col items-center text-white">
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-screen">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
 
-  <!-- Header -->
-  <header class="w-full bg-gradient-to-t from-[#212121] to-[#252525] h-24 flex items-start pl-3 pt-7">
-    <img class=" h-10 w-10 sm:w-12 sm:h-12" src="/src/assets/TheLogo.png" alt="WaveSpacer logo" />
-    <a href="login.html" class="text-2xl font-medium text-white ">WaveSpacer</a>
-  </header>
+    <header class="flex justify-center items-center">
+      <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-10 h-10 md:w-13 md:h-13 lg:w-16 lg:h-16 xl:w-19 xl:h-19 2xl:w-22 2xl:h-22 object-cover" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+          {{title}}
+        </h1>
+      </a>
+    </header>
 
 
+    <div class="flex items-center justify-center">
+      <div
+        class="bg-gradient-to-br from-[#625c64] to-[#312b38] w-[17rem] md:w-[25rem] my-10 border-[#58525A] border-1 rounded-2xl">
+        <div class="my-8 text-center lg:mb-8 xl:mb-3">
+          <h1 class="font-bold leading-tight text-[clamp(1rem,3vw,1.5rem)] text-white">
+            Register
+          </h1>
+          <p class="font-neutral text-white mt-4 text-[clamp(0.8rem,2vw,1.1rem)]">
+            and connect your Spotify after
+          </p>
+        </div>
 
-  <!-- Main Content/ Register Info -->
-  <div class=" bg-gradient-to-br from-[#625c64] to-[#312b38] mt-12
-      w-[clamp(320px,90vw,425px)]
-      md:my-10 md:w-md
-      lg:my-12 lg:w-lg
-      xl:my-16 xl:w-xl
-      2xl:my-20 2xl:w-2xl
-       border-[#58525A] border-1 rounded-2xl">
 
-    <!--H1 -text-->
-    <div class="my-8 text-center
-      lg:mb-8 lg:mx-5
-      xl:mb-10">
-      <h1 class=" font-bold text-3xl leading-tight
-        md:text-3xl 
-        lg:text-4xl 
-        xl:text-5xl"> Register as a new <span class="text-[#b76efe] block mt-2">user</span>
-      </h1>
-      <p class=" font-light text-lg mt-4
-        md:text-xl 
-        lg:text-2xl lg:mt-6 ">
-        and connect your playlist later
-      </p>
+        <div class="py-5 px-5 flex flex-col gap-3 md:gap-5 lg:px-5 lg:py-8 xl:py-10">
+          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="email" placeholder="AÖ1234@student.jamk.fi" />
+          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="password" placeholder="password" />
+          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="password" placeholder="repeat password" />
+        </div>
+
+
+        <div class="my flex items-center justify-center">
+          <button type="submit"
+            class="bg-gradient-to-r from-[#594765] to-[#6a5280] text-[#B76EFE] font-semibold px-6 py-3 rounded-3xl border border-[#58525A] cursor-pointer">
+            Register
+          </button>
+        </div>
+
+
+        <div class="my-8 lg:mt-10 pt-6 lg:pt-8 text-center border-t border-[#58525A]">
+          <p class="text-[#7C7C7C] text-sm lg:text-base">
+            Already have an account?
+            <a routerLink="/"
+              class="text-[#B76EFE] hover:text-[#7e42b8] font-medium transition-colors duration-200 cursor-pointer">Sign
+              in</a>
+          </p>
+        </div>
+
+      </div>
     </div>
-
-    <!--Input-elements-->
-    <div class="py-5 px-5 flex flex-col gap-6  md:gap-8 
-       md:px-10 md:py-5
-       lg:px-16 lg:py-8
-       xl:px-20 xl:py-10
-       2xl:px-24 2xl:py-12">
-      <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
-        type="email" placeholder="AÖ1234@student.jamk.fi" />
-      <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
-        type="password" placeholder="password" />
-      <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
-        type="password" placeholder="repeat password" />
-    </div>
-
-    <!--Button-->
-    <div class=" my-5">
-      <button onclick="location.href='index2.html'" type="submit"
-        class="bg-gradient-to-r from-[#594765] to-[#6a5280] text-[#B76efe] font-semibold px-6 py-3 mx-auto block rounded-3xl border border-[#58525A]">
-        Register
-      </button>
-    </div>
-
-    <!-- Sign in link -->
-    <div class="my-8 lg:mt-12 pt-6 lg:pt-8 text-center border-t border-[#58525A]">
-      <p class="text-[#7C7C7C] text-sm lg:text-base">
-        Already have an account?
-        <a href="login.html" class="text-[#b76efe] hover:text-white font-medium transition-colors duration-200">Sign
-          in</a>
-      </p>
-    </div>
-
   </div>
 </div>

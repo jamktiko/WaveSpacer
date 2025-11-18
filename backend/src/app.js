@@ -1,17 +1,17 @@
 const express = require('express');
-require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://127.0.0.1:4200',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: process.env.FRONTEND_URL,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   preflightContinue: false,
   credentials: true,
   optionsSuccessStatus: 204,
 };
 
 const spotifyRoutes = require('./routes/spotify');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -19,9 +19,10 @@ const app = express();
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(cookieParser()); // <- ensin lisätään cookie-parser
+app.use(cookieParser());
 
 // reitit
-app.use('/', spotifyRoutes);
+app.use('/api', spotifyRoutes);
+app.use('/user', userRoutes);
 
 module.exports = app;

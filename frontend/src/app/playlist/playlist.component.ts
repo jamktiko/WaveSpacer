@@ -1,39 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
-import { Playlistdata } from '../playlistdata';
-import { ListComponent } from '../list/list.component';
-import { Router } from '@angular/router';
+import { Component, Input, inject } from '@angular/core';
+import { ConfirmPlaylistSelectComponent } from '../confirm-playlist-select/confirm-playlist-select.component';
+import { Playlistdata } from '../utilities/interfaces/playlistdata';
+import { playlistStore } from '../utilities/stores/playlist.store';
 
 @Component({
   selector: 'app-playlist',
-  imports: [ListComponent],
+  imports: [ConfirmPlaylistSelectComponent],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
-export class PlaylistComponent implements OnInit {
-  playlists: Playlistdata[] = [];
-  title: string = 'WaveSpacer';
+export class PlaylistComponent {
+  playlistStore = inject(playlistStore);
 
-  constructor(private router: Router) {}
+  // Inputs acquired from homepage-component
+  @Input() name!: string;
+  @Input() img!: string;
+  @Input() totalTrack!: number;
+  @Input() id!: string;
 
-  ngOnInit(): void {
-    axios
-      .get('http://127.0.0.1:8888/playlists', { withCredentials: true })
-      .then((response) => {
-        console.log(response);
-        this.playlists = response.data.items.map(
-          (playlist: any): Playlistdata => ({
-            name: playlist.name,
-            img: playlist.images[0].url,
-            totalTracks: playlist.tracks.total,
-            id: playlist.id,
-          })
-        );
-        console.log(this.playlists);
-      });
+  playlist!: Playlistdata | null;
+  playlistName!: string; // Selected playlist's name that is sent to confirm-playlist-select-component
+  playlistImg!: string; // Selected playlist's image that is sent to confirm-playlist-select-component
+
+  playlistSelected: boolean = false;
+
+  selectPlaylist(id: string): void {
+    this.playlist =
+      this.playlistStore.playlists().find((playlist) => playlist.id === id) ||
+      null;
+    this.playlistStore.selectPlaylist(this.playlist);
+    this.playlistSelected = true;
+    localStorage.setItem('selectedPlaylist', JSON.stringify(this.playlist));
   }
 
-  toHomeScreen() {
-    this.router.navigate(['']);
+  closeConfirm(value: boolean): void {
+    this.playlistSelected = value;
   }
 }

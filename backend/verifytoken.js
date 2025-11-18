@@ -8,7 +8,7 @@ function verifyToken(req, res, next) {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: 'Token puuttuu.',
+      message: 'Missing token',
     });
   }
 
@@ -16,12 +16,12 @@ function verifyToken(req, res, next) {
     if (err) {
       return res.status(403).json({
         success: false,
-        message: 'Token virheellinen tai vanhentunut.',
+        message: 'Token faulty or expired',
       });
     }
 
     // Tallennetaan dekoodattu data requestiin
-    req.user = decoded;
+    req.user_id = decoded.user_id;
     next();
   });
 }

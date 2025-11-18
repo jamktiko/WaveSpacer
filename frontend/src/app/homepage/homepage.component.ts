@@ -1,23 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomeService } from '../home.service';
+import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { uiStore } from '../utilities/stores/ui.store';
+import { settingStore } from '../utilities/stores/settings.store';
+import { NgClass } from '@angular/common';
+
+//aws testi push kommentti 8
 
 @Component({
   selector: 'app-homepage',
-  imports: [RouterModule],
+  imports: [RouterModule, RouterLink, NgClass],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
-export class HomepageComponent {
-  constructor(private homeService: HomeService) {}
+export class HomepageComponent implements OnInit {
+  uiStore = inject(uiStore);
+  settingStore = inject(settingStore);
 
-  title = 'WaveSpacer';
+  title = this.uiStore.title();
 
   login() {
-    location.href = 'http://127.0.0.1:8888/login';
+    location.href = `${environment.apiUrl}api/login`;
   }
 
-  toHomeScreen() {
-    this.homeService.toHomeScreen();
+  ngOnInit(): void {
+    if (localStorage.getItem('lightmode')) {
+      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
+        this.settingStore.turnOnLightMode();
+      }
+    }
+  }
+
+  modeBackground() {
+    return this.settingStore.lightmode()
+      ? `bg-[url(/images/lightbackground2.png)]`
+      : `bg-[url(/images/background.png)]`;
+  }
+
+  modeBackground2() {
+    return this.settingStore.lightmode() ? `bg-[#D8D8D8]` : `bg-[#252525]`;
   }
 }

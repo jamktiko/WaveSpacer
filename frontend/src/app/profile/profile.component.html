@@ -1,0 +1,51 @@
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-screen min-w-fit">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 md:mx-10 lg:mx-25 xl:mx-35 2xl:mx-33  items-center gap-1">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
+        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+          {{title}}
+        </h1>
+      </a>
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profileStore.profilepic()" alt="profilepic"
+          class="rounded-full w-13 h-13 md:w-13 md:h-13 lg:w-16 lg:h-16 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
+      </div>
+    </header>
+
+    <div class="flex flex-col items-center lg:flex-row lg:items-start lg:justify-around">
+      <div class="text-center lg:text-left lg:py-40">
+        <h1 class="text-white text-[clamp(1rem,2vw,1.5rem)]">Your <span class="text-[#B76EFE]">profile</span></h1>
+      </div>
+      <div class="py-5 lg:py-20">
+        <div class="flex flex-col rounded-xl bg-[#48404A] items-center px-10 pt-10 pb-1 gap-2">
+          <img [src]="profileStore.profilepic()" alt="profile img"
+            class="rounded-full w-20 h-20 md:w-24 md:h-24 object-cover">
+          <h2 class="text-white text-[clamp(0.8rem,1.3vw,1.3rem)] underline">{{profileStore.display_name()}}</h2>
+          <div class="flex flex-col my-8 gap-1 text-center">
+            <p class="text-white/70 text-[clamp(0.8rem,1.1vw,1.5rem)]">{{profileStore.email()}}</p>
+            <p class="text-white/70 text-[clamp(0.8rem,1.1vw,1.5rem)]">User since 1</p>
+          </div>
+          <div class="flex flex-col text-center gap-3 mt-8">
+            <p class="text-white text-[clamp(0.8rem,1.1vw,1.5rem)] underline">Account settings</p>
+            <button class="flex items-center justify-center bg-[#1DB954] text-black rounded-full px-3 py-1 w-full
+          min-h-[44px] hover:bg-[#17C211] font-sans">
+              <img src="/images/spotify.png" alt="Spotify logo" class="w-6 h-6 mr-3 flex-shrink-0" />
+              <span class="block regbutton:hidden">Connected</span>
+              <span class="hidden regbutton:block">Spotify connected</span>
+            </button>
+            <p class="text-white/70">V0.5.0</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
