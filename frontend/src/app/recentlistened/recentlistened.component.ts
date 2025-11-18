@@ -14,6 +14,10 @@ export class RecentlistenedComponent implements OnInit {
   @Input() firstRecentSong!: boolean;
   @Input() plays!: number | null;
   @Input() listenedAt!: Date | null;
+  @Input() listType!: string;
+  @Input() title!: string;
+  @Input() genre!: string;
+  @Input() genrePercentile!: string;
 
   formattedDate!: string | undefined;
 

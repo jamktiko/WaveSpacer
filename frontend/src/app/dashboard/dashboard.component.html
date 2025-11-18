@@ -51,7 +51,7 @@
               WaveSpacer</h2>
             <div class="px-4 py-1 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-[clamp(1rem,1.5vw,2rem)]">22</div>
           </div>
-          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto ">
+          <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
             <p class="text-white text-center my-auto text-[clamp(1rem,1vw,2.5rem)]">
               You have been connected<br />
               to WaveSpacer for 666 days
@@ -62,9 +62,11 @@
           class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[900px]">
           <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
-            <canvas id="genreChart" aria-label="Genre chart" role="img">
-              {{chart}}
-            </canvas>
+            <div class="w-full h-[200px] md:h-[300px]">
+              <canvas id="genreChart" aria-label="Genre chart" role="img">
+                {{chart}}
+              </canvas>
+            </div>
             <p class="self-end underline px-6 text-white mb-3">View statistics →</p>
           </div>
           <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
@@ -81,9 +83,10 @@
             <p class="text-white underline self-end">Learn more →</p>
           </div>
           <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
-            @for (song of recentlistensStore.recents(); track song.listenedAt; let i = $index) {
+            @for (song of recentlistensStore.recents().slice(0,20); track song.listenedAt; let i = $index) {
             <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-              [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt" [index]="i"
+              [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt"
+              [listType]="'dashboardRecents'" [title]="'Recently listened'" [index]="i"
               [firstRecentSong]="i < 1"></app-recentlistened>
             }
           </div>

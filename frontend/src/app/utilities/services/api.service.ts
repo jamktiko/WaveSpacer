@@ -53,4 +53,10 @@ export class ApiService {
       withCredentials: true,
     });
   }
+
+  getGenres() {
+    return axios.get(`${environment.apiUrl}api/genres`, {
+      withCredentials: true,
+    });
+  }
 }
