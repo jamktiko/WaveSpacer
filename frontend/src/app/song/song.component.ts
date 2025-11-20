@@ -1,7 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, effect } from '@angular/core';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { NgClass } from '@angular/common';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
+import { songStore } from '../utilities/stores/songs.store';
 
 @Component({
   selector: 'app-song',
@@ -15,8 +16,17 @@ export class SongComponent {
   @Input() song!: Songdata;
 
   songSelectStore = inject(songSelectStore);
+  songStore = inject(songStore);
 
   selectedSongs: number[] = [];
+  lastTimePlayed!: string;
+
+  formatDate(date: Date) {
+    if (!date || isNaN(new Date(date).getTime())) {
+      return '-';
+    }
+    return new Date(date).toLocaleDateString();
+  }
 
   featuredSongs() {
     return this.featured

@@ -20,5 +20,7 @@
     <p class="text-gray-400 text-[clamp(0.7rem,1.3vw,0.9rem)]">
       {{song.artist_names.join(', ')}}</p>
     <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">({{song.amount}}) plays</p>
+    <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">Last played:
+      {{formatDate(song.last_played)}}</p>
   </div>
 </div>
