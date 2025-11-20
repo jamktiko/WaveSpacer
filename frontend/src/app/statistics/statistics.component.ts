@@ -162,6 +162,9 @@ export class StatisticsComponent implements OnInit {
             },
           },
           legend: {
+            labels: {
+              color: '#FFFFFF',
+            },
             position: 'bottom',
           },
         },

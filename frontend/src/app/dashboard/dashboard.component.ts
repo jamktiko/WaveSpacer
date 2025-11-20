@@ -93,7 +93,6 @@ export class DashboardComponent implements OnInit {
         this.settingStore.turnOnLightMode();
       }
     }
-    this.a.getLastMonthFavorite2();
   }
 
   createChart(genres: Genre[]) {
@@ -151,6 +150,9 @@ export class DashboardComponent implements OnInit {
             },
           },
           legend: {
+            labels: {
+              color: '#FFFFFF',
+            },
             position: 'bottom',
           },
         },

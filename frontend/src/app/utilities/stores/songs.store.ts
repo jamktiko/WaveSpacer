@@ -28,6 +28,7 @@ export const songStore = signalStore(
             amount: song.amount,
             track_image: song.track_image,
             artist_names: song.artist_names.split(','),
+            last_played: song.last_played || '-',
           }));
           console.log(mapped);
           const filtered: Songdata[] = mapped.filter(
@@ -69,7 +70,6 @@ export const songStore = signalStore(
           const sorted: Genre[] = [...genres].sort(
             (a, b) => b.amount - a.amount
           );
-          console.log(sorted);
           patchState(store, { genres: sorted });
         } catch (err) {
           console.log('error getting genres', err);
