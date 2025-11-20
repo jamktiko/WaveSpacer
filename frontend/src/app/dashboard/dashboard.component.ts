@@ -39,11 +39,13 @@ export class DashboardComponent implements OnInit {
   chart!: any;
   userDropDownVisible: boolean = false;
   chartInitialized: boolean = false;
+  daysSinceRegister: number = 0;
 
   constructor() {
     effect(() => {
       const playlists = this.playlistStore.playlists();
       const genres = this.songStore.genres();
+      const regDate = this.profileStore.regdate();
 
       if (playlists.length > 0) {
         const index = Math.floor(Math.random() * playlists.length);
@@ -53,6 +55,10 @@ export class DashboardComponent implements OnInit {
       if (genres && genres.length > 0 && !this.chartInitialized) {
         this.createChart(genres);
         this.chartInitialized = true;
+      }
+
+      if (regDate) {
+        this.formatDate(regDate);
       }
     });
   }
@@ -138,5 +144,12 @@ export class DashboardComponent implements OnInit {
       document.getElementById('genreChart') as HTMLCanvasElement,
       config
     );
+  }
+
+  formatDate(date: Date) {
+    const date1 = new Date();
+    const date2 = new Date(date);
+    this.daysSinceRegister =
+      (date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
   }
 }

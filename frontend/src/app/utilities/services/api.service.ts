@@ -54,9 +54,23 @@ export class ApiService {
     });
   }
 
-  getGenres() {
+  getGenres(): Promise<AxiosResponse> {
     return axios.get(`${environment.apiUrl}api/genres`, {
       withCredentials: true,
     });
   }
+
+  getRegDate(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/regDate`, {
+      withCredentials: true,
+    });
+  }
+
+  // getRegDate() {
+  //   return axios
+  //     .get(`${environment.apiUrl}api/regDate`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => console.log(res));
+  // }
 }

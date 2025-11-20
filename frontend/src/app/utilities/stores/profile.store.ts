@@ -15,6 +15,7 @@ export const profileStore = signalStore(
     product: null,
     followers: null,
     id: null,
+    regdate: null,
     loading: false,
   }),
   withMethods((store) => {
@@ -24,6 +25,7 @@ export const profileStore = signalStore(
         patchState(store, { loading: true });
         try {
           const res = await apiService.getProfile();
+          const res2 = await apiService.getRegDate();
           patchState(store, {
             display_name: res.data.display_name,
             email: res.data.email,
@@ -31,6 +33,7 @@ export const profileStore = signalStore(
             profilepic: res.data.images[0]?.url || 'images/placeholderpp.png',
             product: res.data.product,
             followers: res.data.followers.total,
+            regdate: res2.data[0].registered_at,
             id: res.data.id,
             loading: false,
           });
@@ -48,6 +51,7 @@ export const profileStore = signalStore(
             profilepic: null,
             product: null,
             followers: null,
+            regdate: null,
             id: null,
             loading: false,
           });
