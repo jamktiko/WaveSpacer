@@ -1,8 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-recentlistened',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './recentlistened.component.html',
   styleUrl: './recentlistened.component.css',
 })
@@ -18,6 +19,7 @@ export class RecentlistenedComponent implements OnInit {
   @Input() title!: string;
   @Input() genre!: string;
   @Input() genrePercentile!: string;
+  @Input() lastItem!: boolean;
 
   formattedDate!: string | undefined;
 
@@ -28,6 +30,10 @@ export class RecentlistenedComponent implements OnInit {
     } else {
       return;
     }
+  }
+
+  isLastItem() {
+    return this.lastItem ? `rounded-bl-xl` : '';
   }
 
   ngOnInit(): void {

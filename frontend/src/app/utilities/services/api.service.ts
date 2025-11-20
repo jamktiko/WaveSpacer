@@ -54,6 +54,14 @@ export class ApiService {
     });
   }
 
+  getLastMonthFavorite2() {
+    axios
+      .get(`${environment.apiUrl}api/lastMonthFav`, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res));
+  }
+
   getGenres(): Promise<AxiosResponse> {
     return axios.get(`${environment.apiUrl}api/genres`, {
       withCredentials: true,
