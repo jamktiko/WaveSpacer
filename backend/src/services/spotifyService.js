@@ -3,6 +3,7 @@ const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
 const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
