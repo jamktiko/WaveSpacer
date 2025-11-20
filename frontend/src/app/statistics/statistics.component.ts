@@ -81,6 +81,8 @@ export class StatisticsComponent implements OnInit {
     },
   ];
 
+  colors = ['#4CC9F0', '#F72585', '#4361EE', '#7209B7', '#B5179E'];
+
   constructor() {
     effect(() => {
       const genres = this.songStore.genres();
@@ -114,7 +116,7 @@ export class StatisticsComponent implements OnInit {
       datasets: [
         {
           data: amount.slice(0, 5),
-          backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
+          backgroundColor: this.colors,
           hoverOffset: 4,
         },
       ],

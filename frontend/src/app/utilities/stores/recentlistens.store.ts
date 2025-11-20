@@ -29,6 +29,8 @@ export const recentListensStore = signalStore(
               plays: res.data.plays,
               last_played: res.data.last_played,
               track_img: res.data.track_image,
+              duration: res.data.duration_ms,
+              genres: res.data.genres || 'Not defined',
             },
             loading: false,
           });

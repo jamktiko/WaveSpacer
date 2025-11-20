@@ -14,6 +14,7 @@ import { recentListensStore } from '../utilities/stores/recentlistens.store';
 import { settingStore } from '../utilities/stores/settings.store';
 import { NgClass } from '@angular/common';
 import { Genre } from '../utilities/interfaces/genre';
+import { ApiService } from '../utilities/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
   uiStore = inject(uiStore);
   recentlistensStore = inject(recentListensStore);
   settingStore = inject(settingStore);
+  a = inject(ApiService);
 
   title: String = this.uiStore.title();
   randomPlaylistImg!: string;
@@ -40,12 +42,24 @@ export class DashboardComponent implements OnInit {
   userDropDownVisible: boolean = false;
   chartInitialized: boolean = false;
   daysSinceRegister: number = 0;
+  lastTimePlayed!: string;
+
+  colors = [
+    '#4CC9F0',
+    '#F72585',
+    '#4361EE',
+    '#7209B7',
+    '#B5179E',
+    '#3A0CA3',
+    '#4895EF',
+  ];
 
   constructor() {
     effect(() => {
       const playlists = this.playlistStore.playlists();
       const genres = this.songStore.genres();
       const regDate = this.profileStore.regdate();
+      const lastMonthFav = this.recentlistensStore.lastMonthFav();
 
       if (playlists.length > 0) {
         const index = Math.floor(Math.random() * playlists.length);
@@ -58,7 +72,11 @@ export class DashboardComponent implements OnInit {
       }
 
       if (regDate) {
-        this.formatDate(regDate);
+        this.formatDate(regDate, 'day');
+      }
+
+      if (lastMonthFav) {
+        this.formatDate(lastMonthFav.last_played);
       }
     });
   }
@@ -75,6 +93,7 @@ export class DashboardComponent implements OnInit {
         this.settingStore.turnOnLightMode();
       }
     }
+    this.a.getLastMonthFavorite2();
   }
 
   createChart(genres: Genre[]) {
@@ -86,7 +105,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: amount.slice(0, 5),
-          backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
+          backgroundColor: this.colors,
           hoverOffset: 4,
         },
       ],
@@ -146,10 +165,14 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  formatDate(date: Date) {
-    const date1 = new Date();
-    const date2 = new Date(date);
-    this.daysSinceRegister =
-      (date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
+  formatDate(date: any, type: string = 'date') {
+    if (type === 'day') {
+      const date1 = new Date();
+      const date2 = new Date(date);
+      this.daysSinceRegister =
+        (date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
+    } else {
+      this.lastTimePlayed = new Date(date).toLocaleDateString();
+    }
   }
 }
