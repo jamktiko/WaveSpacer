@@ -8,6 +8,7 @@ export const uiStore = signalStore(
   withState<UIstate>({
     title: 'WaveSpacer',
     dropdownvisible: false,
+    lastmonthfavvisible: false,
   }),
   withMethods((store) => {
     return {
@@ -16,6 +17,11 @@ export const uiStore = signalStore(
       },
       closeDropdown() {
         patchState(store, { dropdownvisible: false });
+      },
+      toggleLastMonthVisible() {
+        patchState(store, {
+          lastmonthfavvisible: !store.lastmonthfavvisible(),
+        });
       },
     };
   })

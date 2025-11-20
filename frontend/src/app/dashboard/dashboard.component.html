@@ -66,7 +66,7 @@
           </div>
         </div>
         <div
-          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[900px]">
+          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[1000px]">
           <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
             <h1 class="text-white text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your statistics</h1>
             <div class="w-full h-[200px]">
@@ -76,7 +76,9 @@
             </div>
             <p class="self-end underline px-6 text-white mb-3">View statistics →</p>
           </div>
-          <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]">
+          @if (!uiStore.lastmonthfavvisible()) {
+          <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]"
+            (click)="uiStore.toggleLastMonthVisible()">
             <h1 class="text-white underline text-[clamp(1rem,1.2vw,1.5rem)]">Your favorite from last month</h1>
             <div class="flex items-center gap-6">
               <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img" class="w-20 h-20 rounded-xl">
@@ -88,12 +90,40 @@
             </div>
             <p class="text-white underline self-end">Learn more →</p>
           </div>
-          <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+          } @else {
+          <div class="px-6 py-3 border-b-0 cursor-pointer hover:bg-[#474547]"
+            (click)="uiStore.toggleLastMonthVisible()">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+              <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img" class="w-20 h-20 rounded-xl">
+              <div class="grid grid-cols-1 items-center gap-2">
+                <div class="flex flex-col max-w-xs overflow-hidden md:text-center">
+                  <p class="text-white text-sm">Track name: {{recentlistensStore.lastMonthFav().name}}</p>
+                  <p class="text-white text-sm md">
+                    Artist names:
+                    {{recentlistensStore.lastMonthFav().artist_names}}</p>
+                </div>
+                <div class="flex flex-col max-w-xs overflow-hidden md:text-center">
+                  <p class="text-white text-sm">Track duration:
+                    {{recentlistensStore.lastMonthFav().duration}}</p>
+                  <p class="text-white text-sm">Plays:
+                    {{recentlistensStore.lastMonthFav().plays}}</p>
+                </div>
+                <div class="flex flex-col md:flex-row max-w-xs overflow-hidden md:text-center">
+                  <p class="text-white text-sm">Track genres: {{recentlistensStore.lastMonthFav().genres}}</p>
+                  <p class="text-white text-sm">Last time played:
+                    {{lastTimePlayed}}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          }
+          <div class=" flex flex-col gap-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
             @for (song of recentlistensStore.recents().slice(0,20); track song.listenedAt; let i = $index) {
-            <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-              [artists]="song.artist_names" [plays]="song.amount" [listenedAt]="song.listenedAt"
-              [listType]="'dashboardRecents'" [title]="'Recently listened'" [index]="i"
-              [firstRecentSong]="i < 1"></app-recentlistened>
+            <app-recentlistened class="" [img]="song.track_image" [trackName]="song.name" [artists]="song.artist_names"
+              [plays]="song.amount" [listenedAt]="song.listenedAt" [listType]="'dashboardRecents'"
+              [title]="'Recently listened'" [index]="i" [firstRecentSong]="i < 1"
+              [lastItem]="i > 18"></app-recentlistened>
             }
           </div>
         </div>

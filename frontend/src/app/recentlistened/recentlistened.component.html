@@ -1,5 +1,5 @@
 @if (listType === 'dashboardRecents') {
-<div class="p-1 flex flex-col bg-[#323132] w-full">
+<div [ngClass]="isLastItem()" class="p-1 flex flex-col bg-[#323132] w-full">
   @if (firstRecentSong) {
   <h1 class="text-white underline p-3">{{title}}</h1>
   }
