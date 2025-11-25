@@ -42,23 +42,20 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // If the dropdown is visible, the top should be rounded to make it look better
   languageDropdownVisible() {
     return this.settingStore.dropdownvisible() ? `rounded-t-lg` : `rounded-lg`;
   }
 
+  // NgClass. Controls the bg color of the toggle input
   lightModeActive() {
     return this.settingStore.lightmode() ? `bg-white` : `bg-black`;
   }
 
+  // NgClass. Controls the location of the thumb on the toggle input
   lightModeActive2() {
     return this.settingStore.lightmode()
       ? 'right-1 bg-black'
       : 'left-1 bg-[#D9D9D9]';
-  }
-
-  modeBackground() {
-    return this.settingStore.lightmode()
-      ? `bg-[url(/images/lightbackground2.png)]`
-      : `bg-[url(/images/background2.png)]`;
   }
 }

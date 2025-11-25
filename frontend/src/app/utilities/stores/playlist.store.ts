@@ -43,6 +43,7 @@ export const playlistStore = signalStore(
           patchState(store, { playlists: [], loading: false, loaded: false });
         }
       },
+      // Clear playlist selection
       clear() {
         patchState(store, { playlists: [], loaded: false });
       },

@@ -22,6 +22,7 @@ export class UserdropdownComponent {
 
   constructor(private eRef: ElementRef) {}
 
+  // If user clicks outside the language dropdown, close the menu
   @HostListener('document:click', ['$event'])
   clickout(event: MouseEvent) {
     if (!this.eRef.nativeElement.contains(event.target)) {
