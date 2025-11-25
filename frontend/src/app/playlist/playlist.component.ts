@@ -12,18 +12,17 @@ import { playlistStore } from '../utilities/stores/playlist.store';
 export class PlaylistComponent {
   playlistStore = inject(playlistStore);
 
-  // Inputs acquired from homepage-component
+  // Data acquired from playlists-component. Single playlist attributes
   @Input() name!: string;
   @Input() img!: string;
   @Input() totalTrack!: number;
   @Input() id!: string;
 
   playlist!: Playlistdata | null;
-  playlistName!: string; // Selected playlist's name that is sent to confirm-playlist-select-component
-  playlistImg!: string; // Selected playlist's image that is sent to confirm-playlist-select-component
 
   playlistSelected: boolean = false;
 
+  // Playlist is added to localstorage, so that the state remains, even if the user goes back a screen
   selectPlaylist(id: string): void {
     this.playlist =
       this.playlistStore.playlists().find((playlist) => playlist.id === id) ||
@@ -33,6 +32,7 @@ export class PlaylistComponent {
     localStorage.setItem('selectedPlaylist', JSON.stringify(this.playlist));
   }
 
+  // Playlist selection window is closed when the playlist selection is confirmed
   closeConfirm(value: boolean): void {
     this.playlistSelected = value;
   }

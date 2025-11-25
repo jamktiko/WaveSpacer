@@ -10,11 +10,12 @@ import { songStore } from '../utilities/stores/songs.store';
   styleUrl: './confirm-playlist-select.component.css',
 })
 export class ConfirmPlaylistSelectComponent {
-  @Output() confirmShown = new EventEmitter<boolean>(); // Emits boolean value to close the confirm window
-
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
 
+  @Output() confirmShown = new EventEmitter<boolean>();
+
+  // The songs of the playlist is fetched using the id
   selectPlaylist(id: string | undefined) {
     if (id) {
       this.songStore.getSongs(id);

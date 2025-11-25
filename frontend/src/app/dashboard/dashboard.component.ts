@@ -6,7 +6,7 @@ import { OnInit } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
-import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
+import { SonglistingComponent } from '../songlisting/songlisting.component';
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 import { RouterLink } from '@angular/router';
 import { uiStore } from '../utilities/stores/ui.store';
@@ -14,16 +14,10 @@ import { recentListensStore } from '../utilities/stores/recentlistens.store';
 import { settingStore } from '../utilities/stores/settings.store';
 import { NgClass } from '@angular/common';
 import { Genre } from '../utilities/interfaces/genre';
-import { ApiService } from '../utilities/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [
-    RecentlistenedComponent,
-    UserdropdownComponent,
-    RouterLink,
-    NgClass,
-  ],
+  imports: [SonglistingComponent, UserdropdownComponent, RouterLink, NgClass],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -34,17 +28,15 @@ export class DashboardComponent implements OnInit {
   uiStore = inject(uiStore);
   recentlistensStore = inject(recentListensStore);
   settingStore = inject(settingStore);
-  a = inject(ApiService);
 
   title: String = this.uiStore.title();
-  randomPlaylistImg!: string;
+  randomPlaylistImg!: string; // On playlist-clean segment, a random playlist img (of user's playlists) is shown
   chart!: any;
-  userDropDownVisible: boolean = false;
-  chartInitialized: boolean = false;
-  daysSinceRegister: number = 0;
-  lastTimePlayed!: string;
+  chartInitialized: boolean = false; // check if chart is already initialized to prevent multiple initializations
+  daysSinceRegister: number = 0; // used in formatDate-method
+  lastTimePlayed!: string; // used in formatDate-method
 
-  colors = [
+  chartColors = [
     '#4CC9F0',
     '#F72585',
     '#4361EE',
@@ -55,6 +47,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   constructor() {
+    // Using effect to make sure the api requests have concluded before doing anything else
     effect(() => {
       const playlists = this.playlistStore.playlists();
       const genres = this.songStore.genres();
@@ -93,7 +86,6 @@ export class DashboardComponent implements OnInit {
         this.settingStore.turnOnLightMode();
       }
     }
-    this.a.getLastMonthFavorite2();
   }
 
   createChart(genres: Genre[]) {
@@ -105,7 +97,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: amount.slice(0, 5),
-          backgroundColor: this.colors,
+          backgroundColor: this.chartColors,
           hoverOffset: 4,
         },
       ],
@@ -151,6 +143,9 @@ export class DashboardComponent implements OnInit {
             },
           },
           legend: {
+            labels: {
+              color: '#FFFFFF',
+            },
             position: 'bottom',
           },
         },
@@ -165,6 +160,9 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  /* This method are used for two different elements, the number that shows days since register and the day the last month's favorite
+  song was listened to
+  */
   formatDate(date: any, type: string = 'date') {
     if (type === 'day') {
       const date1 = new Date();

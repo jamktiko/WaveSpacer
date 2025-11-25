@@ -2,12 +2,13 @@ import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-recentlistened',
+  selector: 'app-songlisting',
   imports: [NgClass],
-  templateUrl: './recentlistened.component.html',
-  styleUrl: './recentlistened.component.css',
+  templateUrl: './songlisting.component.html',
+  styleUrl: './songlisting.component.css',
 })
-export class RecentlistenedComponent implements OnInit {
+export class SonglistingComponent implements OnInit {
+  // Data is acquired from dashboard and statistics-component based on where it is used
   @Input() img!: string | null;
   @Input() trackName!: string | null;
   @Input() artists!: string[] | [];
@@ -32,6 +33,7 @@ export class RecentlistenedComponent implements OnInit {
     }
   }
 
+  // NgClass. Last item of the listing should be rounded for visual purposes
   isLastItem() {
     return this.lastItem ? `rounded-bl-xl` : '';
   }

@@ -1,7 +1,7 @@
 @if (listType === 'dashboardRecents') {
 <div [ngClass]="isLastItem()" class="p-1 flex flex-col bg-[#323132] w-full">
   @if (firstRecentSong) {
-  <h1 class="text-white underline p-3">{{title}}</h1>
+  <h1 class="text-white p-3">{{title}}</h1>
   }
   <div class="flex gap-2 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">
     <p class="text-white text-right w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>

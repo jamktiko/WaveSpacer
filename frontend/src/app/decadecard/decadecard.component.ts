@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './decadecard.component.css',
 })
 export class DecadecardComponent {
+  // Data acquired from statistics-page
   @Input() year!: string;
   @Input() count!: number;
 }

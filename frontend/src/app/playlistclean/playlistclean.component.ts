@@ -26,6 +26,7 @@ import { NgClass } from '@angular/common';
   styleUrl: './playlistclean.component.css',
 })
 export class PlaylistcleanComponent implements OnInit {
+  // Injected stores
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
@@ -38,17 +39,18 @@ export class PlaylistcleanComponent implements OnInit {
   selectedPlaylist!: any;
   profilepic!: string;
 
+  // Playlist's songs are fetched on initializing.
   ngOnInit(): void {
     this.selectedPlaylist = JSON.parse(
       localStorage.getItem('selectedPlaylist') || ''
     );
     this.songStore.getSongs(this.selectedPlaylist.id);
-    // this.profileStore.getProfile();
     this.profilepic =
       localStorage.getItem('profilepic') || 'images/placeholderpp.png';
     this.songSelectStore.clear();
   }
 
+  // The first letter of each playlist name is made uppercase for visual purposes
   capitalize(name: any) {
     if (name) {
       const capitalized = name[0].toUpperCase() + name.slice(1, name.length);
@@ -58,6 +60,7 @@ export class PlaylistcleanComponent implements OnInit {
     }
   }
 
+  // Triggered using EventEmitter. See confirm-song-deletion-select for more info
   closeSongDeletionConfirm(value: boolean) {
     this.confirmDeleteVisible = value;
   }

@@ -1,7 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, effect } from '@angular/core';
 import { Songdata } from '../utilities/interfaces/songdata';
 import { NgClass } from '@angular/common';
 import { songSelectStore } from '../utilities/stores/songSelect.store';
+import { songStore } from '../utilities/stores/songs.store';
 
 @Component({
   selector: 'app-song',
@@ -10,13 +11,20 @@ import { songSelectStore } from '../utilities/stores/songSelect.store';
   styleUrl: './song.component.css',
 })
 export class SongComponent {
-  @Input() featured!: boolean;
+  // Inputs acquired from playlistclean.component
+  @Input() featured!: boolean; // Three first songs should be highlighted
   @Input() index!: number;
-  @Input() song!: Songdata;
+  @Input() song!: Songdata; // Holds all the data inside a single song
 
   songSelectStore = inject(songSelectStore);
+  songStore = inject(songStore);
 
-  selectedSongs: number[] = [];
+  formatDate(date: Date) {
+    if (!date || isNaN(new Date(date).getTime())) {
+      return '-';
+    }
+    return new Date(date).toLocaleDateString();
+  }
 
   featuredSongs() {
     return this.featured

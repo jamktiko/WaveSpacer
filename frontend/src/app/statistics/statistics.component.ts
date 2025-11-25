@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 import { settingStore } from '../utilities/stores/settings.store';
 import { NgClass } from '@angular/common';
 import { recentListensStore } from '../utilities/stores/recentlistens.store';
-import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
+import { SonglistingComponent } from '../songlisting/songlisting.component';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
@@ -21,7 +21,7 @@ import { Genre } from '../utilities/interfaces/genre';
     DecadecardComponent,
     RouterLink,
     NgClass,
-    RecentlistenedComponent,
+    SonglistingComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.css',
@@ -36,8 +36,8 @@ export class StatisticsComponent implements OnInit {
   title: string = this.uiStore.title();
   profilepic!: string;
   chart!: any;
-  chartInitialized: boolean = false;
-  totalGenreListens!: number;
+  chartInitialized: boolean = false; // check if chart is already initialized to prevent multiple initializations
+  totalGenreListens!: number; // Total number of listens with every genre accounted
 
   decades = [
     {
@@ -81,7 +81,7 @@ export class StatisticsComponent implements OnInit {
     },
   ];
 
-  colors = ['#4CC9F0', '#F72585', '#4361EE', '#7209B7', '#B5179E'];
+  chartColors = ['#4CC9F0', '#F72585', '#4361EE', '#7209B7', '#B5179E'];
 
   constructor() {
     effect(() => {
@@ -116,7 +116,7 @@ export class StatisticsComponent implements OnInit {
       datasets: [
         {
           data: amount.slice(0, 5),
-          backgroundColor: this.colors,
+          backgroundColor: this.chartColors,
           hoverOffset: 4,
         },
       ],
@@ -162,6 +162,9 @@ export class StatisticsComponent implements OnInit {
             },
           },
           legend: {
+            labels: {
+              color: '#FFFFFF',
+            },
             position: 'bottom',
           },
         },

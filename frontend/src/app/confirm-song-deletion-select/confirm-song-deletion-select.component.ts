@@ -15,20 +15,21 @@ export class ConfirmSongDeletionSelectComponent {
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
 
-  @Input() selectAmount!: number;
+  @Input() selectAmount!: number; // The number of selected songs
 
   @Output() songDeletionConfirmVisible = new EventEmitter<boolean>();
 
+  // Whichever button the users presses emits the value of windows visibility (false) to playlistclean.component
   closeSongDeletionConfirm() {
     this.songDeletionConfirmVisible.emit(false);
   }
 
+  // If the user presses yes, the song deletion method is called with the selected songs and the id of the playlist
   deleteSongs() {
     this.songStore.deleteSongs(
       this.playlistStore.selected()?.id || null,
       this.songSelectStore.selectedIds()
     );
-    this.songStore.getSongs(this.playlistStore.selected()?.id || '');
     this.songSelectStore.clear();
     this.songDeletionConfirmVisible.emit(false);
   }
