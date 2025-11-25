@@ -120,10 +120,9 @@
           }
           <div class=" flex flex-col gap-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
             @for (song of recentlistensStore.recents().slice(0,20); track song.listenedAt; let i = $index) {
-            <app-recentlistened class="" [img]="song.track_image" [trackName]="song.name" [artists]="song.artist_names"
+            <app-songlisting class="" [img]="song.track_image" [trackName]="song.name" [artists]="song.artist_names"
               [plays]="song.amount" [listenedAt]="song.listenedAt" [listType]="'dashboardRecents'"
-              [title]="'Recently listened'" [index]="i" [firstRecentSong]="i < 1"
-              [lastItem]="i > 18"></app-recentlistened>
+              [title]="'Recently listened'" [index]="i" [firstRecentSong]="i < 1" [lastItem]="i > 18"></app-songlisting>
             }
           </div>
         </div>

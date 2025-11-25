@@ -11,15 +11,13 @@ import { songStore } from '../utilities/stores/songs.store';
   styleUrl: './song.component.css',
 })
 export class SongComponent {
-  @Input() featured!: boolean;
+  // Inputs acquired from playlistclean.component
+  @Input() featured!: boolean; // Three first songs should be highlighted
   @Input() index!: number;
-  @Input() song!: Songdata;
+  @Input() song!: Songdata; // Holds all the data inside a single song
 
   songSelectStore = inject(songSelectStore);
   songStore = inject(songStore);
-
-  selectedSongs: number[] = [];
-  lastTimePlayed!: string;
 
   formatDate(date: Date) {
     if (!date || isNaN(new Date(date).getTime())) {

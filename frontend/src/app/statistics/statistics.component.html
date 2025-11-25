@@ -40,18 +40,18 @@
             <div
               class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
               @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-              <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
                 [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
-                [title]="'Top 3 artists'" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
+                [title]="'Top 3 artists'" [index]="i" [firstRecentSong]="i < 1"></app-songlisting>
               }
             </div>
             <div class="lg:h-full lg:w-px bg-[#3D383E]"></div>
             <div
               class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
               @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-              <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
                 [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
-                [title]="'Top 3 albums'" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
+                [title]="'Top 3 albums'" [index]="i" [firstRecentSong]="i < 1"></app-songlisting>
               }
             </div>
           </div>
@@ -74,9 +74,9 @@
             <div
               class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay md:ml-auto">
               @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-              <app-recentlistened class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
                 [artists]="song.artist_names" [plays]="song.amount" [listType]="'lastYearStatistic'"
-                [title]="'Top 3 albums'" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
+                [title]="'Top 3 albums'" [index]="i" [firstRecentSong]="i < 1"></app-songlisting>
               }
             </div>
           </div>
@@ -94,9 +94,9 @@
           </div>
           <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
             @for (genre of songStore.genres(); track genre.genre; let i = $index) {
-            <app-recentlistened class="border-b-0" [genre]="genre.genre" [plays]="genre.amount"
+            <app-songlisting class="border-b-0" [genre]="genre.genre" [plays]="genre.amount"
               [genrePercentile]="((genre.amount / totalGenreListens) * 100).toFixed(1)" [listType]="'genreList'"
-              [title]="'Top Genres'" [index]="i" [firstRecentSong]="i < 1"></app-recentlistened>
+              [title]="'Top Genres'" [index]="i" [firstRecentSong]="i < 1"></app-songlisting>
             }
           </div>
         </div>

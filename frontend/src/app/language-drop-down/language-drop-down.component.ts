@@ -19,11 +19,12 @@ import { settingStore } from '../utilities/stores/settings.store';
 export class LanguageDropDownComponent {
   settingStore = inject(settingStore);
 
-  @Input() languages!: any;
+  @Input() languages!: any; // All the languages all acquired from settings.component
   @Output() close = new EventEmitter<void>();
 
   constructor(private eRef: ElementRef) {}
 
+  // If user clicks outside the language dropdown, close the menu
   @HostListener('document:click', ['$event'])
   clickout(event: MouseEvent) {
     if (!this.eRef.nativeElement.contains(event.target)) {
@@ -31,6 +32,7 @@ export class LanguageDropDownComponent {
     }
   }
 
+  // The list of remaining languages changes based on what language is selected. The selected language should never appear on the list
   remainingLanguages = computed(() =>
     this.languages.filter(
       (lang: any) => lang.language !== this.settingStore.language()
