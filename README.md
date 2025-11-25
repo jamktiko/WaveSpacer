@@ -6,7 +6,7 @@ An application that lets you remove unwanted songs from your playlist. Log in wi
 Notice
 ---------
 
-This was a student project built for a course. The AWS environment that powers the backend has been shut down, and the Spotify API only allows access to approved users. Because of this, the live application **cannot be tested or used** unless you set up your own Spotify credentials and backend.
+This was a student project built for a course. The AWS environment that powers the backend will be shut down, and the Spotify API only allows access to approved users. Because of this, the live application **cannot be tested or used** unless you set up your own Spotify credentials and backend.
 
 Running Wavespacer Locally
 =============================
@@ -85,8 +85,6 @@ Tech Stack
 Additional Notes
 ===================
 
-*   If you deploy the backend, remember to update frontend environment variables.
-    
 *   Spotify's API requires whitelisting users for development apps.
     
 *   This project was originally deployed on AWS (EC2, RDS) but that infrastructure is now offline.
