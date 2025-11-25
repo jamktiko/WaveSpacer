@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware joka tarkistaa JWT:n cookiesta
+// Middleware that checks JWT from cookie
 function verifyToken(req, res, next) {
-  // Token otetaan cookies.jwt:stä
+  // Token is taken from cookies.jwt
   const token = req.cookies?.jwt;
 
   if (!token) {
@@ -20,7 +20,6 @@ function verifyToken(req, res, next) {
       });
     }
 
-    // Tallennetaan dekoodattu data requestiin
     req.user_id = decoded.user_id;
     next();
   });

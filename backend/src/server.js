@@ -15,7 +15,7 @@ const { loadSecrets } = require('./config/loadSecrets');
 const pool = require('./database/index');
 
 async function startServer() {
-  // Ladataan AWS Secrets vain jos ollaan tuotannossa
+  // Load Aws Secrets if we are in production
 
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
@@ -28,27 +28,6 @@ async function startServer() {
 
   await pool.initPool();
 
-  // if (process.env.NODE_ENV === 'production') {
-  //   // try {
-  //   //   const key = fs.readFileSync('/home/ssm-user/myserts/privatekey.pem');
-  //   //   const cert = fs.readFileSync('/home/ssm-user/myserts/server.crt');
-
-  //   //   https.createServer({ key, cert }, app).listen(443, '0.0.0.0', () => {
-  //   //     console.log('HTTPS server running on port 443');
-  //   //   });
-  //   // } catch (err) {
-  //   //   console.error('Could not start HTTPS server:', err.message);
-  //   // }
-  //   try {
-  //     http.createServer(app).listen(8888, '0.0.0.0', () => {
-  //       console.log('HTTPS server running on port 443');
-  //     });
-  //   } catch (err) {
-  //     console.error('Could not start HTTP server:', err.message);
-  //   }
-  // }
-  // Development: HTTP
-  // else {
   try {
     const PORT = process.env.PORT || 8888;
     http.createServer(app).listen(8888, '0.0.0.0', () => {
@@ -57,7 +36,6 @@ async function startServer() {
   } catch (err) {
     console.error('Could not start HTTP server:', err.message);
   }
-  // }
 
   startCronJobs();
 }

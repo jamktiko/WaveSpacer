@@ -16,11 +16,14 @@ const genreRepository = require('../repositories/genreRepository');
 const e = require('cors');
 const { encrypt } = require('../utils/encryption');
 
+// this is called in a login route, gets login url from spotify
 exports.login = (req, res) => {
   const url = spotifyService.getLoginUrl();
   res.redirect(url);
 };
 
+// used when login has been done
+// gets code from the spotify url and we get users tokens with that code
 exports.callback = async (req, res) => {
   const code = req.query.code;
   if (!code) return res.status(400).send('No code returned');
@@ -46,7 +49,6 @@ exports.callback = async (req, res) => {
 
     await userTokens.save();
 
-    // const expiresAt = Date.now() + (tokens.expires_in - 60) * 1000;
     const expiresAt = Math.floor(Date.now() / 1000) + (tokens.expires_in - 60);
 
     const encryptedAccTkn = await encrypt(tokens.access_token);
@@ -60,16 +62,16 @@ exports.callback = async (req, res) => {
 
     await userTokens2.save();
 
-    return authController.loginWithSpotify(userID, tokens, res);
+    return authController.loginWithSpotify(userID, res);
   } catch (err) {
     console.error(err.response?.data || err.message);
     res.status(500).json({ success: false, message: 'Spotify login failed' });
   }
 };
 
+// gets users spotify profile information
 exports.profile = async (req, res) => {
   try {
-    // const access_token = await spotifyService.getAccessTokenSafe();
     const userId = req.user_id;
     const access_token = await tokenStore.getAccessTokenOrRefresh(
       userId,
@@ -84,6 +86,7 @@ exports.profile = async (req, res) => {
   }
 };
 
+// gets users playlists from spotify
 exports.playlists = async (req, res) => {
   try {
     const userId = req.user_id;
@@ -100,6 +103,7 @@ exports.playlists = async (req, res) => {
   }
 };
 
+// get users recently played tracks and send them to frontend as JSON
 exports.recents = async (req, res) => {
   try {
     const userId = req.user_id;
@@ -111,8 +115,13 @@ exports.recents = async (req, res) => {
     const recents = await spotifyService.getRecentlyPlayed(access_token);
     let spotifyIds = [];
     let songs = [];
+
+    // loop through users recently listened songs
     for (let song of recents.items) {
+      // put track ids in a list
       spotifyIds.push(song.track.id);
+
+      // put needed information from a song to a list
       songs.push({
         spotify_track_id: song.track.id,
         name: song.track.name,
@@ -122,14 +131,20 @@ exports.recents = async (req, res) => {
         artists: song.track.artists,
       });
     }
+
+    // get all songs from the user, that we have in the database
     const dbSongs = await Song.getSongsBySpotifyIds(userId, spotifyIds);
 
+    // creates an list that lets us see what song has which amount of plays
     const amountMap = new Map(
       dbSongs.map((s) => [s.spotify_track_id, s.amount])
     );
 
+    // gets all keys from song and sets an amount key.
     songs = songs.map((song) => ({
       ...song,
+
+      // search the right amount from amountMap by songs spotify track id
       amount: amountMap.get(song.spotify_track_id) || 0,
     }));
 
@@ -140,6 +155,7 @@ exports.recents = async (req, res) => {
   }
 };
 
+// get infomation from last month favorite song
 exports.lastMonthFavInfo = async (req, res) => {
   try {
     const userId = req.user_id;
@@ -170,8 +186,8 @@ exports.lastMonthFavInfo = async (req, res) => {
   }
 };
 
-//stayLoggedIn
-
+// Cron job: Fetch recently played Spotify tracks for all users.
+// This runs every X minutes/hours
 exports.fetchRecentsForAllUsers = async () => {
   const users = await User.getAllUsers();
   let allMerged = [];
@@ -184,11 +200,12 @@ exports.fetchRecentsForAllUsers = async () => {
         'spotify_access_token'
       );
 
-      // const lastTime = lastFetchedAt.get(userId);
+      // when was the last time an user listened a song
       const lastTime = await PlayHistory.getLastPlayedAt(userId);
 
       const after = !lastTime ? null : lastTime + 1000;
 
+      // Fetch recently played tracks from Spotify API
       let recents = await spotifyService.getRecentlyPlayed(accessToken, after);
 
       recents.items = recents.items.filter((item) => {
@@ -201,6 +218,7 @@ exports.fetchRecentsForAllUsers = async () => {
         continue;
       }
 
+      // Structures to collect all new data before saving
       let newSongs = [];
       let songHistory = [];
       let artistNames = new Set();
@@ -208,6 +226,7 @@ exports.fetchRecentsForAllUsers = async () => {
       let artistSongLinks = [];
       let genreArtistLinks = [];
 
+      // Extract song, artist and genre information from every recent track
       for (let song of recents.items) {
         songHistory.push({
           spotify_track_id: song.track.id,
@@ -222,6 +241,7 @@ exports.fetchRecentsForAllUsers = async () => {
           track_image: song.track.album.images?.[0]?.url,
         });
 
+        // loop through artists of a song and put them in a list
         for (let artist of song.track.artists) {
           let artistData = await spotifyService.getArtist(
             artist.id,
@@ -235,6 +255,7 @@ exports.fetchRecentsForAllUsers = async () => {
             spotify_track_id: song.track.id,
           });
 
+          // loop through genres of an artist and put them in a list
           for (let genre of artistData.genres) {
             genreNames.add(genre);
 
@@ -246,6 +267,7 @@ exports.fetchRecentsForAllUsers = async () => {
         }
       }
 
+      // Prepare artists and genres for bulk insert
       const artists = [...artistNames].map((name) => ({ name }));
       const genres = [...genreNames].map((name) => ({ name }));
 
@@ -253,6 +275,7 @@ exports.fetchRecentsForAllUsers = async () => {
       await Genre.save(genres);
       await Artist.save(artists);
 
+      // get artists, genres and songs from database
       const allArtists = await Artist.getArtists(artists.map((a) => a.name));
       const allGenres = await Genre.getGenres(genres.map((g) => g.name));
       const allSongs = await Song.getSongsBySpotifyIds(
@@ -306,10 +329,6 @@ exports.fetchRecentsForAllUsers = async () => {
 
       await PlayHistory.save(playHistoryRecords);
 
-      const newestPlayedAt = new Date(recents.items[0].played_at).getTime();
-
-      // lastFetchedAt.set(userId, newestPlayedAt);
-
       allMerged.push({ userId, count: playHistoryRecords.length });
     } catch (err) {
       console.error(`Virhe käyttäjältä ${user.id}:`, err.message);
@@ -319,6 +338,8 @@ exports.fetchRecentsForAllUsers = async () => {
   return allMerged;
 };
 
+// gets selected playlists tracks from frontend
+// send every tracks data to frontend
 exports.getTracksFromFrontend = async (req, res) => {
   try {
     const userId = req.user_id;
@@ -326,6 +347,8 @@ exports.getTracksFromFrontend = async (req, res) => {
       userId,
       'spotify_access_token'
     );
+
+    // selected playlists id from frontend
     const playlistId = req.body.playlist_id;
 
     const playlistTracks = await spotifyService.getPlaylistTracks(
@@ -340,6 +363,7 @@ exports.getTracksFromFrontend = async (req, res) => {
 
     const allTracks = await trackRepository.getTrackIds(userId, allPlTrackIds);
 
+    // makes a list that filters songs that we have to get from spotify api (the songs we do not have in the database)
     const SongsFromApi = allPlTrackIds.filter((id) => !allTracks.includes(id));
 
     const SongsFromDb = await trackRepository.getTracks(userId, allPlTrackIds);
@@ -357,6 +381,7 @@ exports.getTracksFromFrontend = async (req, res) => {
       track_image: track.album.images?.[0]?.url,
     }));
 
+    // list of the songs we got from database and from the spotify api
     const combinedTracks = [...SongsFromDb, ...newTracks];
 
     return res.json(combinedTracks);
@@ -366,6 +391,7 @@ exports.getTracksFromFrontend = async (req, res) => {
   }
 };
 
+// delete the tracks from playlist that were selected in frontend
 exports.deleteTracksFromPlaylist = async (req, res) => {
   try {
     const userId = req.user_id;
@@ -384,13 +410,3 @@ exports.deleteTracksFromPlaylist = async (req, res) => {
     console.error('Error deleting tracks:', error.response?.data || error);
   }
 };
-
-//delete
-
-// res.json({
-//   jwt: jwtToken,
-//   access_token: spotifyTokens.access_token,
-//   refresh_token: spotifyTokens.refresh_token,
-//   expires_at: spotifyTokens.expires_at,
-//   spotifyId: me.id,
-// });
