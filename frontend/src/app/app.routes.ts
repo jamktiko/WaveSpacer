@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './features/homepage/homepage.component';
+import { WelcomeComponent } from './features/welcome/welcome.component';
 import { SpotifyCbComponent } from './features/spotify-cb/spotify-cb.component';
 import { RegisterComponent } from './features/register/register.component';
 import { PlaylistsComponent } from './features/playlists/playlists/playlists.component';
@@ -13,8 +13,8 @@ import { StatisticsComponent } from './features/statistics/statistics/statistics
 
 export const routes: Routes = [
   {
-    component: HomepageComponent,
-    title: 'Home',
+    component: WelcomeComponent,
+    title: 'Welcome',
     path: '',
   },
   {

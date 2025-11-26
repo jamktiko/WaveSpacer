@@ -6,15 +6,13 @@ import { uiStore } from '../../core/stores/ui.store';
 import { settingStore } from '../../core/stores/settings.store';
 import { NgClass } from '@angular/common';
 
-//aws testi push kommentti 8
-
 @Component({
-  selector: 'app-homepage',
+  selector: 'app-welcome',
   imports: [RouterModule, RouterLink, NgClass],
-  templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css',
+  templateUrl: './welcome.component.html',
+  styleUrl: './welcome.component.css',
 })
-export class HomepageComponent implements OnInit {
+export class WelcomeComponent implements OnInit {
   uiStore = inject(uiStore);
   settingStore = inject(settingStore);
 
