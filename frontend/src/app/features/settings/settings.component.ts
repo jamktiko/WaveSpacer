@@ -18,14 +18,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './settings.component.css',
 })
 export class SettingsComponent implements OnInit {
+  uiStore = inject(uiStore);
+  settingStore = inject(settingStore);
+
   profilepic!: string;
+  title: string = this.uiStore.title();
   languages = [
     { language: 'English', id: 1 },
     { language: 'Finnish', id: 2 },
   ];
-
-  uiStore = inject(uiStore);
-  settingStore = inject(settingStore);
 
   ngOnInit(): void {
     this.profilepic =

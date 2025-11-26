@@ -34,7 +34,10 @@ export const songStore = signalStore(
           const filtered: Songdata[] = mapped.filter(
             (song) => song.amount !== null && song.amount <= 5
           );
-          patchState(store, { songs: filtered, loading: false });
+          const sorted: Songdata[] = filtered.sort(
+            (a, b) => (a.amount ?? 0) - (b.amount ?? 0)
+          );
+          patchState(store, { songs: sorted, loading: false });
         } catch (err) {
           console.error('Failed to fetch playlists', err);
           patchState(store, { songs: [], loading: false });

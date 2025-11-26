@@ -42,8 +42,4 @@ export class PlaylistsComponent implements OnInit {
       ? `max-h-[90vh] overflow-y-auto overscroll-contain custom-scrollbar`
       : ``;
   }
-
-  playlistScrollableClass() {
-    return this.playlistStore.playlists().length > 2 ? `mb-20` : `mb-10`;
-  }
 }
