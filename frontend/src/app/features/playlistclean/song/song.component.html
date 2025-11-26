@@ -1,26 +1,69 @@
 <div class="h-[2px] w-full bg-gray-600 mb-4"></div>
 
-<div class="px-3 py-1 flex gap-3 mb-5 items-center">
+<div
+  class="px-3 py-1 flex gap-3 mb-5 items-center cursor-pointer hover:bg-black/10"
+  (click)="songSelectStore.toggle(song.id)"
+>
   <div [ngClass]="featuredSongs()">
-    <p class="text-white text-right w-5 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
+    <p class="text-white text-right w-5 shrink-0">
+      {{ (index + 1).toString().padStart(2, '0') }}.
+    </p>
     <label class="cursor-pointer gap-2 row-start-3">
-      <input type="checkbox" class="hidden" (change)="songSelectStore.toggle(song.id)">
-      <span class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm">
-        @if (songSelectStore.selectedIds().includes(`spotify:track:${this.song.id}`)) {
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+      <input
+        type="checkbox"
+        class="hidden"
+        (change)="songSelectStore.toggle(song.id)"
+      />
+      <span
+        class="w-5 h-5 border-1 bg-[#B76EFE] flex items-center justify-center rounded-sm"
+      >
+        @if
+        (songSelectStore.selectedIds().includes(`spotify:track:${this.song.id}`))
+        {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#000000"
+        >
           <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
         </svg>
         }
       </span>
     </label>
   </div>
-  <img [ngClass]="featuredSongImg()" [src]="song.track_image" alt="track img">
-  <div class="flex flex-col overflow-hidden justify-center gap-0 max-w-xs">
-    <h1 class="text-white text-[clamp(1rem,1vw,1rem)]">{{song.name}}</h1>
-    <p class="text-gray-400 text-[clamp(0.7rem,1.3vw,0.9rem)]">
-      {{song.artist_names.join(', ')}}</p>
-    <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">({{song.amount}}) plays</p>
-    <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">Last played:
-      {{formatDate(song.last_played)}}</p>
+  <img [ngClass]="featuredSongImg()" [src]="song.track_image" alt="track img" />
+  <div class="flex flex-col gap-0 max-w-xs">
+    <div class="relative group">
+      <h1 class="text-white text-[clamp(1rem,1vw,1rem)] truncate">
+        {{ song.name }}
+      </h1>
+      <div
+        class="absolute mt-1 opacity-0 pointer-events-none bg-black text-white text-sm p-2 rounded shadow-lg z-50 max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500"
+      >
+        <p>{{ song.name }}</p>
+      </div>
+    </div>
+    <div class="relative group">
+      <p class="text-gray-400 text-[clamp(0.7rem,1.3vw,0.9rem)] truncate">
+        {{ song.artist_names.join(', ') }}
+      </p>
+      <div
+        class="absolute mt-1 bg-black text-white text-sm p-2 rounded shadow-lg max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500"
+      >
+        <p>{{ song.artist_names.join(', ') }}</p>
+      </div>
+    </div>
+    <p
+      class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400"
+    >
+      ({{ song.amount }}) plays
+    </p>
+    <p
+      class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400"
+    >
+      Last played: {{ formatDate(song.last_played) }}
+    </p>
   </div>
 </div>
