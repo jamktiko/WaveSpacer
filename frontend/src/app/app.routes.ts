@@ -8,6 +8,10 @@ import { selectionGuard } from './utilities/guards/selection.guard';
 import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingModalComponent } from './loadingmodal/modal.component';
+
+
 
 export const routes: Routes = [
   {
@@ -49,4 +53,15 @@ export const routes: Routes = [
     title: 'Profile',
     canActivate: [loginGuard],
   },
+  {
+  component: SpinnerComponent,
+  path: 'spinner',
+  title: 'Animations',
+  },
+  {
+  component: LoadingModalComponent,
+  path: 'loading',
+  title: 'Loading Modal Test',
+  },
+
 ];

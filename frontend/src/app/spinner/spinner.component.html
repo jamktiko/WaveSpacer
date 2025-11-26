@@ -1,0 +1,13 @@
+<button (click)="go()">Käynnistä animaatio</button>
+
+<div class="center">
+  <div *ngIf="status === 'loading'" @fadeInOut class="spinner"></div>
+  <div *ngIf="status === 'done'"    @doneFade  class="done"></div>
+</div>
+
+
+
+
+
+
+
