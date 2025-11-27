@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HomepageComponent } from './homepage.component';
+import { WelcomeComponent } from './welcome.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
 describe('HomepageComponent', () => {
-  let component: HomepageComponent;
-  let fixture: ComponentFixture<HomepageComponent>;
+  let component: WelcomeComponent;
+  let fixture: ComponentFixture<WelcomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HomepageComponent, // standalone-komponentti
+        WelcomeComponent, // standalone-komponentti
         RouterTestingModule, // antaa ActivatedRoute ja Router
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HomepageComponent);
+    fixture = TestBed.createComponent(WelcomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

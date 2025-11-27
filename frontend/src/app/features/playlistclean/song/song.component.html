@@ -5,9 +5,7 @@
   (click)="songSelectStore.toggle(song.id)"
 >
   <div [ngClass]="featuredSongs()">
-    <p class="text-white text-right w-5 shrink-0">
-      {{ (index + 1).toString().padStart(2, '0') }}.
-    </p>
+    <p class="text-[#F5F5F5] text-right w-5 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
     <label class="cursor-pointer gap-2 row-start-3">
       <input
         type="checkbox"

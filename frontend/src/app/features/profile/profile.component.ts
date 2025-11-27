@@ -19,7 +19,6 @@ export class ProfileComponent implements OnInit {
   settingStore = inject(settingStore);
 
   title: string = this.uiStore.title();
-  profilepic!: string;
 
   ngOnInit(): void {
     this.profileStore.getProfile();

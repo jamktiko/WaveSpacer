@@ -13,7 +13,7 @@ export class SonglistingComponent implements OnInit {
   @Input() trackName!: string | null;
   @Input() artists!: string[] | [];
   @Input() index!: number;
-  @Input() firstRecentSong!: boolean;
+  @Input() titled!: boolean;
   @Input() plays!: number | null;
   @Input() listenedAt!: Date | null;
   @Input() listType!: string;

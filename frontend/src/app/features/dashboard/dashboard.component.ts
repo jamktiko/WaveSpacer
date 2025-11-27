@@ -173,4 +173,16 @@ export class DashboardComponent implements OnInit {
       this.lastTimePlayed = new Date(date).toLocaleDateString();
     }
   }
+
+  // Convert last month's favorite's duration to minutes and seconds
+  msToMinSec(ms: number | null) {
+    if (typeof ms === 'number') {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes}:${seconds}`;
+    } else {
+      return console.log('duration is null');
+    }
+  }
 }
