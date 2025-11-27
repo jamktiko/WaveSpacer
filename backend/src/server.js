@@ -16,19 +16,9 @@ const pool = require('./database/index');
 
 async function startServer() {
   // Ladataan AWS Secrets vain jos ollaan tuotannossa
-  console.log('NODE ENV:' + process.env.NODE_ENV);
 
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets();
-    console.log('Secrets loaded from AWS Secrets Manager');
-    console.log(
-      'Spotify client id?',
-      process.env.SPOTIFY_CLIENT_ID ? 'found' : 'missing'
-    );
-    console.log(
-      'Frontend URL:',
-      process.env.FRONTEND_URL ? 'found' : 'missing'
-    );
   } else {
     console.log('Using local .env configuration');
   }
@@ -38,25 +28,36 @@ async function startServer() {
 
   await pool.initPool();
 
-  if (process.env.NODE_ENV === 'production') {
-    try {
-      const key = fs.readFileSync('/home/ssm-user/myserts/privatekey.pem');
-      const cert = fs.readFileSync('/home/ssm-user/myserts/server.crt');
+  // if (process.env.NODE_ENV === 'production') {
+  //   // try {
+  //   //   const key = fs.readFileSync('/home/ssm-user/myserts/privatekey.pem');
+  //   //   const cert = fs.readFileSync('/home/ssm-user/myserts/server.crt');
 
-      https.createServer({ key, cert }, app).listen(443, '0.0.0.0', () => {
-        console.log('HTTPS server running on port 443');
-      });
-    } catch (err) {
-      console.error('Could not start HTTPS server:', err.message);
-    }
-  }
+  //   //   https.createServer({ key, cert }, app).listen(443, '0.0.0.0', () => {
+  //   //     console.log('HTTPS server running on port 443');
+  //   //   });
+  //   // } catch (err) {
+  //   //   console.error('Could not start HTTPS server:', err.message);
+  //   // }
+  //   try {
+  //     http.createServer(app).listen(8888, '0.0.0.0', () => {
+  //       console.log('HTTPS server running on port 443');
+  //     });
+  //   } catch (err) {
+  //     console.error('Could not start HTTP server:', err.message);
+  //   }
+  // }
   // Development: HTTP
-  else {
+  // else {
+  try {
     const PORT = process.env.PORT || 8888;
-    http.createServer(app).listen(PORT, '0.0.0.0', () => {
-      console.log(`HTTP server running on port ${PORT}`);
+    http.createServer(app).listen(8888, '0.0.0.0', () => {
+      console.log(`HTTP server running on port ${8888}`);
     });
+  } catch (err) {
+    console.error('Could not start HTTP server:', err.message);
   }
+  // }
 
   startCronJobs();
 }

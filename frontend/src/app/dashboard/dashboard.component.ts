@@ -6,15 +6,23 @@ import { OnInit } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
-import { Songdata } from '../utilities/interfaces/songdata';
 import { RecentlistenedComponent } from '../recentlistened/recentlistened.component';
 import { UserdropdownComponent } from '../userdropdown/userdropdown.component';
 import { RouterLink } from '@angular/router';
 import { uiStore } from '../utilities/stores/ui.store';
+import { recentListensStore } from '../utilities/stores/recentlistens.store';
+import { settingStore } from '../utilities/stores/settings.store';
+import { NgClass } from '@angular/common';
+import { Genre } from '../utilities/interfaces/genre';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RecentlistenedComponent, UserdropdownComponent, RouterLink],
+  imports: [
+    RecentlistenedComponent,
+    UserdropdownComponent,
+    RouterLink,
+    NgClass,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -23,33 +31,34 @@ export class DashboardComponent implements OnInit {
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   uiStore = inject(uiStore);
+  recentlistensStore = inject(recentListensStore);
+  settingStore = inject(settingStore);
 
   title: String = this.uiStore.title();
   randomPlaylistImg!: string;
-  randomSong = {
-    img: '',
-    song: '',
-    artist: '',
-  };
   chart!: any;
   userDropDownVisible: boolean = false;
+  chartInitialized: boolean = false;
+  daysSinceRegister: number = 0;
 
   constructor() {
     effect(() => {
       const playlists = this.playlistStore.playlists();
-      const songs = this.songStore.songs();
+      const genres = this.songStore.genres();
+      const regDate = this.profileStore.regdate();
 
       if (playlists.length > 0) {
         const index = Math.floor(Math.random() * playlists.length);
         this.randomPlaylistImg = this.playlistStore.playlists()[index].img;
       }
 
-      if (songs.length > 0) {
-        const index = Math.floor(Math.random() * songs.length);
-        const randomSong: Songdata = this.songStore.songs()[index];
-        this.randomSong.img = randomSong.track_image || '';
-        this.randomSong.song = randomSong.name || '';
-        this.randomSong.artist = randomSong.artist_names?.join(', ') || '';
+      if (genres && genres.length > 0 && !this.chartInitialized) {
+        this.createChart(genres);
+        this.chartInitialized = true;
+      }
+
+      if (regDate) {
+        this.formatDate(regDate);
       }
     });
   }
@@ -57,16 +66,26 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.profileStore.getProfile();
     this.playlistStore.getPlaylists();
-    this.createChart();
-    // localStorage.removeItem('selectedPlaylist');
+    this.songStore.getGenres();
+    this.recentlistensStore.getLastMonthFav();
+    localStorage.removeItem('selectedPlaylist');
+    this.recentlistensStore.getRecentListens();
+    if (localStorage.getItem('lightmode')) {
+      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
+        this.settingStore.turnOnLightMode();
+      }
+    }
   }
 
-  createChart() {
+  createChart(genres: Genre[]) {
+    const labels = genres.map((genre) => genre.genre);
+    const amount = genres.map((genre) => genre.amount);
+
     const data = {
-      labels: ['a', 'b', 'c', 'd', 'e'],
+      labels: labels.slice(0, 5),
       datasets: [
         {
-          data: [100, 50, 30, 20, 10],
+          data: amount.slice(0, 5),
           backgroundColor: ['red', 'green', 'blue', 'purple', 'yellow'],
           hoverOffset: 4,
         },
@@ -78,6 +97,7 @@ export class DashboardComponent implements OnInit {
       data,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           datalabels: {
             formatter: (value: any, context: any) => {
@@ -87,8 +107,8 @@ export class DashboardComponent implements OnInit {
                 0
               );
               const percentage = ((value / total) * 100).toFixed(1);
-              const label = context.chart.data.labels[context.dataIndex];
-              return `${label}\n${value} (${percentage}%)`;
+
+              return `${value} (${percentage}%)`;
             },
             color: '#000000',
             font: {
@@ -111,6 +131,9 @@ export class DashboardComponent implements OnInit {
               },
             },
           },
+          legend: {
+            position: 'bottom',
+          },
         },
         aspectRatio: 2.5,
       },
@@ -121,5 +144,12 @@ export class DashboardComponent implements OnInit {
       document.getElementById('genreChart') as HTMLCanvasElement,
       config
     );
+  }
+
+  formatDate(date: Date) {
+    const date1 = new Date();
+    const date2 = new Date(date);
+    this.daysSinceRegister =
+      (date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
   }
 }

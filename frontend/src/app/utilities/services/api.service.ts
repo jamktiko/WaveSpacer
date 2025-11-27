@@ -41,4 +41,36 @@ export class ApiService {
       { withCredentials: true }
     );
   }
+
+  getRecents(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/recents`, {
+      withCredentials: true,
+    });
+  }
+
+  getLastMonthFavorite(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/lastMonthFav`, {
+      withCredentials: true,
+    });
+  }
+
+  getGenres(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/genres`, {
+      withCredentials: true,
+    });
+  }
+
+  getRegDate(): Promise<AxiosResponse> {
+    return axios.get(`${environment.apiUrl}api/regDate`, {
+      withCredentials: true,
+    });
+  }
+
+  // getRegDate() {
+  //   return axios
+  //     .get(`${environment.apiUrl}api/regDate`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => console.log(res));
+  // }
 }
