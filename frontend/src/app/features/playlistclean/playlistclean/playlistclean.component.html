@@ -4,7 +4,7 @@
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
           class="rounded-full w-13 h-13 md:w-16 md:h-16 lg:w-19 lg:h-19 object-cover min-w-[50px]" />
-        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+        <h1 class="text-[#F5F5F5] font-semibold text-[clamp(1.2rem,3vw,2rem)]">
           {{title}}
         </h1>
       </a>
@@ -23,7 +23,7 @@
     <div
       class="flex flex-col items-center gap-5 lg:gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around overflow-hidden">
       <div class="mt-10 md:py-5 lg:py-20 xl:py-32">
-        <h1 class="text-white text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-semibold md:leading-12">
+        <h1 class="text-[#F5F5F5] text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-semibold md:leading-12">
           Choose the songs<br>
           to be <span class="text-[#B76EFE]">deleted</span>
         </h1>
@@ -36,7 +36,7 @@
               class="min-w-[150px] min-h-[150px] w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 rounded-md"
               [src]="playlistStore.selected()?.img" alt="playlist img">
 
-            <h1 class="text-white text-[clamp(0.8rem,3vw,1.5rem)] text-center">
+            <h1 class="text-[#F5F5F5] text-[clamp(0.8rem,3vw,1.5rem)] text-center">
               {{capitalize(playlistStore.selected()?.name)}}</h1>
 
             <div class="h-px w-full bg-black/30 mt-3"></div>
@@ -50,7 +50,7 @@
                 </svg>
                 }
               </span>
-              <span class="text-[clamp(1rem,3vw,1.3rem)] text-white">Songs selected</span>
+              <span class="text-[clamp(1rem,3vw,1.3rem)] text-[#F5F5F5]">Songs selected</span>
             </label>
             <div class="h-px w-full bg-black/30 mt-3"></div>
             <div class="flex items-center my-5 gap-1">
@@ -59,7 +59,7 @@
                 <path
                   d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
               </svg>
-              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer text-white"
+              <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer text-[#F5F5F5]"
                 (click)="filtersVisible = !filtersVisible">Filters</span>
             </div>
             @if (filtersVisible) {
@@ -72,7 +72,7 @@
             </div>
           </div>
           <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-hidden">
-            <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">Your least played songs</h1>
+            <h1 class="text-center mt-5 text-[#F5F5F5] mb-5 text-[clamp(1rem,3vw,1.3rem)]">Your least played songs</h1>
             <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
               @for (song of songStore.songs(); track song.id; let i = $index) {
               <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>

@@ -3,9 +3,8 @@
 
     <header class="flex justify-center items-center">
       <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
-        <img src="/images/logo.png" alt="Logo"
-          class="rounded-full w-10 h-10 md:w-13 md:h-13 lg:w-16 lg:h-16 xl:w-19 xl:h-19 2xl:w-22 2xl:h-22 object-cover" />
-        <h1 class="text-white font-semibold text-[clamp(1.2rem,3vw,2rem)]">
+        <img src="/images/logo.png" alt="Logo" class="rounded-full w-13 h-13 object-cover" />
+        <h1 class="text-[#F5F5F5] font-semibold text-[clamp(1rem,2vw,1.5rem)]">
           {{title}}
         </h1>
       </a>
@@ -13,31 +12,33 @@
 
 
     <div class="flex items-center justify-center">
-      <div
-        class="bg-gradient-to-br from-[#625c64] to-[#312b38] w-[17rem] md:w-[25rem] my-10 border-[#58525A] border-1 rounded-2xl">
+      <div class="bg-[#48404A] w-[17rem] md:w-[25rem] my-10 border-[#58525A] border-1 rounded-2xl">
         <div class="my-8 text-center lg:mb-8 xl:mb-3">
-          <h1 class="font-bold leading-tight text-[clamp(1rem,3vw,1.5rem)] text-white">
+          <h1 class="font-bold leading-tight text-2xl text-[#F5F5F5]">
             Register
           </h1>
-          <p class="font-neutral text-white mt-4 text-[clamp(0.8rem,2vw,1.1rem)]">
+          <p class="font-neutral text-[#F5F5F5] mt-4 text-md">
             and connect your Spotify after
           </p>
         </div>
 
 
         <div class="py-5 px-5 flex flex-col gap-3 md:gap-5 lg:px-5 lg:py-8 xl:py-10">
-          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+          <input
+            class="w-full p-3 rounded-md text-[#F5F5F5] border border-[#7C7C7C] focus:outline-none focus:border-white"
             type="email" placeholder="AÖ1234@student.jamk.fi" />
-          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+          <input
+            class="w-full p-3 rounded-md text-[#F5F5F5] border border-[#7C7C7C] focus:outline-none focus:border-white"
             type="password" placeholder="password" />
-          <input class="w-full p-3 rounded-md text-white border border-[#7C7C7C] focus:outline-none focus:border-white"
+          <input
+            class="w-full p-3 rounded-md text-[#F5F5F5] border border-[#7C7C7C] focus:outline-none focus:border-white"
             type="password" placeholder="repeat password" />
         </div>
 
 
         <div class="my flex items-center justify-center">
           <button type="submit"
-            class="bg-gradient-to-r from-[#594765] to-[#6a5280] text-[#B76EFE] font-semibold px-6 py-3 rounded-3xl border border-[#58525A] cursor-pointer">
+            class="bg-[#B76EFE]/15 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-semibold px-6 py-3 rounded-3xl border border-[#58525A] cursor-pointer">
             Register
           </button>
         </div>
