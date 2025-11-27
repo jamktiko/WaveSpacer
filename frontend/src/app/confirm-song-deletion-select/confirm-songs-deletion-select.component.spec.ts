@@ -55,4 +55,38 @@ describe('ConfirmSongsDeletedComponent', () => {
     button.nativeElement.click();
     expect(component.deleteSongs).toHaveBeenCalled();
   });
+
+  it('should emit false when closeSongDeletionConfirm is called', () => {
+    spyOn(component.songDeletionConfirmVisible, 'emit');
+
+    component.closeSongDeletionConfirm();
+
+    expect(component.songDeletionConfirmVisible.emit).toHaveBeenCalledWith(
+      false
+    );
+  });
+
+  it('should update when selectAmount input changes', () => {
+    component.selectAmount = 5;
+    fixture.detectChanges();
+
+    const h1 = fixture.nativeElement.querySelector('h1');
+    expect(h1.textContent).toContain('5');
+  });
+
+  it('should have correct button texts', () => {
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    expect(buttons[0].nativeElement.textContent.trim()).toBe('no');
+    expect(buttons[1].nativeElement.textContent.trim()).toBe('yes');
+  });
+
+  it('should have correct CSS classes on buttons', () => {
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+
+    expect(buttons[0].nativeElement.classList).toContain('bg-[#FE5C64]/15');
+    expect(buttons[0].nativeElement.classList).toContain('text-[#FE5C64]');
+
+    expect(buttons[1].nativeElement.classList).toContain('bg-[#B76EFE]/15');
+    expect(buttons[1].nativeElement.classList).toContain('text-[#B76EFE]');
+  });
 });

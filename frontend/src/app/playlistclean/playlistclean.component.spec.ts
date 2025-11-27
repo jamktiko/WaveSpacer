@@ -7,6 +7,26 @@ describe('PlaylistcleanComponent', () => {
   let component: PlaylistcleanComponent;
   let fixture: ComponentFixture<PlaylistcleanComponent>;
 
+  const mockSongStore = {
+    getSongs: jasmine.createSpy('getSongs'),
+    songs: jasmine.createSpy('songs').and.returnValue([]),
+  };
+
+  const mockSongSelectStore = {
+    selectedIds: jasmine.createSpy('selectedIds').and.returnValue([]),
+    clear: jasmine.createSpy('clear'),
+    selectAll: jasmine.createSpy('selectAll'),
+  };
+
+  const mockUiStore = {
+    title: jasmine.createSpy('title').and.returnValue('WaveSpacer'),
+    toggleDropdownVisibility: jasmine.createSpy('toggleDropdownVisibility'),
+    dropdownvisible: jasmine
+      .createSpy('dropdownvisible')
+      .and.returnValue(false),
+    closeDropdown: jasmine.createSpy('closeDropdown'),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlaylistcleanComponent],
@@ -66,5 +86,39 @@ describe('PlaylistcleanComponent', () => {
       By.css('a[routerLink="/dashboard"]')
     );
     expect(routerLink).toBeTruthy();
+  });
+
+  it('should initialize with title from uiStore', () => {
+    expect(component.title).toBe('WaveSpacer');
+  });
+
+  it('should load selected playlist from localStorage on init', () => {
+    expect(component.selectedPlaylist).toEqual({
+      id: 1,
+      name: 'Test Playlist',
+    });
+  });
+
+  it('should set confirmDeleteVisible to true when delete button is clicked', () => {
+    const deleteButton = fixture.debugElement.query(
+      By.css('button.bg-\\[\\#FE5C64\\]\\/15')
+    );
+
+    deleteButton.triggerEventHandler('click', null);
+
+    expect(component.confirmDeleteVisible).toBeTrue();
+  });
+
+  it('should close confirm dialog when closeSongDeletionConfirm is called', () => {
+    component.confirmDeleteVisible = true;
+
+    component.closeSongDeletionConfirm(false);
+
+    expect(component.confirmDeleteVisible).toBeFalse();
+  });
+
+  it('should use settingStore background', () => {
+    const container = fixture.debugElement.query(By.css('.bg-cover'));
+    expect(container).toBeTruthy();
   });
 });
