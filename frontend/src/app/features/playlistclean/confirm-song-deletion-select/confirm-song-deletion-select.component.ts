@@ -1,12 +1,21 @@
-import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { playlistStore } from '../../../core/stores/playlist.store';
 import { songStore } from '../../../core/stores/songs.store';
 import { songSelectStore } from '../../../core/stores/songSelect.store';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 
 @Component({
   selector: 'app-confirm-song-deletion-select',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, SpinnerComponent],
   templateUrl: './confirm-song-deletion-select.component.html',
   styleUrl: './confirm-song-deletion-select.component.css',
 })
@@ -14,23 +23,39 @@ export class ConfirmSongDeletionSelectComponent {
   playlistStore = inject(playlistStore);
   songStore = inject(songStore);
   songSelectStore = inject(songSelectStore);
+  router = inject(Router);
 
-  @Input() selectAmount!: number; // The number of selected songs
-
+  @Input() selectAmount!: number;
   @Output() songDeletionConfirmVisible = new EventEmitter<boolean>();
 
-  // Whichever button the users presses emits the value of windows visibility (false) to playlistclean.component
+  @ViewChild('spinner') spinner?: SpinnerComponent;
+
+  spinnerShown = false;
+
   closeSongDeletionConfirm() {
     this.songDeletionConfirmVisible.emit(false);
   }
 
-  // If the user presses yes, the song deletion method is called with the selected songs and the id of the playlist
-  deleteSongs() {
+  async deleteSongs() {
+    this.spinnerShown = true;
+
+    await Promise.resolve();
+
+    this.spinner?.go();
+
+    // delete songs
     this.songStore.deleteSongs(
       this.playlistStore.selected()?.id || null,
       this.songSelectStore.selectedIds()
     );
+
+    await new Promise((r) => setTimeout(r, 4200));
+
+    // cleanup
     this.songSelectStore.clear();
+    this.spinnerShown = false;
     this.songDeletionConfirmVisible.emit(false);
+
+    this.router.navigate(['/dashboard']);
   }
 }
