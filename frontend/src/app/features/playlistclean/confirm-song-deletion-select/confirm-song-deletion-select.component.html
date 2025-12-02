@@ -11,16 +11,12 @@
     Test Spinner
   </button>
 
+  <app-spinner #spinner></app-spinner>
+
+  @if (!spinnerShown) {
   <div
     class="relative flex flex-col gap-1 items-center bg-[#48404A] border-[#58525A] p-10 rounded-xl text-center"
   >
-    @if (spinnerShown) {
-    <div
-      class="absolute inset-0 bg-[#48404A] bg-opacity-70 flex items-center justify-center rounded-xl z-50"
-    >
-      <app-spinner #spinner></app-spinner>
-    </div>
-    } @if (!spinnerShown) {
     <h1 class="text-[#B76EFE] font-medium">
       <span class="text-[#F5F5F5]"
         >Are you sure you want to <br />delete the selected (</span
@@ -54,6 +50,6 @@
         Yes
       </button>
     </div>
-    }
   </div>
+  }
 </div>

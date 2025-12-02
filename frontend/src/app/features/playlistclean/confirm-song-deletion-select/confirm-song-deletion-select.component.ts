@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  afterNextRender,
 } from '@angular/core';
 import { playlistStore } from '../../../core/stores/playlist.store';
 import { songStore } from '../../../core/stores/songs.store';
@@ -49,7 +50,7 @@ export class ConfirmSongDeletionSelectComponent {
       this.songSelectStore.selectedIds()
     );
 
-    await new Promise((r) => setTimeout(r, 4200));
+    await new Promise((r) => setTimeout(r, 3200));
 
     // cleanup
     this.songSelectStore.clear();

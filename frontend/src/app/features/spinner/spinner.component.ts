@@ -18,6 +18,6 @@ export class SpinnerComponent {
     setTimeout(() => {
       this.status = 'done';
       setTimeout(() => (this.status = 'idle'), 1200);
-    }, 3000);
+    }, 2000);
   }
 }
