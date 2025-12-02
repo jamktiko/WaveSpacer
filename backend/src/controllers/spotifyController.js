@@ -168,17 +168,9 @@ exports.lastMonthFavInfo = async (req, res) => {
       result.spotify_track_id,
       access_token
     );
-    const genres = await genreRepository.getGenresOfSong(
-      result.spotify_track_id,
-      userId
-    );
+
     result.duration_ms = info.duration_ms;
 
-    if (result.genres) {
-      result.genres = genres.join(', ');
-    } else {
-      result.genres = null;
-    }
     res.json(result);
   } catch (err) {
     console.error('Error in lastMonthFavInfo:', err);
