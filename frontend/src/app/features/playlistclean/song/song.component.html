@@ -1,33 +1,17 @@
 <div class="h-[2px] w-full bg-[#808080] mb-4"></div>
 
-<div
-  class="px-3 flex gap-3 mb-5 items-center cursor-pointer hover:bg-black/10"
-  (click)="songSelectStore.toggle(song.id)"
->
+<div class="px-3 flex gap-3 mb-5 items-center cursor-pointer hover:bg-black/10"
+  (click)="songSelectStore.toggle(song.id)">
   <div [ngClass]="featuredSongs()">
-    <p class="text-[#F5F5F5] text-right w-5 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
+    <p class="text-normal text-right w-5 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
     <label class="cursor-pointer gap-2 row-start-3">
-      <input
-        type="checkbox"
-        class="hidden"
-        (change)="songSelectStore.toggle(song.id)"
-      />
-      <span
-        class="w-5 h-5 border-1 bg-[#7C7683] flex items-center justify-center rounded-sm"
-      >
+      <input type="checkbox" class="hidden" (change)="songSelectStore.toggle(song.id)" />
+      <span class="w-5 h-5 border-1 bg-[#7C7683] flex items-center justify-center rounded-sm">
         @if
         (songSelectStore.selectedIds().includes(`spotify:track:${this.song.id}`))
         {
-        <span
-          class="bg-[#B76EFE] w-5 h-5 border-1 flex items-center justify-center rounded-sm"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#000000"
-          >
+        <span class="bg-[#B76EFE] w-5 h-5 border-1 flex items-center justify-center rounded-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
             <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
           </svg>
         </span>
@@ -43,8 +27,7 @@
         {{ song.name }}
       </h1>
       <div
-        class="absolute mt-1 opacity-0 pointer-events-none bg-black text-white text-sm p-2 rounded shadow-lg z-50 max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500"
-      >
+        class="absolute mt-1 opacity-0 pointer-events-none bg-black text-white text-sm p-2 rounded shadow-lg z-50 max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500">
         <p>{{ song.name }}</p>
       </div>
     </div>
@@ -53,19 +36,14 @@
         {{ song.artist_names.join(', ') }}
       </p>
       <div
-        class="absolute mt-1 opacity-0 pointer-events-none bg-black text-white text-sm p-2 rounded shadow-lg max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500"
-      >
+        class="absolute mt-1 opacity-0 pointer-events-none bg-black text-white text-sm p-2 rounded shadow-lg max-w-[250px] transition-opacity duration-200 group-hover:opacity-100 group-hover:delay-500">
         <p>{{ song.artist_names.join(', ') }}</p>
       </div>
     </div>
-    <p
-      class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400"
-    >
+    <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">
       ({{ song.amount }}) plays
     </p>
-    <p
-      class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400"
-    >
+    <p class="overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">
       Last played: {{ formatDate(song.last_played) }}
     </p>
   </div>
