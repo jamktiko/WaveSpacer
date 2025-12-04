@@ -81,11 +81,6 @@ export class DashboardComponent implements OnInit {
     this.recentlistensStore.getLastMonthFav();
     localStorage.removeItem('selectedPlaylist');
     this.recentlistensStore.getRecentListens();
-    if (localStorage.getItem('lightmode')) {
-      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
-        this.settingStore.turnOnLightMode();
-      }
-    }
   }
 
   createChart(genres: Genre[]) {

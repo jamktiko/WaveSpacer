@@ -1,9 +1,9 @@
 <div class="fixed top-0 left-0 bg-black/40 w-full h-full"></div>
 <div class="fixed flex items-center justify-center inset-0">
   <div class="flex flex-col items-center bg-[#48404A] border-[#58525A] p-8 rounded-xl">
-    <h1 class="text-center text-[#B76EFE] text-lg">
-      <span class="text-[#F5F5F5]">Do you want to select the playlist</span><br />
-      {{ playlistStore.selected()?.name }}<span class="text-[#F5F5F5]">?</span>
+    <h1 class="text-center text-theme text-lg">
+      <span class="text-normal">Do you want to select the playlist</span><br />
+      {{ playlistStore.selected()?.name }}<span class="text-normal">?</span>
     </h1>
     <img
       class="w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 2xl:w-53 2xl:h-53 object-cover my-5 rounded-xl"
@@ -17,7 +17,7 @@
       </button>
       <a routerLink="/playlistclean">
         <button (click)="selectPlaylist(playlistStore.selected()?.id)"
-          class="bg-[#B76EFE]/15 text-[#B76EFE] hover:bg-[#B76EFE]/40 font-bold px-4 py-2 rounded-2xl cursor-pointer text-lg">
+          class="bg-[#B76EFE]/15 text-theme hover:bg-[#B76EFE]/40 font-bold px-4 py-2 rounded-2xl cursor-pointer text-lg">
           Yes
         </button></a>
     </div>

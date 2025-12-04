@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common';
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css',
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent {
   uiStore = inject(uiStore);
   settingStore = inject(settingStore);
 
@@ -21,15 +21,6 @@ export class WelcomeComponent implements OnInit {
   // User is redirected to Spotify login
   login() {
     location.href = `${environment.apiUrl}api/login`;
-  }
-
-  ngOnInit(): void {
-    // On init, check if user has turned on lightmode before
-    if (localStorage.getItem('lightmode')) {
-      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
-        this.settingStore.turnOnLightMode();
-      }
-    }
   }
 
   // NgClass, background image changes based on if lightmode is on, part 1 of background image, because the bg image is in two parts

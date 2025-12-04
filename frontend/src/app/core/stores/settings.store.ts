@@ -26,6 +26,14 @@ export const settingStore = signalStore(
   })),
   withMethods((store) => {
     return {
+      applyTheme(lightmode: boolean) {
+        const html = document.documentElement;
+        if (lightmode) {
+          html.classList.add('light');
+        } else {
+          html.classList.remove('light');
+        }
+      },
       changeLanguage(language: string) {
         patchState(store, { language: language });
         localStorage.setItem('language', language);
@@ -39,10 +47,12 @@ export const settingStore = signalStore(
       toggleLightMode() {
         patchState(store, { lightmode: !store.lightmode() });
         localStorage.setItem('lightmode', JSON.stringify(store.lightmode()));
+        this.applyTheme(store.lightmode());
       },
       turnOnLightMode() {
         patchState(store, { lightmode: true });
         localStorage.setItem('lightmode', JSON.stringify(store.lightmode()));
+        this.applyTheme(true);
       },
     };
   })

@@ -36,11 +36,6 @@ export class SettingsComponent implements OnInit {
     } else {
       this.settingStore.changeLanguage(localStorage.getItem('language') || '');
     }
-    if (localStorage.getItem('lightmode')) {
-      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
-        this.settingStore.turnOnLightMode();
-      }
-    }
   }
 
   // If the dropdown is visible, the top should be rounded to make it look better

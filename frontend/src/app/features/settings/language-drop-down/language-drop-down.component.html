@@ -3,7 +3,7 @@
   (click)="$event.stopPropagation()">
   <div class="flex flex-col gap-3 text-left p-0">
     @for (language of remainingLanguages(); track language.id) {
-    <div class="px-3 pr-20 hover:bg-[#706573] cursor-pointer font-medium text-[#F5F5F5]"
+    <div class="px-3 pr-20 hover:bg-[#706573] cursor-pointer font-medium text-normal"
       (click)="settingStore.changeLanguage(language.language)">
       {{language.language}}</div>
     }

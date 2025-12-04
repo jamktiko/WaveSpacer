@@ -22,11 +22,5 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileStore.getProfile();
-
-    if (localStorage.getItem('lightmode')) {
-      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
-        this.settingStore.turnOnLightMode();
-      }
-    }
   }
 }
