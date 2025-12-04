@@ -4,6 +4,8 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+@import 'tailwindcss';
+
 @theme {
   --breakpoint-accline: 375px;
   --breakpoint-regbutton: 450px;
@@ -11,6 +13,48 @@ body {
   --breakpoint-mobileS: 320px;
   --breakpoint-mobileM: 375px;
   --breakpoint-mobileL: 425px;
+}
+
+:root {
+  --text-normal: #f5f5f5;
+  --text-theme: #b76efe;
+  --text-bigtitles: #f5f5f5;
+  --text-subtext: #ebc8ed;
+  --text-other: #f5f5f5;
+  --bg-filler: #252525;
+}
+
+.light {
+  --text-normal: #f5f5f5;
+  --text-theme: #b76efe;
+  --text-bigtitles: #1a1a1a;
+  --text-subtext: #a99db5;
+  --text-other: #1a1a1a;
+  --bg-filler: #d8d8d8;
+}
+
+.text-normal {
+  color: var(--text-normal);
+}
+
+.text-theme {
+  color: var(--text-theme);
+}
+
+.text-bigtitles {
+  color: var(--text-bigtitles);
+}
+
+.text-subtext {
+  color: var(--text-subtext);
+}
+
+.text-other {
+  color: var(--text-other);
+}
+
+.bg-filler {
+  background-color: var(--bg-filler);
 }
 
 .custom-scrollbar {

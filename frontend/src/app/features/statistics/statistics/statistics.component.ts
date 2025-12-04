@@ -98,11 +98,6 @@ export class StatisticsComponent implements OnInit {
   ngOnInit(): void {
     this.profilepic = localStorage.getItem('profilepic') || 'placeholderpp.png';
 
-    if (localStorage.getItem('lightmode')) {
-      if (JSON.parse(localStorage.getItem('lightmode') || '')) {
-        this.settingStore.turnOnLightMode();
-      }
-    }
     this.recentlistensStore.getRecentListens();
     this.songStore.getGenres();
   }

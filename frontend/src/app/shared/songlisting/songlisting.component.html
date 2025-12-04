@@ -1,14 +1,14 @@
 @if (listType === 'dashboardRecents') {
 <div [ngClass]="isLastItem()" class="p-1 flex flex-col bg-[#323132] w-full">
   @if (titled) {
-  <h1 class="text-[#F5F5F5] p-3 font-medium text-lg">{{title}}</h1>
+  <h1 class="text-normal p-3 font-medium text-lg">{{title}}</h1>
   }
   <div class="flex gap-2 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400">
-    <p class="text-[#F5F5F5] text-right text-md font-medium w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.
+    <p class="text-normal text-right text-md font-medium w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.
     </p>
     <img [src]="img" alt="track image" class="w-15 h-15 rounded-xl">
     <div class="flex flex-col font-medium">
-      <p class="text-[#F5F5F5] text-sm lg:text-base">{{trackName}}</p>
+      <p class="text-normal text-sm lg:text-base">{{trackName}}</p>
       <p class="text-[#969696] text-xs">{{artists}}</p>
       <p class="text-[#969696] block xl:hidden text-xs">({{plays}} plays)</p>
       <p class="text-[#969696] text-xs">{{formattedDate}}</p>
@@ -19,32 +19,32 @@
 </div>
 } @else if (listType === 'statisticsList') {
 @if (titled) {
-<h1 class="text-[#F5F5F5] text-lg py-3 font-medium">{{title}}</h1>
+<h1 class="text-normal text-lg py-3 font-medium">{{title}}</h1>
 }
 <div class="flex gap-1 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400 font-medium">
-  <p class="text-[#F5F5F5] text-right text-md w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
+  <p class="text-normal text-right text-md w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
   <img [src]="img" alt="track image" class="w-10 h-10 rounded-xl">
-  <p class="text-[#F5F5F5] text-sm">{{artists}}</p>
+  <p class="text-normal text-sm">{{artists}}</p>
   <p class="text-[#969696] ml-auto text-xs">({{plays}} plays)</p>
 </div>
 } @else if (listType === 'lastYearStatistic') {
 <div class="flex gap-2 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400 ">
-  <p class="text-[#F5F5F5] text-right text-sm w-6 shrink-0 font-medium">{{(index + 1).toString().padStart(2, '0')}}.</p>
+  <p class="text-normal text-right text-sm w-6 shrink-0 font-medium">{{(index + 1).toString().padStart(2, '0')}}.</p>
   <img [src]="img" alt="track image" class="w-7 h-7 rounded-lg">
   <div class="flex flex-col font-medium">
-    <p class="text-[#F5F5F5] text-sm">{{trackName}}</p>
+    <p class="text-normal text-sm">{{trackName}}</p>
     <p class="text-[#969696] text-xs">{{artists}}</p>
   </div>
 </div>
 } @else if (listType === 'genreList') {
 <div class="p-3 flex flex-col bg-[#323132] w-full">
   @if (titled) {
-  <h1 class="text-[#F5F5F5] text-lg py-3 font-medium">{{title}}</h1>
+  <h1 class="text-normal text-lg py-3 font-medium">{{title}}</h1>
   }
   <div
     class="flex flex-row gap-2 items-center overflow-x-auto overscroll-contain custom-scrollbar text-gray-400 font-medium">
-    <p class="text-[#F5F5F5] text-right text-sm w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
-    <p class="text-[#F5F5F5] text-md">{{genre}}</p>
+    <p class="text-normal text-right text-sm w-6 shrink-0">{{(index + 1).toString().padStart(2, '0')}}.</p>
+    <p class="text-normal text-md">{{genre}}</p>
     <p class="text-[#969696] text-md">({{plays}} plays)</p>
     <p class="text-[#969696] ml-auto text-sm">{{genrePercentile}}%</p>
 

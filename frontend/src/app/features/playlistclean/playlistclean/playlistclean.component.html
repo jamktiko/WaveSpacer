@@ -1,108 +1,112 @@
-<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2">
-  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
-    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
-      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
-        <img src="/images/logo.png" alt="Logo"
-          class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
-        <h1 class="text-[#F5F5F5] font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
-          {{ title }}
-        </h1>
-      </a>
+<div class="flex flex-col min-h-screen bg-filler">
+  <div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2">
+    <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+      <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
+        <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+          <img src="/images/logo.png" alt="Logo"
+            class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
+          <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
+            {{ title }}
+          </h1>
+        </a>
+        <div
+          class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
+          (click)="uiStore.toggleDropdownVisibility()">
+          <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
+          @if (uiStore.dropdownvisible()) {
+          <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+          }
+        </div>
+      </header>
+
       <div
-        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-[#B76EFE] font-bold min-w-[60px]"
-        (click)="uiStore.toggleDropdownVisibility()">
-        <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
-        @if (uiStore.dropdownvisible()) {
-        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
-        }
-      </div>
-    </header>
-
-    <div
-      class="flex flex-col items-center gap-5 lg:gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around">
-      <div class="mt-10 md:py-5 lg:py-20 xl:py-32">
-        <h1 class="text-white text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-semibold md:leading-12">
-          Choose the songs<br />
-          to be <span class="text-[#B76EFE]">deleted</span>
-        </h1>
-      </div>
-      <div
-        class="rounded-2xl bg-[#48404A] border-[#58525A] border-1 min-w-[320px] max-w-[600px] lg:max-w-[750px] mt-5 max-h-1000px lg:max-h-[90vh]">
-        <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
-          <div
-            class="flex flex-col items-center flex-1 max-h-[90vh] justify-between overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
-            <div class="w-full">
-              <div class="justify-items-center">
-                <div>
-                  <img
-                    class="min-w-[150px] min-h-[150px] w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-65 xl:h-65 rounded-md mt-15"
-                    [src]="playlistStore.selected()?.img" alt="playlist img" />
-
-                  <h1 class="text-white text-[clamp(0.8rem,3vw,1.5rem)]">
-                    {{ capitalize(playlistStore.selected()?.name) }}
-                  </h1>
-                </div>
-              </div>
-
+        class="flex flex-col items-center gap-5 lg:gap-10 lg:flex-row lg:items-start lg:justify-center xl:justify-around">
+        <div class="mt-10 md:py-5 lg:py-20 xl:py-32">
+          <h1
+            class="text-bigtitles text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-semibold md:leading-12">
+            Choose the songs<br />
+            to be <span class="text-theme">deleted</span>
+          </h1>
+        </div>
+        <div
+          class="rounded-2xl bg-[#48404A] border-[#58525A] border-1 min-w-[320px] max-w-[600px] lg:max-w-[750px] mt-5 max-h-1000px lg:max-h-[90vh]">
+          <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
+            <div
+              class="flex flex-col items-center flex-1 max-h-[90vh] justify-between overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
               <div class="w-full">
-                <div class="h-px w-full bg-black/30 mt-3"></div>
-                <label class="flex items-center cursor-pointer gap-2 ml-5 my-5">
-                  <input type="checkbox" class="hidden" (change)="songSelectStore.selectAll()" />
-                  <span class="w-5 h-5 border-1 bg-[#7C7683] flex items-center justify-center rounded-sm">
-                    @if (songSelectStore.selectedIds().length ===
-                    songStore.songs().length) {
-                    <span class="bg-[#B76EFE] w-5 h-5 border-1 flex items-center justify-center rounded-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                        fill="#000000">
-                        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                      </svg>
-                    </span>
-                    }
-                  </span>
-                  <span class="text-[clamp(1rem,3vw,1.3rem)] text-white ml-4">
-                    ({{ songSelectStore.selectedIds().length }}) Songs
-                    selected</span>
-                </label>
-                <div class="h-px w-full bg-black/30 mt-3"></div>
-                <div class="flex items-center my-5 gap-1 ml-5 cursor-pointer"
-                  (click)="filtersVisible = !filtersVisible">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#FFFFFF">
-                    <path
-                      d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
-                  </svg>
-                  <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer text-white ml-4">Filters</span>
+                <div class="justify-items-center">
+                  <div>
+                    <img
+                      class="min-w-[150px] min-h-[150px] w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-65 xl:h-65 rounded-md mt-15"
+                      [src]="playlistStore.selected()?.img" alt="playlist img" />
+
+                    <h1 class="text-white text-[clamp(0.8rem,3vw,1.5rem)]">
+                      {{ capitalize(playlistStore.selected()?.name) }}
+                    </h1>
+                  </div>
                 </div>
-                @if (filtersVisible) {
-                <app-filters></app-filters>
-                }
-                <div class="h-px w-full bg-black/30 mt-3"></div>
+
+                <div class="w-full">
+                  <div class="h-px w-full bg-black/30 mt-3"></div>
+                  <label class="flex items-center cursor-pointer gap-2 ml-5 my-5">
+                    <input type="checkbox" class="hidden" (change)="songSelectStore.selectAll()" />
+                    <span class="w-5 h-5 border-1 bg-[#7C7683] flex items-center justify-center rounded-sm">
+                      @if (songSelectStore.selectedIds().length ===
+                      songStore.songs().length) {
+                      <span class="bg-[#B76EFE] w-5 h-5 border-1 flex items-center justify-center rounded-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                          fill="#000000">
+                          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                        </svg>
+                      </span>
+                      }
+                    </span>
+                    <span class="text-[clamp(1rem,3vw,1.3rem)] text-white ml-4">
+                      ({{ songSelectStore.selectedIds().length }}) Songs
+                      selected</span>
+                  </label>
+                  <div class="h-px w-full bg-black/30 mt-3"></div>
+                  <div class="flex items-center my-5 gap-1 ml-5 cursor-pointer"
+                    (click)="filtersVisible = !filtersVisible">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                      fill="#FFFFFF">
+                      <path
+                        d="M520-600v-80h120v-160h80v160h120v80H520Zm120 480v-400h80v400h-80Zm-400 0v-160H120v-80h320v80H320v160h-80Zm0-320v-400h80v400h-80Z" />
+                    </svg>
+                    <span class="text-[clamp(1rem,3vw,1.3rem)] cursor-pointer text-white ml-4">Filters</span>
+                  </div>
+                  @if (filtersVisible) {
+                  <app-filters></app-filters>
+                  }
+                  <div class="h-px w-full bg-black/30 mt-3"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-center mt-5 mb-1 w-[99%] mx-auto">
+                <button
+                  class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-[95%] h-[90%] mx-auto mb-5 rounded-md cursor-pointer"
+                  (click)="confirmDeleteVisible = true">
+                  Delete selected
+                </button>
               </div>
             </div>
-
-            <div class="flex items-center justify-center mt-5 mb-1 w-[99%] mx-auto">
-              <button class="p-3 bg-[#FE5C64]/15 text-[#FE5C64] w-[95%] h-[90%] mx-auto mb-5 rounded-md cursor-pointer"
-                (click)="confirmDeleteVisible = true">
-                Delete selected
-              </button>
-            </div>
-          </div>
-          <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-visible">
-            <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">
-              Your least played songs
-            </h1>
-            <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
-              @for (song of songStore.songs(); track song.id; let i = $index) {
-              <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
-              }
+            <div class="flex flex-col max-h-[90vh] bg-[#3D383E] h-full rounded-r-2xl overflow-visible">
+              <h1 class="text-center mt-5 text-white mb-5 text-[clamp(1rem,3vw,1.3rem)]">
+                Your least played songs
+              </h1>
+              <div class="flex-1 overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+                @for (song of songStore.songs(); track song.id; let i = $index) {
+                <app-song [song]="song" [index]="i" [featured]="i < 3"></app-song>
+                }
+              </div>
             </div>
           </div>
         </div>
       </div>
+      @if (confirmDeleteVisible) {
+      <app-confirm-song-deletion-select [selectAmount]="songSelectStore.selectedIds().length"
+        (songDeletionConfirmVisible)="closeSongDeletionConfirm($event)"></app-confirm-song-deletion-select>
+      }
     </div>
-    @if (confirmDeleteVisible) {
-    <app-confirm-song-deletion-select [selectAmount]="songSelectStore.selectedIds().length"
-      (songDeletionConfirmVisible)="closeSongDeletionConfirm($event)"></app-confirm-song-deletion-select>
-    }
   </div>
 </div>
