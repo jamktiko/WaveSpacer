@@ -44,6 +44,7 @@ export class PlaylistcleanComponent implements OnInit {
     this.selectedPlaylist = JSON.parse(
       localStorage.getItem('selectedPlaylist') || ''
     );
+    this.songStore.clear();
     this.songStore.getSongs(this.selectedPlaylist.id);
     this.profilepic =
       localStorage.getItem('profilepic') || 'images/placeholderpp.png';
