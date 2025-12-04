@@ -1,31 +1,34 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import axios from 'axios';
-import { environment } from '../../../environments/environment';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-spotify-cb',
-  imports: [],
   templateUrl: './spotify-cb.component.html',
-  styleUrl: './spotify-cb.component.css',
 })
-export class SpotifyCbComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router) {}
+export class SpotifyCbComponent implements AfterViewInit {
+  @ViewChild('welcomeScreen') welcomeScreen!: ElementRef<HTMLDivElement>;
+  @ViewChild('welcomeText') welcomeText!: ElementRef<HTMLHeadingElement>;
+  @ViewChild('logoWrapper') logoWrapper!: ElementRef<HTMLDivElement>;
 
-  ngOnInit(): void {
-    const code = this.route.snapshot.queryParamMap.get('code');
-    if (!code) {
-      this.router.navigate(['']);
-    }
-    axios
-      .get(`${environment.apiUrl}api/callback?code=` + code, {
-        withCredentials: true,
-      })
-      .then(() => this.router.navigate(['dashboard']))
-      .catch((err) => {
-        console.warn(err);
-        this.router.navigate(['']);
-      });
+  constructor(private router: Router) {}
+
+  ngAfterViewInit(): void {
+    this.startWelcomeAnimation();
+  }
+
+  startWelcomeAnimation() {
+    this.welcomeScreen.nativeElement.classList.remove('hidden');
+
+    setTimeout(() => {
+      this.welcomeText.nativeElement.classList.remove('opacity-0', 'scale-90');
+    }, 300);
+
+    setTimeout(() => {
+      this.logoWrapper.nativeElement.classList.remove('opacity-0', 'scale-90');
+    }, 2000);
+
+    setTimeout(() => {
+      this.router.navigate(['/dashboard']);
+    }, 4000);
   }
 }
