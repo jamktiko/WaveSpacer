@@ -16,7 +16,7 @@ import { SpinnerComponent } from '../../spinner/spinner.component';
 @Component({
   selector: 'app-confirm-song-deletion-select',
   standalone: true,
-  imports: [RouterLink, SpinnerComponent],
+  imports: [SpinnerComponent],
   templateUrl: './confirm-song-deletion-select.component.html',
   styleUrl: './confirm-song-deletion-select.component.css',
 })
