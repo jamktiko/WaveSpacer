@@ -10,44 +10,6 @@
           </h1>
         </a>
         <div
-          class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl"
-        >
-          <div
-            class="grid grid-col lg:grid-cols-[auto_1fr] justify-items-center items-center gap-2 p-8 cursor-pointer hover:bg-[#544b57]"
-            routerLink="/playlists"
-          >
-            <img
-              [src]="randomPlaylistImg"
-              alt="playlist image"
-              routerLink="/playlists"
-              class="rounded-2xl w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 2xl:w-44 2xl:h-44"
-            />
-            <div class="flex flex-col">
-              <h1
-                class="text-[#F5F5F5] underline text-center font-medium lg:text-start text-[clamp(1rem,1.5vw,2rem)]"
-              >
-                Playlist-cleaner
-              </h1>
-              <p
-                class="text-[#F5F5F5] text-center font-medium lg:text-start text-lg"
-              >
-                7 Uses left
-              </p>
-            </div>
-          </div>
-          <div
-            class="grid grid-row grid-cols-4 lg:grid-cols-[auto_1fr_1fr] p-6 justify-items-center lg:justify-items-start items-center gap-2 cursor-pointer hover:bg-[#544b57] lg:h-40"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              fill="#865a8f"
-              class="w-10 h-10 lg:w-15 lg:h-15 col-start-1 mobileM:col-start-2 col-span-2 mobileM:col-span-1 lg:col-start-1 sm:justify-self-end sm:mr-5"
-            >
-              <path
-                d="M313.33-80q-27 0-46.83-19.83-19.83-19.84-19.83-46.84v-100h-100q-27 0-46.84-19.83Q80-286.33 80-313.33V-390h66.67v76.67h100v-333.34q0-27 19.83-46.83t46.83-19.83h333.34v-100H570V-880h76.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84v100h100q27 0 46.84 19.83Q880-673.67 880-646.67v500q0 27-19.83 46.84Q840.33-80 813.33-80h-500Zm0-66.67h500v-500h-500v500ZM80-483.33v-160h66.67v160H80Zm0-253.34v-76.66q0-27 19.83-46.84Q119.67-880 146.67-880h76.66v66.67h-76.66v76.66H80Zm236.67-76.66V-880h160v66.67h-160Zm-3.34 666.66v-500 500Z"
-              />
-            </svg>
           class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
           (click)="uiStore.toggleDropdownVisibility()">
           <img [src]="profileStore.profilepic()" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
@@ -58,32 +20,6 @@
 
       </header>
 
-          <div
-            class="flex flex-col p-6 items-center font-medium gap-5 border-b-0 mt-8 xl:mt-15"
-          >
-            <div class="xl:flex gap-5">
-              <div class="justify-items-center mb-3">
-                <h2 class="text-[#F5F5F5] text-center text-lg">
-                  Total songs cleaned<br />
-                  with WaveSpacer
-                </h2>
-                <div
-                  class="flex justify-center items-center py-8 px-10 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-xl h-10 w-15 mt-5"
-                >
-                  <p class="text-center text-4xl">22</p>
-                </div>
-              </div>
-              <div class="justify-items-center">
-                <h2 class="text-[#F5F5F5] text-center text-lg">
-                  Duplicate songs removed<br />
-                  with WaveSpacer
-                </h2>
-                <div
-                  class="flex justify-center items-center py-8 px-10 rounded-full bg-[#B76EFE]/15 text-[#B76EFE] text-xl h-10 w-15 mt-5"
-                >
-                  <p class="text-center text-4xl">40</p>
-                </div>
-              </div>
       <div class="h-full w-[75%] min-w-[200px]  mx-auto mt-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
           <div class="flex flex-col bg-[#48404A] divide-y divide-[#3D383E] rounded-xl lg:rounded-none lg:rounded-l-xl">

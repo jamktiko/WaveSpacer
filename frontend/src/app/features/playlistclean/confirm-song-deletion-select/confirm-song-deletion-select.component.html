@@ -4,6 +4,13 @@
 ></div>
 
 <div class="fixed flex items-center justify-center inset-0">
+  <button
+    class="absolute top-10 right-10 bg-white/20 text-white p-2 rounded-xl"
+    (click)="spinnerShown = true"
+  >
+    Test Spinner
+  </button>
+
   <app-spinner #spinner></app-spinner>
 
   @if (!spinnerShown) {

@@ -17,16 +17,6 @@ export const songStore = signalStore(
   withMethods((store) => {
     const apiService = inject(ApiService);
     return {
-      isLoading() {
-        return store.loading();
-      },
-      clear() {
-        patchState(store, {
-          songs: [],
-          genres: [],
-          loading: false,
-        });
-      },
       async getSongs(id: string) {
         patchState(store, { loading: true });
         try {
@@ -83,7 +73,7 @@ export const songStore = signalStore(
           const sorted: Genre[] = [...genres].sort(
             (a, b) => b.amount - a.amount
           );
-          patchState(store, { genres: sorted, loading: false });
+          patchState(store, { genres: sorted });
         } catch (err) {
           console.log('error getting genres', err);
         }
