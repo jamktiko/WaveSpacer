@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// reitit
+// routes
 app.use('/api', spotifyRoutes);
 app.use('/user', userRoutes);
 

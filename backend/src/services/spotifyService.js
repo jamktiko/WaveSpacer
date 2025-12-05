@@ -3,6 +3,7 @@ const querystring = require('querystring');
 const randomUtils = require('../utils/randomUtils');
 const UserTokens = require('../models/UserTokens');
 const User = require('../models/User');
+const { encrypt, decrypt } = require('../utils/encryption');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -76,8 +77,6 @@ exports.refreshAccessToken = async (userId) => {
     }
   );
 
-  console.log('REFRESH RESULT:', response.data);
-
   const access_token = response.data.access_token;
   // const me = await this.getProfile(access_token);
   // const user = new User(me.id);
@@ -85,8 +84,6 @@ exports.refreshAccessToken = async (userId) => {
   // const expiresAt = Date.now() + (response.data.expires_in - 60) * 1000;
   const expiresAt =
     Math.floor(Date.now() / 1000) + (response.data.expires_in - 60);
-
-  console.log('expiresAt LASKETTU:', expiresAt);
 
   const encryptedAccTkn = await encrypt(access_token);
 

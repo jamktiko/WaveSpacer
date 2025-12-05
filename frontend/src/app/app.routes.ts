@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './homepage/homepage.component';
-import { SpotifyCbComponent } from './spotify-cb/spotify-cb.component';
-import { RegisterComponent } from './register/register.component';
-import { PlaylistsComponent } from './playlists/playlists.component';
-import { loginGuard } from './utilities/guards/login.guard';
-import { selectionGuard } from './utilities/guards/selection.guard';
-import { PlaylistcleanComponent } from './playlistclean/playlistclean.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SettingsComponent } from './settings/settings.component';
-import { StatisticsComponent } from './statistics/statistics.component';
+import { WelcomeComponent } from './features/welcome/welcome.component';
+import { SpotifyCbComponent } from './features/spotify-cb/spotify-cb.component';
+import { RegisterComponent } from './features/register/register.component';
+import { PlaylistsComponent } from './features/playlists/playlists/playlists.component';
+import { loginGuard } from './core/guards/login.guard';
+import { selectionGuard } from './core/guards/selection.guard';
+import { PlaylistcleanComponent } from './features/playlistclean/playlistclean/playlistclean.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { ProfileComponent } from './features/profile/profile.component';
+import { SettingsComponent } from './features/settings/settings.component';
+import { StatisticsComponent } from './features/statistics/statistics/statistics.component';
 
 export const routes: Routes = [
   {
-    component: HomepageComponent,
-    title: 'Home',
+    component: WelcomeComponent,
+    title: 'Welcome',
     path: '',
   },
   {

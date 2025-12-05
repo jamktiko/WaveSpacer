@@ -1,10 +1,10 @@
 const createToken = require('../../createtoken');
 
-exports.loginWithSpotify = async (userID, tokens, res) => {
+// Logs in a user via Spotify and sends a JWT token as a secure cookie.
+exports.loginWithSpotify = async (userID, res) => {
   const jwtToken = createToken(userID);
-  const isProd = process.env.NODE_ENV === 'production';
 
-  // lähetä cookie
+  // Send the JWT as an httpOnly cookie
   res.cookie('jwt', jwtToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

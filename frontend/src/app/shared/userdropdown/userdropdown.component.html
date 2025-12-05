@@ -1,0 +1,13 @@
+<div class="absolute right-0 bg-[#38313A] rounded-md py-2 mt-2 z-1000" (click)="$event.stopPropagation()">
+  <div class="flex flex-col gap-3 text-center p-3 sm:p-0 sm:text-left text-normal font-medium">
+    <p class="px-0 sm:px-3 sm:pr-20 hover:bg-[#706573] cursor-pointer" (click)="uiStore.closeDropdown()"
+      routerLink="/profile">Profile</p>
+    <p class="px-0 sm:px-3 sm:pr-20 hover:bg-[#706573] cursor-pointer" (click)="uiStore.closeDropdown()"
+      routerLink="/settings">Settings</p>
+    <p class="px-0 sm:px-3 sm:pr-20 hover:bg-[#706573] cursor-pointer">Plus</p>
+    <p class="px-0 sm:px-3 sm:pr-20 hover:bg-[#706573] cursor-pointer" (click)="uiStore.closeDropdown()"
+      routerLink="/dashboard">Dashboard</p>
+    <div class="h-px w-full bg-[#463F48]"></div>
+    <p class="px-0 sm:px-3 sm:pr-20 hover:bg-[#706573] cursor-pointer">Log out</p>
+  </div>
+</div>

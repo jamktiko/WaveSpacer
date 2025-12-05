@@ -14,6 +14,11 @@ function startCronJobs() {
       const result = await spotifyController.fetchRecentsForAllUsers();
       console.log('Cron valmis:', result);
     });
+    // cron.schedule('*/1 * * * *', async () => {
+    //   console.log('Ajetaan cron: fetchRecentsForAllUsers()');
+    //   const result = await spotifyController.fetchRecentsForAllUsers();
+    //   console.log('Cron valmis:', result);
+    // });
   }
 }
 

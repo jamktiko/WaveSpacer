@@ -1,0 +1,25 @@
+<div class="fixed top-0 left-0 bg-black/40 w-full h-full"></div>
+<div class="fixed flex items-center justify-center inset-0">
+  <div class="flex flex-col items-center bg-[#48404A] border-[#58525A] p-8 rounded-xl">
+    <h1 class="text-center text-theme text-lg">
+      <span class="text-normal">Do you want to select the playlist</span><br />
+      {{ playlistStore.selected()?.name }}<span class="text-normal">?</span>
+    </h1>
+    <img
+      class="w-40 h-40 md:w-43 md:h-43 lg:w-47 lg:h-47 xl:w-50 xl:h-50 2xl:w-53 2xl:h-53 object-cover my-5 rounded-xl"
+      [src]="playlistStore.selected()?.img" alt="playlist image" />
+    <div class="w-1/2 h-px bg-gray-500 mt-2"></div>
+    <div class="flex items-center justify-center gap-20 mt-4">
+      <button
+        class="bg-[#FE5C64]/15 text-[#FE5C64] hover:bg-[#FE5C64]/30 font-bold px-4 py-2 rounded-2xl cursor-pointer text-lg"
+        (click)="closePlaylistSelect()">
+        No
+      </button>
+      <a routerLink="/playlistclean">
+        <button (click)="selectPlaylist(playlistStore.selected()?.id)"
+          class="bg-[#B76EFE]/15 text-theme hover:bg-[#B76EFE]/40 font-bold px-4 py-2 rounded-2xl cursor-pointer text-lg">
+          Yes
+        </button></a>
+    </div>
+  </div>
+</div>

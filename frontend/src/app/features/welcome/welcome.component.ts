@@ -1,0 +1,37 @@
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { uiStore } from '../../core/stores/ui.store';
+import { settingStore } from '../../core/stores/settings.store';
+import { NgClass } from '@angular/common';
+
+@Component({
+  selector: 'app-welcome',
+  imports: [RouterModule, RouterLink, NgClass],
+  templateUrl: './welcome.component.html',
+  styleUrl: './welcome.component.css',
+})
+export class WelcomeComponent {
+  uiStore = inject(uiStore);
+  settingStore = inject(settingStore);
+
+  title = this.uiStore.title();
+
+  // User is redirected to Spotify login
+  login() {
+    location.href = `${environment.apiUrl}api/login`;
+  }
+
+  // NgClass, background image changes based on if lightmode is on, part 1 of background image, because the bg image is in two parts
+  modeBackground() {
+    return this.settingStore.lightmode()
+      ? `bg-[url(/images/lightbackground2.png)]`
+      : `bg-[url(/images/background.png)]`;
+  }
+
+  // NgClass, part 2 of background image
+  modeBackground2() {
+    return this.settingStore.lightmode() ? `bg-[#D8D8D8]` : `bg-[#252525]`;
+  }
+}

@@ -1,0 +1,56 @@
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-screen">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+
+    <header class="flex justify-center items-center">
+      <a routerLink="/" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo" class="rounded-full w-13 h-13 object-cover" />
+        <h1 class="text-bigtitles font-semibold text-[clamp(1rem,2vw,1.5rem)]">
+          {{title}}
+        </h1>
+      </a>
+    </header>
+
+
+    <div class="flex items-center justify-center">
+      <div class="bg-[#48404A] w-[17rem] md:w-[25rem] my-10 border-[#58525A] border-1 rounded-2xl">
+        <div class="my-8 text-center lg:mb-8 xl:mb-3">
+          <h1 class="font-bold leading-tight text-2xl text-normal">
+            Register
+          </h1>
+          <p class="font-neutral text-normal mt-4 text-md">
+            and connect your Spotify after
+          </p>
+        </div>
+
+
+        <div class="py-5 px-5 flex flex-col gap-3 md:gap-5 lg:px-5 lg:py-8 xl:py-10">
+          <input class="w-full p-3 rounded-md text-normal border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="email" placeholder="AÖ1234@student.jamk.fi" />
+          <input class="w-full p-3 rounded-md text-normal border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="password" placeholder="password" />
+          <input class="w-full p-3 rounded-md text-normal border border-[#7C7C7C] focus:outline-none focus:border-white"
+            type="password" placeholder="repeat password" />
+        </div>
+
+
+        <div class="my flex items-center justify-center">
+          <button type="submit"
+            class="bg-[#B76EFE]/15 hover:bg-[#B76EFE]/40 text-theme font-semibold px-6 py-3 rounded-3xl border border-[#58525A] cursor-pointer">
+            Register
+          </button>
+        </div>
+
+
+        <div class="my-8 lg:mt-10 pt-6 lg:pt-8 text-center border-t border-[#58525A]">
+          <p class="text-[#7C7C7C] text-sm lg:text-base">
+            Already have an account?
+            <a routerLink="/"
+              class="text-theme hover:text-[#7e42b8] font-medium transition-colors duration-200 cursor-pointer">Sign
+              in</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
