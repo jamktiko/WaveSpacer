@@ -3,6 +3,14 @@ Wavespacer
 
 An application that lets you remove unwanted songs from your playlist. Log in with your Spotify account and get started.
 
+## Features
+- View your most listened-to genres
+- Spotify OAuth login
+- View your most played song from the last month
+- Playlist cleaner that suggests tracks for deletion
+- User profile & settings page
+- Light mode support
+
 Notice
 ---------
 
