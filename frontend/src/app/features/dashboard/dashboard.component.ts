@@ -36,15 +36,7 @@ export class DashboardComponent implements OnInit {
   daysSinceRegister: number = 0; // used in formatDate-method
   lastTimePlayed!: string; // used in formatDate-method
 
-  chartColors = [
-    '#4CC9F0',
-    '#F72585',
-    '#4361EE',
-    '#7209B7',
-    '#B5179E',
-    '#3A0CA3',
-    '#4895EF',
-  ];
+  chartColors = ['#6bb4cf', '#cc3e84', '#5b6ccf', '#7434a8', '#a03896'];
 
   constructor() {
     // Using effect to make sure the api requests have concluded before doing anything else

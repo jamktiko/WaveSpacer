@@ -1,109 +1,108 @@
-<div class="flex flex-col min-h-screen bg-filler">
-  <div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2 min-w-fit">
-    <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
-      <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
-        <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
-          <img src="/images/logo.png" alt="Logo"
-            class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
-          <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
-            {{title}}
-          </h1>
-        </a>
-        <div
-          class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
-          (click)="uiStore.toggleDropdownVisibility()">
-          <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
-          @if (uiStore.dropdownvisible()) {
-          <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
-          }
-        </div>
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2 min-w-fit">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
+        <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
+          {{title}}
+        </h1>
+      </a>
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
+      </div>
 
-      </header>
+    </header>
 
-      <div class="h-full w-[75%] min-w-[200px] mx-auto mt-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
-          <div class="flex flex-col bg-[#48404A] rounded-xl lg:rounded-none lg:rounded-l-xl p-4">
-            <h1 class="text-normal text-xl font-medium">Your taste</h1>
-            <h2 class="text-normal text-md font-medium pt-4 px-4 text-center">By year:</h2>
-            <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2">
-              @for (decade of decades; track decade.decade) {
-              <app-decadecard [year]="decade.decade" [count]="decade.count"></app-decadecard>
+    <div class="h-full w-[75%] min-w-[200px] mx-auto mt-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start items-stretch">
+        <div class="flex flex-col bg-[#48404A] rounded-xl lg:rounded-none lg:rounded-l-xl p-4">
+          <h1 class="text-normal text-xl font-medium">Your taste</h1>
+          <h2 class="text-normal text-md font-medium pt-4 px-4 text-center">By year:</h2>
+          <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2">
+            @for (decade of decades; track decade.decade) {
+            <app-decadecard [year]="decade.decade" [count]="decade.count"></app-decadecard>
+            }
+          </div>
+          <h2 class="text-normal text-md font-medium pt-4 px-4 text-center">Other categories:</h2>
+          <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2 lg:gap-5">
+            @for (category of otherCategories; track category.category) {
+            <app-decadecard [year]="category.category" [count]="category.count"></app-decadecard>
+            }
+          </div>
+          <div class="h-px w-full bg-[#8080803B] my-3"></div>
+          <div class="flex flex-col md:flex-row justify-between border-y-1 border-[#3D383E] md:border-none">
+            <div
+              class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
+              @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+                [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
+                [title]="'Top 3 artists'" [index]="i" [titled]="i < 1"></app-songlisting>
               }
             </div>
-            <h2 class="text-normal text-md font-medium pt-4 px-4 text-center">Other categories:</h2>
-            <div class="flex items-center justify-center flex-wrap justify-between py-2 mt-2 gap-2 lg:gap-5">
-              @for (category of otherCategories; track category.category) {
-              <app-decadecard [year]="category.category" [count]="category.count"></app-decadecard>
+            <div class="lg:h-full lg:w-px bg-[#3D383E]"></div>
+            <div
+              class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
+              @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+                [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
+                [title]="'Top 3 albums'" [index]="i" [titled]="i < 1"></app-songlisting>
               }
-            </div>
-            <div class="h-px w-full bg-[#8080803B] my-3"></div>
-            <div class="flex flex-col md:flex-row justify-between border-y-1 border-[#3D383E] md:border-none">
-              <div
-                class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
-                @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-                <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-                  [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
-                  [title]="'Top 3 artists'" [index]="i" [titled]="i < 1"></app-songlisting>
-                }
-              </div>
-              <div class="lg:h-full lg:w-px bg-[#3D383E]"></div>
-              <div
-                class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay flex flex-col gap-2">
-                @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-                <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-                  [artists]="song.artist_names" [plays]="song.amount" [listType]="'statisticsList'"
-                  [title]="'Top 3 albums'" [index]="i" [titled]="i < 1"></app-songlisting>
-                }
-              </div>
-            </div>
-
-            <div class="flex flex-col justify-around md:flex-row mt-10">
-              <div class="flex flex-col gap-2 items-center">
-                <p class="text-normal">Total songs listened</p>
-                <div class="px-5 py-1 rounded-full bg-[#B76EFE]/15 text-theme text-[clamp(1rem,1.1vw,1.5rem)]">1337
-                </div>
-              </div>
-              <div class="flex flex-col gap-2 items-center">
-                <p class="text-normal">Minutes listened</p>
-                <div class="px-5 py-1 rounded-full bg-[#B76EFE]/15 text-theme text-[clamp(1rem,1.1vw,1.5rem)]">4100
-                </div>
-              </div>
-            </div>
-            <div class="h-px w-full bg-[#8080803B] my-3"></div>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-5 lg:mt-5">
-              <p class="text-normal">You listened to<br />these songs this time<br />last year</p>
-              <div
-                class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay md:ml-auto">
-                @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
-                <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
-                  [artists]="song.artist_names" [plays]="song.amount" [listType]="'lastYearStatistic'"
-                  [title]="'Top 3 albums'" [index]="i" [titled]="i < 1"></app-songlisting>
-                }
-              </div>
             </div>
           </div>
 
-          <div
-            class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[800px]">
-            <div class="flex flex-col gap-3">
-              <h1 class="text-normal text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your top 5 genres</h1>
-              <div class="w-full h-[200px] md:h-[300px]">
-                <canvas id="genreChart" aria-label="Genre chart" role="img">
-                  {{chart}}
-                </canvas>
+          <div class="flex flex-col justify-around md:flex-row mt-10">
+            <div class="flex flex-col gap-2 items-center">
+              <p class="text-normal">Total songs listened</p>
+              <div class="px-5 py-1 rounded-full bg-[#B76EFE]/15 text-theme text-[clamp(1rem,1.1vw,1.5rem)]">1337
               </div>
             </div>
-            <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
-              @for (genre of songStore.genres(); track genre.genre; let i = $index) {
-              <app-songlisting class="border-b-0" [genre]="genre.genre" [plays]="genre.amount"
-                [genrePercentile]="((genre.amount / totalGenreListens) * 100).toFixed(1)" [listType]="'genreList'"
-                [title]="'Top Genres'" [index]="i" [titled]="i < 1"></app-songlisting>
+            <div class="flex flex-col gap-2 items-center">
+              <p class="text-normal">Minutes listened</p>
+              <div class="px-5 py-1 rounded-full bg-[#B76EFE]/15 text-theme text-[clamp(1rem,1.1vw,1.5rem)]">4100
+              </div>
+            </div>
+          </div>
+          <div class="h-px w-full bg-[#8080803B] my-3"></div>
+          <div class="flex flex-col md:flex-row items-center justify-center gap-5 lg:mt-5">
+            <p class="text-normal">You listened to<br />these songs this time<br />last year</p>
+            <div
+              class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay md:ml-auto">
+              @for (song of recentlistensStore.recents().slice(0,3); track song.listenedAt; let i = $index) {
+              <app-songlisting class="border-b-0" [img]="song.track_image" [trackName]="song.name"
+                [artists]="song.artist_names" [plays]="song.amount" [listType]="'lastYearStatistic'"
+                [title]="'Top 3 albums'" [index]="i" [titled]="i < 1"></app-songlisting>
               }
             </div>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[800px]">
+          <div class="flex flex-col gap-3">
+            <h1 class="text-normal text-center mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">Your top 5 genres</h1>
+            <div class="w-full h-[200px] md:h-[300px]">
+              <canvas id="genreChart" aria-label="Genre chart" role="img">
+                {{chart}}
+              </canvas>
+            </div>
+          </div>
+          <div class="overflow-x-hidden overflow-y-auto overscroll-contain custom-scrollbar scrollbar-overlay">
+            @for (genre of songStore.genres(); track genre.genre; let i = $index) {
+            <app-songlisting class="border-b-0" [genre]="genre.genre" [plays]="genre.amount"
+              [genrePercentile]="((genre.amount / totalGenreListens) * 100).toFixed(1)" [listType]="'genreList'"
+              [title]="'Top Genres'" [index]="i" [titled]="i < 1"></app-songlisting>
+            }
           </div>
         </div>
       </div>
-
-
     </div>
+
+
   </div>
+</div>

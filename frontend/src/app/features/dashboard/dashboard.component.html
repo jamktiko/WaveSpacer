@@ -4,7 +4,7 @@
       <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
         <img src="/images/logo.png" alt="Logo"
           class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
-        <h1 class="text-[#F5F5F5] font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
+        <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
           {{ title }}
         </h1>
       </a>
@@ -27,10 +27,10 @@
             <img [src]="randomPlaylistImg" alt="playlist image" routerLink="/playlists"
               class="rounded-2xl w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 2xl:w-44 2xl:h-44" />
             <div class="flex flex-col">
-              <h1 class="text-[#F5F5F5] underline text-center font-medium lg:text-start text-[clamp(1rem,1.5vw,2rem)]">
+              <h1 class="text-normal underline text-center font-medium lg:text-start text-[clamp(1rem,1.5vw,2rem)]">
                 Playlist-cleaner
               </h1>
-              <p class="text-[#F5F5F5] text-center font-medium lg:text-start text-lg">
+              <p class="text-normal text-center font-medium lg:text-start text-lg">
                 7 Uses left
               </p>
             </div>
@@ -43,7 +43,7 @@
                 d="M313.33-80q-27 0-46.83-19.83-19.83-19.84-19.83-46.84v-100h-100q-27 0-46.84-19.83Q80-286.33 80-313.33V-390h66.67v76.67h100v-333.34q0-27 19.83-46.83t46.83-19.83h333.34v-100H570V-880h76.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84v100h100q27 0 46.84 19.83Q880-673.67 880-646.67v500q0 27-19.83 46.84Q840.33-80 813.33-80h-500Zm0-66.67h500v-500h-500v500ZM80-483.33v-160h66.67v160H80Zm0-253.34v-76.66q0-27 19.83-46.84Q119.67-880 146.67-880h76.66v66.67h-76.66v76.66H80Zm236.67-76.66V-880h160v66.67h-160Zm-3.34 666.66v-500 500Z" />
             </svg>
 
-            <h2 class="text-[#F5F5F5] underline font-medium text-[clamp(1rem,1.5vw,1.2rem)]">
+            <h2 class="text-normal underline font-medium text-[clamp(1rem,1.5vw,1.2rem)]">
               Duplicate-remover
             </h2>
           </div>
@@ -51,7 +51,7 @@
           <div class="flex flex-col p-6 items-center font-medium gap-5 border-b-0 mt-8 xl:mt-15">
             <div class="xl:flex gap-5">
               <div class="justify-items-center mb-3">
-                <h2 class="text-[#F5F5F5] text-center text-lg">
+                <h2 class="text-normal text-center text-lg">
                   Total songs cleaned<br />
                   with WaveSpacer
                 </h2>
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="justify-items-center">
-                <h2 class="text-[#F5F5F5] text-center text-lg">
+                <h2 class="text-normal text-center text-lg">
                   Duplicate songs removed<br />
                   with WaveSpacer
                 </h2>
@@ -74,18 +74,18 @@
           </div>
           <div class="bg-[#5B475F] flex justify-center rounded-b-xl lg:rounded-none lg:rounded-bl-xl mt-auto">
             <p class="text-[#B76EFE] text-center font-medium my-auto text-[clamp(1rem,1vw,2.5rem)] py-3">
-              <span class="text-[#F5F5F5]">
+              <span class="text-normal">
                 You have been connected<br />
                 to WaveSpacer for</span>
               {{ daysSinceRegister.toFixed(0) }}
-              <span class="text-[#F5F5F5]">days</span>
+              <span class="text-normal">days</span>
             </p>
           </div>
         </div>
         <div
           class="flex flex-col bg-[#3D383E] divide-y divide-[#8080803B] mt-6 lg:mt-0 rounded-xl lg:rounded-none lg:rounded-r-xl max-h-[800px]">
           <div class="flex flex-col gap-3 hover:bg-[#474547] cursor-pointer" routerLink="/statistics">
-            <h1 class="text-[#F5F5F5] text-center font-medium mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">
+            <h1 class="text-normal text-center font-medium mt-6 text-[clamp(1rem,1.2vw,1.5rem)]">
               Your statistics
             </h1>
             <div class="w-full h-[200px]">
@@ -93,28 +93,28 @@
                 {{ chart }}
               </canvas>
             </div>
-            <p class="self-end underline px-6 text-[#F5F5F5] font-medium mb-3">
+            <p class="self-end underline px-6 text-normal font-medium mb-3">
               View statistics →
             </p>
           </div>
           @if (!uiStore.lastmonthfavvisible()) {
           <div class="flex flex-col px-6 py-3 gap-4 items-start border-b-0 cursor-pointer hover:bg-[#474547]"
             (click)="uiStore.toggleLastMonthVisible()">
-            <h1 class="text-[#F5F5F5] underline text-[clamp(1rem,1.2vw,1.5rem)]">
+            <h1 class="text-normal underline text-[clamp(1rem,1.2vw,1.5rem)]">
               Your favorite from last month
             </h1>
             <div class="flex items-center gap-6">
               <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song image" class="w-20 h-20 rounded-xl" />
               <div class="flex flex-col max-w-xs overflow-hidden">
-                <p class="text-[#F5F5F5] text-sm">
+                <p class="text-normal text-sm">
                   {{ recentlistensStore.lastMonthFav().name }}
                 </p>
-                <p class="text-[#F5F5F5] text-sm">
+                <p class="text-normal text-sm">
                   {{ recentlistensStore.lastMonthFav().artist_names }}
                 </p>
               </div>
             </div>
-            <p class="text-[#F5F5F5] underline self-end">Learn more →</p>
+            <p class="text-normal underline self-end">Learn more →</p>
           </div>
           } @else {
           <div class="px-6 py-3 border-b-0 cursor-pointer hover:bg-[#474547]"
@@ -123,28 +123,28 @@
               <img [src]="recentlistensStore.lastMonthFav().track_img" alt="Song img" class="w-20 h-20 rounded-xl" />
               <div class="grid grid-cols-1 items-center gap-2">
                 <div class="flex flex-col font-medium max-w-xs overflow-hidden md:text-center">
-                  <p class="text-[#F5F5F5] text-sm">
+                  <p class="text-normal text-sm">
                     Track name: {{ recentlistensStore.lastMonthFav().name }}
                   </p>
-                  <p class="text-[#F5F5F5] text-sm md">
+                  <p class="text-normal text-sm md">
                     Artist names:
                     {{ recentlistensStore.lastMonthFav().artist_names }}
                   </p>
                 </div>
                 <div class="flex flex-col font-medium max-w-xs overflow-hidden md:text-center">
-                  <p class="text-[#F5F5F5] text-sm">
+                  <p class="text-normal text-sm">
                     Track duration:
                     {{ msToMinSec(recentlistensStore.lastMonthFav().duration) }}
                   </p>
-                  <p class="text-[#F5F5F5] text-sm">
+                  <p class="text-normal text-sm">
                     Plays: {{ recentlistensStore.lastMonthFav().plays }}
                   </p>
                 </div>
                 <div class="flex flex-col font-medium md:flex-row max-w-xs overflow-hidden md:text-center">
-                  <p class="text-[#F5F5F5] text-sm">
+                  <p class="text-normal text-sm">
                     Track genres: {{ recentlistensStore.lastMonthFav().genres }}
                   </p>
-                  <p class="text-[#F5F5F5] text-sm">
+                  <p class="text-normal text-sm">
                     Last time played: {{ lastTimePlayed }}
                   </p>
                 </div>

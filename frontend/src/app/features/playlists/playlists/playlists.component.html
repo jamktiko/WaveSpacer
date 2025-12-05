@@ -1,47 +1,46 @@
-<div class="flex flex-col min-h-screen bg-filler">
-  <div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2">
-    <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
-      <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
-        <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
-          <img src="/images/logo.png" alt="Logo"
-            class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
-          <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
-            {{title}}
-          </h1>
-        </a>
-        <div
-          class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
-          (click)="uiStore.toggleDropdownVisibility()">
-          <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
-          @if (uiStore.dropdownvisible()) {
-          <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
-          }
-        </div>
+<div [ngClass]="settingStore.background()" class="bg-cover bg-no-repeat min-h-1/2">
+  <div class="p-[2rem] md:p-[1.5rem] lg:p-[0.5rem]">
+    <header class="grid grid-cols-[auto_1fr] mobileL:mx-5 sm:mx-10 md:mx-20 lg:mx-30 xl:mx-40 2xl:mx-50 items-center">
+      <a routerLink="/dashboard" class="grid grid-cols-[auto_1fr] justify-items-center items-center cursor-pointer">
+        <img src="/images/logo.png" alt="Logo"
+          class="rounded-full w-13 h-13 md:w-16 md:h-16 object-cover min-w-[50px] mr-2" />
+        <h1 class="text-bigtitles font-medium text-[clamp(1.2rem,2vw,1.5rem)]">
+          {{title}}
+        </h1>
+      </a>
+      <div
+        class="bg-[#B76EFE]/15 justify-self-end relative rounded-full p-1 hover:bg-[#B76EFE]/40 text-theme font-bold min-w-[60px]"
+        (click)="uiStore.toggleDropdownVisibility()">
+        <img [src]="profilepic" alt="profilepic" class="rounded-full w-13 h-13 object-cover" />
+        @if (uiStore.dropdownvisible()) {
+        <app-userdropdown (close)="uiStore.closeDropdown()"></app-userdropdown>
+        }
+      </div>
 
-      </header>
+    </header>
 
-      <div class="flex flex-col items-center gap-10 sm:gap-20 xl:gap-45 2xl:gap-50 lg:flex-row lg:items-start">
-        <div class="mt-10 md:py-5 lg:py-30 lg:ml-30 xl:ml-40 xl:mt-52">
-          <h1 class="text-bigtitles text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-medium md:leading-12">
-            Select the <span class="text-theme">playlist</span><br>
-            you want to<br>
-            clean
-          </h1>
-        </div>
+    <div class="flex flex-col items-center gap-10 sm:gap-20 xl:gap-45 2xl:gap-50 lg:flex-row lg:items-start">
+      <div class="mt-10 md:py-5 lg:py-30 lg:ml-30 xl:ml-40 xl:mt-52">
+        <h1 class="text-bigtitles text-[clamp(1.5rem,2.5vw,2rem)] text-center lg:text-left font-medium md:leading-12">
+          Select the <span class="text-theme">playlist</span><br>
+          you want to<br>
+          clean
+        </h1>
+      </div>
 
 
-        <div [ngClass]="playlistScrollbarClass()" class="scrollbar-gutter-stable relative pb-1 w-xs md:w-md md:px-10 lg:my-10 lg:ml-10 xl:w-lg xl:ml-32 rounded-2xl bg-[#48404A]
+      <div [ngClass]="playlistScrollbarClass()" class="scrollbar-gutter-stable relative pb-1 w-xs md:w-md md:px-10 lg:my-10 lg:ml-10 xl:w-lg xl:ml-32 rounded-2xl bg-[#48404A]
        border-[#58525A] border-1">
-          <div class="flex items-center justify-center my-5">
-            <div class="grid gap-5 md:grid-cols-2 lg:gap-7">
-              @for (playlist of playlistStore.playlists(); track playlist.id) {
-              <app-playlist [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"
-                [id]="playlist.id"></app-playlist>
-              }
-            </div>
+        <div class="flex items-center justify-center my-5">
+          <div class="grid gap-5 md:grid-cols-2 lg:gap-7">
+            @for (playlist of playlistStore.playlists(); track playlist.id) {
+            <app-playlist [name]="playlist.name" [img]="playlist.img" [totalTrack]="playlist.totalTracks"
+              [id]="playlist.id"></app-playlist>
+            }
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
+</div>
