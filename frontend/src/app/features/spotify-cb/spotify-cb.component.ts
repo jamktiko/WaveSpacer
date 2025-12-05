@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import axios from 'axios';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-spotify-cb',
@@ -10,7 +12,30 @@ export class SpotifyCbComponent implements AfterViewInit {
   @ViewChild('welcomeText') welcomeText!: ElementRef<HTMLHeadingElement>;
   @ViewChild('logoWrapper') logoWrapper!: ElementRef<HTMLDivElement>;
 
-  constructor(private router: Router) {}
+  private callbackSucceeded = false;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit(): void {
+    const code = this.route.snapshot.queryParamMap.get('code');
+
+    if (!code) {
+      this.router.navigate(['']);
+      return;
+    }
+
+    axios
+      .get(`${environment.apiUrl}api/callback?code=` + code, {
+        withCredentials: true,
+      })
+      .then(() => {
+        this.callbackSucceeded = true;
+      })
+      .catch((err) => {
+        console.warn(err);
+        this.router.navigate(['']);
+      });
+  }
 
   ngAfterViewInit(): void {
     this.startWelcomeAnimation();
@@ -28,7 +53,11 @@ export class SpotifyCbComponent implements AfterViewInit {
     }, 2000);
 
     setTimeout(() => {
-      this.router.navigate(['/dashboard']);
+      if (this.callbackSucceeded) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['']);
+      }
     }, 4000);
   }
 }
