@@ -47,6 +47,105 @@ FRONTEND_URL
 ENCRYPTION_KEY
 ```
 
+## 📊 Database Schema
+
+The application uses a relational database designed to store users, their Spotify data, listening history, songs, and the relationships between artists and genres.
+
+### **User**
+| Field | Type | Description |
+|--------|--------|-------------|
+| `id` | INT (PK) | Internal user ID |
+| `cognito_sub` | VARCHAR(45) | Cognito user identifier |
+| `spotify_user_id` | VARCHAR(200) | Spotify user ID |
+| `registered_at` | DATE | Registration date |
+
+---
+
+### **User_tokens**
+A user can have multiple tokens (access/refresh).
+
+| Field | Type | Description |
+|--------|--------|-------------|
+| `id` | INT (PK) | Token ID |
+| `type` | ENUM | e.g. spotify_access_token / spotify_refresh_token |
+| `token` | VARCHAR(1000) | Token value |
+| `expires_at` | INT | Unix timestamp |
+| `User_id` | INT (FK → User.id) | Owning user |
+
+---
+
+### **Subscription**
+Represents a user’s subscription (free or paid).
+
+| Field | Type |
+|--------|--------|
+| `id` | INT (PK) |
+| `plan` | ENUM('free', 'plus') |
+| `start_date` | DATE |
+| `end_date` | DATE |
+| `active` | TINYINT |
+| `User_id` | INT (FK → User.id) |
+
+---
+
+### **Song**
+Songs the user has listened to.
+
+| Field | Type |
+|--------|--------|
+| `id` | INT (PK) |
+| `spotify_track_id` | VARCHAR(200) |
+| `name` | VARCHAR(45) |
+| `amount` | INT | How many times the song has been played |
+| `User_id` | INT (FK → User.id) |
+| `track_image` | VARCHAR(300) |
+
+---
+
+### **Play_history**
+Individual listening events.
+
+| Field | Type |
+|--------|--------|
+| `id` | INT (PK) |
+| `played_at` | DATETIME(3) |
+| `Song_id` | INT (FK → Song.id) |
+| `User_id` | INT (FK → User.id) |
+
+---
+
+### **Artist**
+| Field | Type |
+|--------|--------|
+| `id` | INT (PK) |
+| `name` | VARCHAR(45) |
+
+---
+
+### **Genre**
+| Field | Type |
+|--------|--------|
+| `id` | INT (PK) |
+| `name` | VARCHAR(45) |
+
+---
+
+### **Artist_Song** (Many-to-Many)
+| Field | Type |
+|--------|--------|
+| `Artist_id` | INT (FK → Artist.id) |
+| `Song_id` | INT (FK → Song.id) |
+
+---
+
+### **Genre_Artist** (Many-to-Many)
+| Field | Type |
+|--------|--------|
+| `Genre_id` | INT (FK → Genre.id) |
+| `Artist_id` | INT (FK → Artist.id) |
+
+---
+
 2 Install and Run the Backend
 ===============================
 
